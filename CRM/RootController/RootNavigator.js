@@ -11,6 +11,7 @@ import {  createAppContainer, createBottomTabNavigator, createSwitchNavigator, D
 import SignIn from '../Container/LoginContainer/SignIn'
 import Signup from '../Container/LoginContainer/SignUp'
 import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
+import CardScanner from '../Container/DashBoardContainer/CardScanner'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
 import SideMenu from '../Container/Components/SideMenu'
@@ -19,6 +20,7 @@ import { Image, View, Text, Alert,Dimensions } from 'react-native'
 const HomeTab = createStackNavigator(
   {
     Home: HomeScreen,
+    CardScanner:CardScanner,
      //Events:Events,
   },
 

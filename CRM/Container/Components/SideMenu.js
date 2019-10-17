@@ -84,22 +84,23 @@ export default class SideMenu extends React.Component {
     console.log('Method trigggered')
 
     if (item.id == 1) {
-      this.props.navigation.navigate('Profile')
+      this.props.navigation.navigate('Home')
       //  Alert.alert('Coming Soon','This feature will be available very soon');
     }
     else if (item.id == 2) {
     //  this.call()
+     this.props.navigation.navigate('CardScanner')
       // this.props.navigation.navigate('UsefullNumbers')
     }
     else if (item.id == 3) {
-      Share.open(shareOptions).catch((err) => { err && console.log("share error", err); })
+     // Share.open(shareOptions).catch((err) => { err && console.log("share error", err); })
     }
     else if (item.id == 4) {
-      this.props.navigation.navigate('UsefullNumbers')
-
+     // this.props.navigation.navigate('UsefullNumbers')
+ this.props.navigation.navigate('CardScanner')
     }
     else if (item.id == 5) {
-      this.props.navigation.navigate('HelpUsToImprove')
+      //this.props.navigation.navigate('HelpUsToImprove')
 
     }
     else if (item.id == 6) {
