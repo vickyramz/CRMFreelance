@@ -34,6 +34,9 @@ export default class CardScanner extends React.Component {
     //     to: 'closed',
     // });
   }
+  Navigate=()=>{
+         this.props.navigation.navigate('CreateCustomer');
+  }
   render() {
  
     if (this.state.animate) {
