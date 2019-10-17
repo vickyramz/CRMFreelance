@@ -13,7 +13,7 @@ import Signup from '../Container/LoginContainer/SignUp'
 import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
-import SideMenu from '../Components/SideMenu'
+import SideMenu from '../Container/Components/SideMenu'
 import { Image, View, Text, Alert } from 'react-native'
 
 const HomeTab = createStackNavigator(
