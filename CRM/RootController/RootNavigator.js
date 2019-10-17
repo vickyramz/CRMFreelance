@@ -14,7 +14,7 @@ import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
 import SideMenu from '../Container/Components/SideMenu'
-import { Image, View, Text, Alert } from 'react-native'
+import { Image, View, Text, Alert,Dimensions } from 'react-native'
 
 const HomeTab = createStackNavigator(
   {
@@ -39,6 +39,7 @@ const Drawer = createDrawerNavigator({
 
 }, {
   contentComponent: SideMenu,
+  drawerWidth: Dimensions.get('window').width - 130,
   drawerLockMode: 'locked-closed'
 },
 

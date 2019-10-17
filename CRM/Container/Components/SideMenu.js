@@ -28,27 +28,27 @@ export default class SideMenu extends React.Component {
 
         {
           id: 1,
-          Title: 'HOME',
+          Title: 'Home',
 
-        //  images: require('../Assets/profileMenu.png')
+        images: require('../Assets/home.png')
         },
         {
           id: 2,
           Title: 'Follow-ups',
 
-         // images: require('../Assets/EmergencyMenu.png')
+          images: require('../Assets/influencer.png')
         },
         {
           id: 3,
           Title: 'Enquiries',
 
-         // images: require('../Assets/RecomandMenu.png')
+          images: require('../Assets/call.png')
         },
         {
           id: 4,
           Title: 'Card Scanner',
 
-         // images: require('../Assets/nummenu.png')
+          images: require('../Assets/credit-card.png')
         },
         {
           id: 4,
@@ -88,7 +88,7 @@ export default class SideMenu extends React.Component {
       //  Alert.alert('Coming Soon','This feature will be available very soon');
     }
     else if (item.id == 2) {
-      this.call()
+    //  this.call()
       // this.props.navigation.navigate('UsefullNumbers')
     }
     else if (item.id == 3) {
@@ -120,7 +120,7 @@ export default class SideMenu extends React.Component {
         <View style={{ padding: 8, justifyContent: 'center' }}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 20 }}>
             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-              {/* <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={item.images}></Image> */}
+              <Image style={{ width: 30, height: 30, resizeMode: 'contain',tintColor:'#fff' }} source={item.images}></Image>
             </View>
             <View style={{ justifyContent: 'center', width: "70%" }}>
               <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'TitilliumWeb-Regular' }} >{item.Title}</Text>
@@ -171,8 +171,8 @@ export default class SideMenu extends React.Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.MainContainer}>
           <ImageBackground source={require('../Assets/1--Menu.png')} style={styles.MainContainer}>
-      <View style={{flex:0.3}}></View>
-            <View style={{ flex: 0.7 }}>
+      <View style={{flex:0.05}}></View>
+            <View style={{ flex: 0.95}}>
             <FlatList
                 data={this.state.ListItems}
                 extraData={this.state}
