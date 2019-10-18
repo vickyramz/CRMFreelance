@@ -2,6 +2,7 @@ import React from "react";
 import { View, Image, Text, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 const width = Dimensions.get('window').width
+import Dialog, { DialogContent } from 'react-native-popup-dialog';
 export default class CreateCustomer extends React.Component {
 
   constructor(props) {
@@ -70,14 +71,14 @@ export default class CreateCustomer extends React.Component {
                                 
                             </View>
                              <View style={{  flex: 0.9, padding: 30, }}>
-<Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff',marginBottom:20,fontWeight:'bold'}}>Business Card Scanner</Text>
-                            <View style={{  flex: 0.5,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
+<Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff',marginBottom:20,fontWeight:'bold'}}>Create Customer</Text>
+                            <View style={{  flex: 1,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
   <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginBottom: 20, marginEnd: 30, alignItems: 'center', paddingTop: 10 }}>
 
 <View style={{ alignItems: 'flex-start', width: '80%' }}>
     <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
         onChangeText={(text) => this.setState({ full_name: text })}
-        placeholder='Full name' placeholderTextColor='black'
+        placeholder='Name' placeholderTextColor='black'
     />
 </View>
 <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -87,18 +88,7 @@ export default class CreateCustomer extends React.Component {
                                     
                                 
 
-                                <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
-
-                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
-                                        <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-                                            onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
-                                            placeholder='Phone number' placeholderTextColor='black'>
-                                        </TextInput>
-                                    </View>
-                                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
-                                        {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Forma-12.png')} /> */}
-                                    </View>
-                                </KeyboardAvoidingView>
+                             
 
                                 <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
 
@@ -113,41 +103,63 @@ export default class CreateCustomer extends React.Component {
                                         {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Shape-111.png')} /> */}
                                     </View>
                                 </KeyboardAvoidingView>
+   <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
 
-                                <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'space-around' }}>
+                                        <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
+                                            onChangeText={(text) => this.validate(text)}
+                                            value={this.state.email} keyboardType={'email-address'}
+                                            placeholder='Address' placeholderTextColor='black'>
+                                        </TextInput>
+                                    </View>
+                                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
+                                        {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Shape-111.png')} /> */}
+                                    </View>
+                                </KeyboardAvoidingView>
+                                  <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
 
-                                    <TouchableOpacity onPress={this.showDateTimePicker} style={{ flexDirection: 'row' }}>
-                                        <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-end' }}>
-                                            <Text style={{ height: 40, fontWeight: 'bold', justifyContent: 'center', alignItems: 'center', paddingLeft: '2%', paddingTop: '3%' }}
-
-                                            >{this.state.Dates}
-                                            </Text>
-                                        </View>
-                                        <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
-                                            {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Forma-13.png')} /> */}
-                                        </View>
-                                    </TouchableOpacity>
+                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
+                                        <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
+                                            onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
+                                            placeholder='Contact Number 1' placeholderTextColor='black'>
+                                        </TextInput>
+                                    </View>
+                                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
+                                        {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Forma-12.png')} /> */}
+                                    </View>
                                 </KeyboardAvoidingView>
 
-                                <TouchableOpacity style={{ height: '12%', paddingLeft: '12%', paddingRight: '12%', alignItems: 'stretch', justifyContent: 'center' }}>
-                                    <View style={{ height: '100%', alignItems: 'center', justifyContent: 'center', borderTopLeftRadius: 10, borderTopRightRadius: 10, borderBottomLeftRadius: 10, borderBottomRightRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', paddingLeft: 10, paddingRight: 10 }}>
-                                        {/* <Image source={require('../Assets/Shape-1-copy-2.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                                        <Text style={{ color: 'white' }}>SIGN UP</Text>
+                      <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+
+                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
+                                        <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
+                                            onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
+                                            placeholder='Contact Number 2' placeholderTextColor='black'>
+                                        </TextInput>
                                     </View>
-                                </TouchableOpacity>
+                                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
+                                        {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Forma-12.png')} /> */}
+                                    </View>
+                                </KeyboardAvoidingView>
+                                                      <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
 
-                                <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: '5%' }}>
-                           
-
-                                </View>
-                            
+                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
+                                        <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
+                                            onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
+                                            placeholder='Website' placeholderTextColor='black'>
+                                        </TextInput>
+                                    </View>
+                                    <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
+                                        {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Forma-12.png')} /> */}
+                                    </View>
+                                </KeyboardAvoidingView>
                             </View>
 
                <View style={{ paddingTop: 35, paddingLeft: 25, paddingRight: 25, paddingBottom: 10,justifyContent:'flex-end' }}>
                     <TouchableOpacity onPress={() => this.Navigate()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                        <Text style={{ color: 'white', fontFamily: 'TitilliumWeb-Bold' }}>Next</Text>
+                        <Text style={{ color: 'white', fontFamily: 'TitilliumWeb-Bold' }}>Create Customer</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
