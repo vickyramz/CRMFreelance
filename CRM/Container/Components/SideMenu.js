@@ -89,7 +89,7 @@ export default class SideMenu extends React.Component {
     }
     else if (item.id == 2) {
     //  this.call()
-     this.props.navigation.navigate('CardScanner')
+     this.props.navigation.navigate('Follow')
       // this.props.navigation.navigate('UsefullNumbers')
     }
     else if (item.id == 3) {

@@ -3,14 +3,17 @@ import { View, Image, Text, BackHandler, ImageBackground, TouchableOpacity, Styl
 import { TextInput } from "react-native-gesture-handler";
 import WebViewComponent from '../Components/WebViewComponent'
 import { WebView } from 'react-native-webview';
+import {LoginAPI} from '../API/PostApi'
+import { NavigationActions, StackActions } from 'react-navigation'
+import {Base_URL,LoginUrl} from '../API/RequestUrl'
 import SplashScreen from 'react-native-splash-screen'
 export default class SignIn extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = ({
-      EmailAddress: '',
-      Password: '',
+      EmailAddress: 'deepika@got-softwares.com',
+      Password: '705974',
        visible: true ,
        animate: false,
       webviewopen: false,
@@ -22,7 +25,52 @@ export default class SignIn extends React.Component {
     SplashScreen.hide();
   }
 Navigate=()=>{
-  this.props.navigation.navigate('Dashboard')
+  if(this.state.EmailAddress==''){
+    Alert.alert('Alert','please Enter email')
+  }
+ else if(this.state.Password==''){
+    Alert.alert('Alert','please Enter Password')
+  }
+  else{
+    let params={
+      user_name:this.state.EmailAddress,
+      user_pass:this.state.Password
+    }
+    this.Load()
+    LoginAPI('http://got-crm.com/api/mobile/userAuth.php',params,this.successcallback,this.error,this.networkissue)
+  }
+
+  //this.props.navigation.navigate('Dashboard')
+}
+successcallback=async(data)=>{
+  //console.log('Login Response--->',data)
+  this.Hide()
+  if(data.status){  
+   console.log('Login Response--->',data.data)    
+  await AsyncStorage.setItem('user_id',data.data.user_id)
+   const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName:'Home'})],
+  });
+  this.props.navigation.dispatch(resetAction);
+  }
+ else {  
+    //console.log('Login Response--->',data)   
+    Alert.alert('Alert','Invalid user input') 
+   }
+}
+Load=()=>{
+  this.setState({animate:true})
+}
+Hide=()=>{
+  this.setState({animate:false})
+}
+error=(error)=>{
+  this.Hide()
+  Alert.alert(error.status,error.message)
+}
+networkissue=(error)=>{
+  Alert.alert('Failure',error)
 }
 hideSpinner=()=> {
   this.setState({ visible: false });
@@ -41,7 +89,7 @@ hideSpinner=()=> {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ImageBackground source={require('../Assets/1--Menu.png')} style={{ flex: 1 }}>
-            <View style={{ flex: 0.8, justifyContent: 'flex-start' }}>
+            <View style={{ flex: 0.8, justifyContent: 'center' }}>
               <View style={{ paddingTop: 30, paddingLeft: 30, paddingRight: 30, paddingBottom: 20 }}>
                 <Text style={{ color: 'white', fontSize: 30, fontFamily: 'TitilliumWeb-Bold' }}>Sign in</Text>
                 <Text style={{ color: 'white', fontSize: 14, fontFamily: 'TitilliumWeb-Regular' }}>Log in with an existing account</Text>
@@ -79,11 +127,11 @@ hideSpinner=()=> {
                     <View style={{ justifyContent: 'space-between', paddingRight: 20, flexDirection: 'row' }}>
                      
                     </View>
-                    <TouchableOpacity onPress={() => this.ForgotPasswordPress()} style={{ alignItems: 'center', justifyContent: 'center' }}>
+                    {/* <TouchableOpacity onPress={() => this.ForgotPasswordPress()} style={{ alignItems: 'center', justifyContent: 'center' }}>
                       <Text style={{ fontSize: 12, paddingLeft: 10, color: '#505050', fontFamily: 'TitilliumWeb-Regular' }}>Forgot password?</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                   </View>
-                  <View style={{ paddingTop: 35, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
+                  <View style={{ paddingTop: 10, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
                     <TouchableOpacity onPress={() => this.Navigate()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}

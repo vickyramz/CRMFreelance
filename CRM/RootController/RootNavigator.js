@@ -9,9 +9,9 @@
 import React, { Fragment } from 'react';
 import {  createAppContainer, createBottomTabNavigator, createSwitchNavigator, DrawerItems } from "react-navigation";
 import SignIn from '../Container/LoginContainer/SignIn'
-import Signup from '../Container/LoginContainer/SignUp'
 import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import CardScanner from '../Container/DashBoardContainer/CardScanner'
+import Follow from '../Container/DashBoardContainer/Follow'
 import CreateCustomer from '../Container/DashBoardContainer/CreateCustomer'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
@@ -22,7 +22,8 @@ const HomeTab = createStackNavigator(
   {
     Home: HomeScreen,
     CardScanner:CardScanner,
-    CreateCustomer:CreateCustomer
+    CreateCustomer:CreateCustomer,
+    Follow:Follow
      //Events:Events,
   },
 
@@ -51,7 +52,7 @@ const Drawer = createDrawerNavigator({
 )
 const authStack = createSwitchNavigator({
   Signin: { screen: SignIn },
-  Signup: { screen: Signup },
+  //Signup: { screen: Signup },
 
    Dashboard: Drawer
 })
