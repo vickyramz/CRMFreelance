@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Image, Text, BackHandler, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import{RNCamera} from 'react-native-camera'
 const width = Dimensions.get('window').width
 export default class CardScanner extends React.Component {
 
@@ -13,6 +14,7 @@ export default class CardScanner extends React.Component {
       webviewopen: false,
       externalLink: '',
       draweropen:false,
+      CameraView:false,
     })
   }
 
@@ -34,8 +36,26 @@ export default class CardScanner extends React.Component {
     //     to: 'closed',
     // });
   }
+  detectText = async () => {
+    try {
+      const options = {
+        quality: 0.8,
+        base64: true,
+        skipProcessing: true,
+      };
+      const { uri } = await this.camera.takePictureAsync(options);
+      console.log('uri', uri);
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+  textRecognized=(data)=>{
+    console.log('uri', data);
+  }
   Navigate=()=>{
          this.props.navigation.navigate('CreateCustomer');
+        // this.setState({CameraView:true})
+        // setTimeout(this.detectText,100)
   }
   render() {
  
@@ -47,11 +67,12 @@ export default class CardScanner extends React.Component {
           style={styles.activityIndicator} />
       </View>
     }
+  
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ImageBackground source={require('../Assets/1--Menu.png')} style={{ flex: 1 }}>
-          
+         
            <View style={{flex:0.2}}>
                                 <ImageBackground style={{ resizeMode: 'contain', width: width, height: 80, justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -75,7 +96,24 @@ export default class CardScanner extends React.Component {
                              <View style={{  flex: 0.8, padding: 30,justifyContent:'center' }}>
 <Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff',marginBottom:20,fontWeight:'bold'}}>Business Card Scanner</Text>
                             <View style={{  flex: 0.5,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
-<View style={{
+
+                      {this.state.CameraView?<RNCamera
+        ref={ref => {
+          this.camera = ref;
+        }}
+        onTextRecognized={this.textRecognized}
+        style={{
+          flex: 1,
+          //justifyContent: 'space-between',
+        }}
+       // onTextRecognized={canDetectText ? this.textRecognized : null}
+        androidCameraPermissionOptions={{
+          title: 'Permission to use camera',
+          message: 'We need your permission to use your camera',
+          buttonPositive: 'Ok',
+          buttonNegative: 'Cancel',
+        }}>
+        </RNCamera>:<View style={{
     flex:1,
     borderStyle: 'dotted',
     borderWidth: 1,
@@ -83,7 +121,8 @@ alignItems:'center',justifyContent:'center',
    borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20
   }}>
       <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={require('../Assets/photo-camera.png')} /> 
-  </View>
+  </View>}      
+
                             
                             </View>
 

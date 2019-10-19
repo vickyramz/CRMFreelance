@@ -12,8 +12,8 @@ export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      EmailAddress: 'deepika@got-softwares.com',
-      Password: '705974',
+      EmailAddress: '',
+      Password: '',
        visible: true ,
        animate: false,
       webviewopen: false,
@@ -44,10 +44,10 @@ Navigate=()=>{
 }
 successcallback=async(data)=>{
   //console.log('Login Response--->',data)
-  this.Hide()
+  
   if(data.status){  
    console.log('Login Response--->',data.data)    
-  await AsyncStorage.setItem('user_id',data.data.user_id)
+  await AsyncStorage.setItem('user_id',data.data.user_id.toString())
    const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName:'Home'})],
@@ -58,6 +58,7 @@ successcallback=async(data)=>{
     //console.log('Login Response--->',data)   
     Alert.alert('Alert','Invalid user input') 
    }
+   this.Hide()
 }
 Load=()=>{
   this.setState({animate:true})

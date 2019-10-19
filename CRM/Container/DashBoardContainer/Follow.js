@@ -35,7 +35,7 @@ export default class Follow extends React.Component {
 
       let userId=await AsyncStorage.getItem('user_id')
       let params={
-        user_id:"42"
+        user_id:userId
       }
       this.Load()
       LoginAPI('http://got-crm.com/api/mobile/listEnquiries.php',params,this.successcallback,this.error,this.networkissue)

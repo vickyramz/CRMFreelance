@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, BackHandler, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+import { View, Image, Text, BackHandler,AsyncStorage, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
@@ -14,6 +14,10 @@ import {
 let  mass=[100,1200,1300,140,120];
 export default class HomeScreen extends React.Component {
 
+  static navigationOptions =
+  {
+    header: null,
+  };
   constructor(props) {
     super(props);
     this.state = ({
@@ -63,10 +67,7 @@ export default class HomeScreen extends React.Component {
   networkissue=(error)=>{
     Alert.alert('Failure',error)
   }
- static navigationOptions =
-    {
-      header: null,
-    };
+
   NavigationOpen = () => {
     console.log('Navigation drawer open')
     this.props.navigation.toggleDrawer();
@@ -111,53 +112,69 @@ export default class HomeScreen extends React.Component {
                                 </ImageBackground>
                             </View>
 <View style={{flex:1,}}>
-  <View style={{backgroundColor:'transparent',flexDirection:'row',flex:0.5,justifyContent:'space-around'}}>
-  <View style={{backgroundColor:'#fff',borderRadius:10,flex:0.4}}>
-<Text style={{color:'#000',textAlign:'center',fontWeight:'bold'}}>Number of Bills Generated</Text>
+  
+  <View style={{backgroundColor:'#fff',borderRadius:10,flex:0.5}}>
+<Text style={{color:'#000',textAlign:'center',fontWeight:'bold',padding:10}}>Number of Bills Generated</Text>
 <View style={{height:1,backgroundColor:'#0a70ff'}}></View>
 <View style={{padding:5}}>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
-  <Text style={{color:'#000'}}>Today</Text>
-  <Text style={{color:'#000'}}>{this.state.dataSourceBills.today}</Text>
-  </View>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
+  
+    <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
+    <Text style={{color:'#000'}}>Today</Text>
   <Text style={{color:'#000'}}>Week</Text>
-  <Text style={{color:'#000'}}>{this.state.dataSourceBills.week}</Text>
-  </View>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
   <Text style={{color:'#000'}}>Month</Text>
-  <Text style={{color:'#000'}}>{this.state.dataSourceBills.month}</Text>
-  </View>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
   <Text style={{color:'#000'}}>Yearly</Text>
+    </View>
+  
+ 
+
+  
+  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
+  <Text style={{color:'#000'}}>{this.state.dataSourceBills.today}</Text>
+  <Text style={{color:'#000'}}>{this.state.dataSourceBills.week}</Text>
+  <Text style={{color:'#000'}}>{this.state.dataSourceBills.month}</Text>
   <Text style={{color:'#000'}}>{this.state.dataSourceBills.year}</Text>
   </View>
 </View>
-</View>
-<View style={{backgroundColor:'#fff',borderRadius:10,flex:0.4}}>
-<Text style={{color:'#000',textAlign:'center',fontWeight:'bold'}}>Values of Bills Generated</Text>
-<View style={{height:1,backgroundColor:'#0a70ff'}}></View>
-<View style={{padding:5}}>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
-  <Text style={{color:'#000'}}>Today</Text>
-  <Text style={{color:'#000'}}>{this.state.Values.today==null?'':this.state.Values.today}</Text>
-  </View>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
-  <Text style={{color:'#000'}}>Week</Text>
-  <Text style={{color:'#000'}}>{this.state.Values.week}</Text>
-  </View>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
-  <Text style={{color:'#000'}}>Month</Text>
-  <Text style={{color:'#000'}}>{this.state.Values.month}</Text>
-  </View>
-  <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
-  <Text style={{color:'#000'}}>Yearly</Text>
-  <Text style={{color:'#000'}}>{this.state.Values.year}</Text>
-  </View>
-</View>
-</View>
+
+
 
   </View>
+  <View style={{backgroundColor:'#fff',borderRadius:10,flex:0.5,marginTop:20}}>
+<Text style={{color:'#000',textAlign:'center',fontWeight:'bold',padding:10}}>Values of Bills Generated</Text>
+<View style={{height:1,backgroundColor:'#0a70ff'}}></View>
+<View style={{padding:5}}>
+<View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
+  <View style={{width:100}}>
+  <Text style={{color:'#000'}}>Today</Text>
+  </View>
+  <View style={{width:100}}>
+  <Text style={{color:'#000'}}>Week</Text>
+  </View>
+  <View style={{width:100}}>
+  <Text style={{color:'#000'}}>Month</Text>
+  </View>
+  <View style={{width:100}}>
+  <Text style={{color:'#000'}}>Yearly</Text>
+  </View>
+ 
+    </View>
+    <View style={{flexDirection:'row',marginTop:30,justifyContent:'space-between'}}>
+    <View style={{width:100}}>
+    <Text style={{color:'#000'}}>{this.state.Values.today}</Text>
+    </View>
+    <View style={{width:100}}>
+    <Text style={{color:'#000'}}>{this.state.Values.week}</Text>
+    </View>
+    <View style={{width:100}}>
+    <Text style={{color:'#000'}}>{this.state.Values.month}</Text>
+    </View>
+    <View style={{width:100}}>
+    <Text style={{color:'#000'}}>{this.state.Values.year}</Text>
+    </View>
+  
+  </View>
+</View>
+</View>
   <View style={{flex:0.5,backgroundColor:'transparent',marginTop:30}}>
     
   <View style={{flex:0.3,backgroundColor:'#fff',justifyContent:'center',padding:30,}}>

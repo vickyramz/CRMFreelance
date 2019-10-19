@@ -100,7 +100,7 @@ export default class SideMenu extends React.Component {
  this.props.navigation.navigate('CardScanner')
     }
     else if (item.id == 5) {
-      //this.props.navigation.navigate('HelpUsToImprove')
+      this.props.navigation.navigate('Signin')
 
     }
   }
