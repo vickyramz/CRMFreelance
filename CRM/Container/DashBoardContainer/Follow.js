@@ -91,7 +91,6 @@ export default class Follow extends React.Component {
     }
     NavigationOpen = () => {
         console.log('Navigation drawer open')
-        this.setState({draweropen:!this.state.draweropen})
         this.props.navigation.toggleDrawer();
         //   this.props.navigation.toggleDrawer({
         //     side:'left',

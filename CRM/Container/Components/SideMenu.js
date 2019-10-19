@@ -51,7 +51,7 @@ export default class SideMenu extends React.Component {
           images: require('../Assets/credit-card.png')
         },
         {
-          id: 4,
+          id: 5,
           Title: 'LogOut',
 
          // images: require('../Assets/nummenu.png')
@@ -102,14 +102,6 @@ export default class SideMenu extends React.Component {
     else if (item.id == 5) {
       //this.props.navigation.navigate('HelpUsToImprove')
 
-    }
-    else if (item.id == 6) {
-      this.updateLayout(item)
-      // this.props.navigation.navigate('UsefullNumbers')
-    }
-    else if (item.id == 7) {
-      this.props.navigation.navigate('ResetPassword')
-      //Alert.alert('Coming Soon', 'This feature will be available very soon');
     }
   }
 

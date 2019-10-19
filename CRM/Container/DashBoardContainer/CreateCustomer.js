@@ -1,15 +1,22 @@
 import React from "react";
-import { View, Image, Text, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+import { View, Image, Text,AsyncStorage, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 const width = Dimensions.get('window').width
 import Dialog, { DialogContent } from 'react-native-popup-dialog';
+import { LoginAPI } from "../API/PostApi";
 export default class CreateCustomer extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = ({
-      EmailAddress: '',
-      Password: '',
+      contactperson:'',
+      email: '',
+      phone_number: '',
+      mobileno:'',
+      address:'',
+      companyname:'',
+      visibles:false,
+      message:'',
       animate: false,
       webviewopen: false,
       externalLink: '',
@@ -20,7 +27,12 @@ export default class CreateCustomer extends React.Component {
   componentDidMount() {
   
   }
-
+  Load=()=>{
+    this.setState({animate:true})
+  }
+  Hide=()=>{
+    this.setState({animate:false})
+  }
  static navigationOptions =
     {
       header: null,
@@ -34,6 +46,52 @@ export default class CreateCustomer extends React.Component {
     //     animated: true,
     //     to: 'closed',
     // });
+  }
+  CreateCustomer=()=>{
+    if(this.state.companyname==null ||this.state.companyname=='undefined',this.state.companyname==''){
+      Alert.alert('Alert','Please enter companyname')
+    }
+   else if(this.state.contactperson==null ||this.state.contactperson=='undefined',this.state.contactperson==''){
+      Alert.alert('Alert','Please enter contactperson')
+    }
+    else if(this.state.address==null ||this.state.address=='undefined',this.state.address==''){
+      Alert.alert('Alert','Please enter address')
+    }
+    else if(this.state.phone_number==null ||this.state.phone_number=='undefined',this.state.phone_number==''){
+      Alert.alert('Alert','Please enter phone number')
+    }
+    else if(this.state.mobileno==null ||this.state.mobileno=='undefined',this.state.mobileno==''){
+      Alert.alert('Alert','Please enter phone number')
+    }
+    else if(this.state.email==null ||this.state.email=='undefined',this.state.email==''){
+      Alert.alert('Alert','Please enter email')
+    }
+    else{
+      this.CreateCustomerAction()
+    }
+  }
+  CreateCustomerAction=async()=>{
+let userid=await AsyncStorage.getItem('user_id')
+let params={
+  companyname:this.state.companyname,
+  contactperson:this.state.contactperson,
+  mobileno:this.state.mobileno,
+  alterno:this.state.phone_number,
+  emailid:this.state.email,
+  address:this.state.address,
+  user_id:userid
+}
+LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCallback,this.error,this.networkissue)
+  }
+  successCallback=(data)=>{
+    if(data){
+      this.setState({visibles:true,message:data.message})
+      setTimeout(this.nav,1000)
+    }
+  }
+  nav=()=>{
+   this.setState({visibles:false})
+   this.props.navigation.goBack(null)
   }
   render() {
  
@@ -71,14 +129,27 @@ export default class CreateCustomer extends React.Component {
                                 
                             </View>
                              <View style={{  flex: 0.9, padding: 30, }}>
+                             <Dialog
+          visible={this.state.visibles}>
+          <DialogContent>
+            <View style={{ width: 300, height: 110, alignItems: 'center' }}>
+              <View style={{ alignItems: 'center', paddingTop: 10 }}>
+                <Image style={{ width: 50, height: 50, resizeMode: 'contain' }} source={require("../Assets/successtik.png")} ></Image>
+              </View>
+              <View style={{ paddingTop: 10, paddingBottom: 10 }}>
+                <Text style={{ fontSize: 15, color: '#454976', fontFamily: 'Exo2-Regular', textAlign: 'center' }}>{this.state.message}</Text>
+              </View>
+            </View>
+          </DialogContent>
+        </Dialog>              
 <Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff',marginBottom:20,fontWeight:'bold'}}>Create Customer</Text>
                             <View style={{  flex: 1,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
   <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginBottom: 20, marginEnd: 30, alignItems: 'center', paddingTop: 10 }}>
 
 <View style={{ alignItems: 'flex-start', width: '80%' }}>
     <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-        onChangeText={(text) => this.setState({ full_name: text })}
-        placeholder='Name' placeholderTextColor='black'
+        onChangeText={(text) => this.setState({ companyname: text })}
+        placeholder='company Name' placeholderTextColor='black'
     />
 </View>
 <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -94,9 +165,9 @@ export default class CreateCustomer extends React.Component {
 
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'space-around' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-                                            onChangeText={(text) => this.validate(text)}
-                                            value={this.state.email} keyboardType={'email-address'}
-                                            placeholder='Email address' placeholderTextColor='black'>
+                                            onChangeText={(text) => this.setState({ contactperson: text })}
+                                            value={this.state.contactperson} 
+                                            placeholder='Contact Person' placeholderTextColor='black'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -107,8 +178,8 @@ export default class CreateCustomer extends React.Component {
 
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'space-around' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-                                            onChangeText={(text) => this.validate(text)}
-                                            value={this.state.email} keyboardType={'email-address'}
+                                             onChangeText={(text) => this.setState({ address: text })}
+                                            value={this.state.address}
                                             placeholder='Address' placeholderTextColor='black'>
                                         </TextInput>
                                     </View>
@@ -120,8 +191,8 @@ export default class CreateCustomer extends React.Component {
 
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-                                            onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
-                                            placeholder='Contact Number 1' placeholderTextColor='black'>
+                                           onChangeText={(text) => this.setState({ mobileno: text })} keyboardType={'numeric'} maxLength={10}
+                                            placeholder='Mobile No' placeholderTextColor='black'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -134,7 +205,7 @@ export default class CreateCustomer extends React.Component {
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
-                                            placeholder='Contact Number 2' placeholderTextColor='black'>
+                                            placeholder='Alter No' placeholderTextColor='black'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -145,8 +216,8 @@ export default class CreateCustomer extends React.Component {
 
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-                                            onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
-                                            placeholder='Website' placeholderTextColor='black'>
+                                            onChangeText={(text) => this.setState({ email: text })}  maxLength={10}
+                                            placeholder='Email address' placeholderTextColor='black'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -155,8 +226,8 @@ export default class CreateCustomer extends React.Component {
                                 </KeyboardAvoidingView>
                             </View>
 
-               <View style={{ paddingTop: 35, paddingLeft: 25, paddingRight: 25, paddingBottom: 10,justifyContent:'flex-end' }}>
-                    <TouchableOpacity onPress={() => this.Navigate()}>
+               <View >
+                    <TouchableOpacity style={{ paddingTop: 35, paddingLeft: 25, paddingRight: 25, paddingBottom: 10,justifyContent:'flex-end' }} onPress={() => this.CreateCustomer()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
                         <Text style={{ color: 'white', fontFamily: 'TitilliumWeb-Bold' }}>Create Customer</Text>

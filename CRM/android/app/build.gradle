@@ -185,6 +185,7 @@ keyPassword MYAPP_RELEASE_KEY_PASSWORD}}
 }
 
 dependencies {
+    implementation project(':react-native-svg')
     implementation project(':react-native-webview')
     implementation project(':react-native-splash-screen')
     implementation fileTree(dir: "libs", include: ["*.jar"])
