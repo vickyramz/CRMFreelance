@@ -1,6 +1,7 @@
 import React from "react";
-import { View, ScrollView, BackHandler, Text, StyleSheet, AsyncStorage , Image, ImageBackground, TouchableWithoutFeedback, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, Dimensions, TextInput ,Alert} from "react-native";
-
+import { View, ScrollView,UIManager, ActivityIndicator, Text, StyleSheet, AsyncStorage ,LayoutAnimation, Image, ImageBackground, TouchableWithoutFeedback, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, Dimensions, TextInput ,Alert} from "react-native";
+import FollowList from'../Components/FollowChild'
+import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
 
 export default class Follow extends React.Component {
@@ -10,7 +11,13 @@ export default class Follow extends React.Component {
         };
         constructor(props) {
             super(props)
+            if (Platform.OS === 'android')
+            {
+             UIManager.setLayoutAnimationEnabledExperimental(true)
+             }
             this.state = {
+                dataSource:[],
+                total:{},
                 animate: false,
                 todaybc:'#fff',
                 todayc:'#0a70ff',
@@ -21,21 +28,66 @@ export default class Follow extends React.Component {
             }
           
         }
-   async componentDidMount() {
-       
+     componentDidMount() {
+        this.GetList()
     }
-    getMyPropertydetails = () => {
+    GetList = async() => {
 
-      
+      let userId=await AsyncStorage.getItem('user_id')
+      let params={
+        user_id:"42"
+      }
+      this.Load()
+      LoginAPI('http://got-crm.com/api/mobile/listEnquiries.php',params,this.successcallback,this.error,this.networkissue)
     }
+    successcallback=async(data)=>{
+        //console.log('Login Response--->',data)
+        this.Hide()
+        if(data.status){  
+         console.log('Login Response--->',data)  
+         this.setState({dataSource:data.todays_list,total:data})  
+        // this.TodayFollowups()
+        }
+       else {  
+          //console.log('Login Response--->',data)   
+          Alert.alert('Alert','Something went wrong') 
+         }
+      }
+      Load=()=>{
+        this.setState({animate:true})
+      }
+      Hide=()=>{
+        this.setState({animate:false})
+      }
+      error=(error)=>{
+        this.Hide()
+        Alert.alert(error.status,error.message)
+      }
+      networkissue=(error)=>{
+        Alert.alert('Failure',error)
+      }
+      update_Layout = (index) => {
+
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    
+        const array = [...this.state.dataSource];
+    
+        array[index]['expanded'] = !array[index]['expanded'];
+    
+        this.setState(() => {
+          return {
+            dataSource: array
+          }
+        });
+      }
     TodayFollowups=()=>{
-        this.setState({missedbc:'transparent',missedc:'#fff',todaybc:'#fff',todayc:'#0a70ff',futurebc:'transparent',futurec:'#fff'})
+        this.setState({missedbc:'transparent',missedc:'#fff',todaybc:'#fff',todayc:'#0a70ff',futurebc:'transparent',futurec:'#fff',dataSource:this.state.total.todays_list})
     }
     MissedFollowups=()=>{
-        this.setState({missedbc:'#fff',missedc:'#0a70ff',todaybc:'transparent',todayc:'#fff',futurebc:'transparent',futurec:'#fff'})
+        this.setState({missedbc:'#fff',missedc:'#0a70ff',todaybc:'transparent',todayc:'#fff',futurebc:'transparent',futurec:'#fff',dataSource:this.state.total.missed_followups})
     }
     FutureFollowups=()=>{
-        this.setState({futurebc:'#fff',futurec:'#0a70ff',todaybc:'transparent',todayc:'#fff',missedbc:'transparent',missedc:'#fff'})
+        this.setState({futurebc:'#fff',futurec:'#0a70ff',todaybc:'transparent',todayc:'#fff',missedbc:'transparent',missedc:'#fff',dataSource:this.state.total.future_followups})
     }
     NavigationOpen = () => {
         console.log('Navigation drawer open')
@@ -48,6 +100,14 @@ export default class Follow extends React.Component {
         // });
       }
     render() {
+        if (this.state.animate) {
+            return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
+              <ActivityIndicator
+                color='#1a5fe1'
+                size="large"
+                style={styles.activityIndicator} />
+            </View>
+          }
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.MainContainer}>
@@ -99,7 +159,7 @@ export default class Follow extends React.Component {
                                            
                                             <TouchableOpacity onPress={() => this.FutureFollowups()} style={{ flex: 0.5, backgroundColor:this.state.futurebc, justifyContent: 'center', height: '100%', alignItems: 'center', borderRadius: 30, paddingLeft: 10, paddingRight: 10 }} >
                                            
-                                           <Text style={{ color:this.state.futurec, fontWeight: 'bold', fontSize: 16, }}>Missed followups</Text>
+                                           <Text style={{ color:this.state.futurec, fontWeight: 'bold', fontSize: 16, }}>Future followups</Text>
                                           
                                        </TouchableOpacity>
                                          
@@ -107,12 +167,20 @@ export default class Follow extends React.Component {
                                     </ScrollView>
                                 </View>
 
-                              
-                                <ScrollView>
-                                  
-                             
-                   
-                                </ScrollView>
+                              <ScrollView contentContainerStyle={{}}>
+                                {
+            this.state.dataSource.length!=0? this.state.dataSource.map((item, key) =>
+              (
+                <FollowList  key={item.missed_followups} onClickFunction={this.update_Layout.bind(this, key)} item={item} />
+              )):
+              <View>
+              <View style={{justifyContent:'center',alignItems:'center'}}>
+              <Text style={{color:'#fff',fontWeight:'bold',opacity:1,fontSize:15,fontFamily:'Exo2-Regular'}}>No Followups Found</Text>
+              </View>
+              </View>
+           
+          }
+</ScrollView>
 
                           
                         </View>
