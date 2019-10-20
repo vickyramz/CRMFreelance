@@ -118,7 +118,7 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff', textAlign: 'center' }}>Create Customer</Text>
+                      <Text style={{ fontSize: 17, color: '#fff', textAlign: 'center' }}>Create Customer</Text>
                     </View>
                     <View style={{ justifyContent: "center", alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' }}>
            
@@ -137,12 +137,12 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                 <Image style={{ width: 50, height: 50, resizeMode: 'contain' }} source={require("../Assets/successtik.png")} ></Image>
               </View>
               <View style={{ paddingTop: 10, paddingBottom: 10 }}>
-                <Text style={{ fontSize: 15, color: '#454976', fontFamily: 'Exo2-Regular', textAlign: 'center' }}>{this.state.message}</Text>
+                <Text style={{ fontSize: 15, color: '#454976',textAlign: 'center' }}>{this.state.message}</Text>
               </View>
             </View>
           </DialogContent>
         </Dialog>              
-<Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff',marginBottom:20,fontWeight:'bold'}}>Create Customer</Text>
+<Text style={{ fontSize: 17, color: '#fff',marginBottom:20,fontWeight:'bold'}}>Create Customer</Text>
                             <View style={{  flex: 1,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
   <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginBottom: 20, marginEnd: 30, alignItems: 'center', paddingTop: 10 }}>
 
@@ -230,7 +230,7 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                     <TouchableOpacity style={{ paddingTop: 35, paddingLeft: 25, paddingRight: 25, paddingBottom: 10,justifyContent:'flex-end' }} onPress={() => this.CreateCustomer()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                        <Text style={{ color: 'white', fontFamily: 'TitilliumWeb-Bold' }}>Create Customer</Text>
+                        <Text style={{ color: 'white' }}>Create Customer</Text>
                       </View>
                     </TouchableOpacity>
                   </View>

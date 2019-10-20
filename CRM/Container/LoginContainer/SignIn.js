@@ -92,15 +92,15 @@ hideSpinner=()=> {
           <ImageBackground source={require('../Assets/1--Menu.png')} style={{ flex: 1 }}>
             <View style={{ flex: 0.8, justifyContent: 'center' }}>
               <View style={{ paddingTop: 30, paddingLeft: 30, paddingRight: 30, paddingBottom: 20 }}>
-                <Text style={{ color: 'white', fontSize: 30, fontFamily: 'TitilliumWeb-Bold' }}>Sign in</Text>
-                <Text style={{ color: 'white', fontSize: 14, fontFamily: 'TitilliumWeb-Regular' }}>Log in with an existing account</Text>
+                <Text style={{ color: 'white', fontSize: 30 }}>Sign in</Text>
+                <Text style={{ color: 'white', fontSize: 14 }}>Log in with an existing account</Text>
               </View>
               <View >
                 <View style={{ borderRadius: 10, backgroundColor: '#fff', padding: 30, marginLeft: 30, marginRight: 30 }}>
                   <KeyboardAvoidingView style={{ borderBottomWidth: 0.5, borderBottomColor: '#919191', flexDirection: 'row', justifyContent: 'space-between' }}>
 
                     <View style={{ width: '80%' }}>
-                      <TextInput style={{ height: 40, width: '100%', fontFamily: 'TitilliumWeb-Regular', justifyContent: 'flex-start' }}
+                      <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start' }}
                         onChangeText={(text) => this.setState({ EmailAddress: text })}
                         value={this.state.EmailAddress}
                         placeholder='Email address' placeholderTextColor='black'>
@@ -114,7 +114,7 @@ hideSpinner=()=> {
                   <KeyboardAvoidingView style={{ borderBottomWidth: 0.5, borderBottomColor: '#919191', flexDirection: 'row', alignItems: 'center', paddingTop: 20, justifyContent: 'space-between' }}>
 
                     <View style={{ width: '80%' }}>
-                      <TextInput style={{ height: 40, width: '100%', fontFamily: 'TitilliumWeb-Regular', justifyContent: 'flex-start' }}
+                      <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start' }}
                         onChangeText={(text) => this.setState({ Password: text })} secureTextEntry={true}
                         value={this.state.Password}
                         placeholder='Password' placeholderTextColor='black'>
@@ -129,14 +129,14 @@ hideSpinner=()=> {
                      
                     </View>
                     {/* <TouchableOpacity onPress={() => this.ForgotPasswordPress()} style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Text style={{ fontSize: 12, paddingLeft: 10, color: '#505050', fontFamily: 'TitilliumWeb-Regular' }}>Forgot password?</Text>
+                      <Text style={{ fontSize: 12, paddingLeft: 10, color: '#505050' }}>Forgot password?</Text>
                     </TouchableOpacity> */}
                   </View>
                   <View style={{ paddingTop: 10, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
                     <TouchableOpacity onPress={() => this.Navigate()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                        <Text style={{ color: 'white', fontFamily: 'TitilliumWeb-Bold' }}>SIGN IN</Text>
+                        <Text style={{ color: 'white' }}>SIGN IN</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
@@ -148,7 +148,7 @@ hideSpinner=()=> {
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
                       {/* <TouchableOpacity onPress={() =>Alert.alert('Coming Soon','This feature will be available very soon')}> */}
                       <View>
-                        {/* <Text style={{ fontSize: 14, fontFamily: 'TitilliumWeb-Regular' }} >Don have an account? Sign up</Text> */}
+                        {/* <Text style={{ fontSize: 14 }} >Don have an account? Sign up</Text> */}
                       </View>
                     </TouchableOpacity>
 

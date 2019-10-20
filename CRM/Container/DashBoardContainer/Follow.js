@@ -130,7 +130,7 @@ export default class Follow extends React.Component {
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff', textAlign: 'center' }}>Followups</Text>
+                      <Text style={{ fontSize: 17, color: '#fff', textAlign: 'center' }}>Followups</Text>
                     </View>
                     <View style={{ justifyContent: "center", alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' }}>
            

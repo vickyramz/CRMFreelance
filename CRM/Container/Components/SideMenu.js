@@ -116,7 +116,7 @@ export default class SideMenu extends React.Component {
               <Image style={{ width: 30, height: 30, resizeMode: 'contain',tintColor:'#fff' }} source={item.images}></Image>
             </View>
             <View style={{ justifyContent: 'center', width: "70%" }}>
-              <Text style={{ color: '#fff', fontSize: 15, fontFamily: 'TitilliumWeb-Regular' }} >{item.Title}</Text>
+              <Text style={{ color: '#fff', fontSize: 15 }} >{item.Title}</Text>
 
             </View>
 

@@ -80,7 +80,7 @@ export default class FollowChild extends Component {
           <View style={{marginLeft:30,justifyContent:
         'space-around'}}>
         <View style={{paddingBottom:10,width:100}}>
-        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#fff',fontFamily:"Exo2-Bold",}}>{this.props.item.followup_date}</Text>
+        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#fff',}}>{this.props.item.followup_date}</Text>
         </View>
     <View>
     <Text  style={{marginRight:20,color:'#fff',}}>{this.props.item.followup_time}</Text> 

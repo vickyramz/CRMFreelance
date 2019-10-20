@@ -40,7 +40,6 @@ target 'CRM' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
-  pod 'RNTextDetector', :path => '../node_modules/react-native-text-detector'
 
   target 'CRMTests' do
     inherit! :search_paths

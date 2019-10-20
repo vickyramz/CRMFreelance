@@ -83,7 +83,7 @@ export default class CardScanner extends React.Component {
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff', textAlign: 'center' }}>Create Customer</Text>
+                      <Text style={{ fontSize: 17, color: '#fff', textAlign: 'center' }}>Create Customer</Text>
                     </View>
                     <View style={{ justifyContent: "center", alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' }}>
            
@@ -94,7 +94,7 @@ export default class CardScanner extends React.Component {
                                 
                             </View>
                              <View style={{  flex: 0.8, padding: 30,justifyContent:'center' }}>
-<Text style={{ fontSize: 17, fontFamily: 'TitilliumWeb-Bold', color: '#fff',marginBottom:20,fontWeight:'bold'}}>Business Card Scanner</Text>
+<Text style={{ fontSize: 17, color: '#fff',marginBottom:20,fontWeight:'bold'}}>Business Card Scanner</Text>
                             <View style={{  flex: 0.5,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
 
                       {this.state.CameraView?<RNCamera
@@ -130,7 +130,7 @@ alignItems:'center',justifyContent:'center',
                     <TouchableOpacity onPress={() => this.Navigate()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                        <Text style={{ color: 'white', fontFamily: 'TitilliumWeb-Bold' }}>Next</Text>
+                        <Text style={{ color: 'white' }}>Next</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
