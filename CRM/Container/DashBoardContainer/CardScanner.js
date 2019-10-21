@@ -9,6 +9,7 @@ export default class CardScanner extends React.Component {
     super(props);
     this.state = ({
       EmailAddress: '',
+      SuccessScanned:false,
       Password: '',
       animate: false,
       webviewopen: false,
@@ -51,11 +52,22 @@ export default class CardScanner extends React.Component {
   }
   textRecognized=(data)=>{
     console.log('uri', data);
+    if(data.textBlocks.length>4){
+      this.setState({CameraView:false,SuccessScanned:true})
+     let Details={}
+     let DetailsArray=[]
+      for(let i=0;i<data.textBlocks.length;i++){
+        Details[data.textBlocks[i].type]=data.textBlocks[i].value
+      }
+      DetailsArray.push(Details);
+      console.log('Card details',DetailsArray)
+    }
+  
   }
   Navigate=()=>{
-         this.props.navigation.navigate('CreateCustomer');
-        // this.setState({CameraView:true})
-        // setTimeout(this.detectText,100)
+         //this.props.navigation.navigate('CreateCustomer');
+        this.setState({CameraView:true})
+         setTimeout(this.detectText,100)
   }
   render() {
  
@@ -67,7 +79,9 @@ export default class CardScanner extends React.Component {
           style={styles.activityIndicator} />
       </View>
     }
-  
+  if(this.state.CameraView){
+
+  }
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
@@ -96,31 +110,37 @@ export default class CardScanner extends React.Component {
                              <View style={{  flex: 0.8, padding: 30,justifyContent:'center' }}>
 <Text style={{ fontSize: 17, color: '#fff',marginBottom:20,fontWeight:'bold'}}>Business Card Scanner</Text>
                             <View style={{  flex: 0.5,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
-
-                      {this.state.CameraView?<RNCamera
+                          
+                      {this.state.CameraView?
+                      <View style={{flex:1}}><RNCamera
         ref={ref => {
           this.camera = ref;
         }}
         onTextRecognized={this.textRecognized}
-        style={{
-          flex: 1,
-          //justifyContent: 'space-between',
-        }}
+      style={{flex:1}}
        // onTextRecognized={canDetectText ? this.textRecognized : null}
         androidCameraPermissionOptions={{
           title: 'Permission to use camera',
           message: 'We need your permission to use your camera',
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
+          
         }}>
-        </RNCamera>:<View style={{
+        </RNCamera></View>:<View style={{
     flex:1,
     borderStyle: 'dotted',
     borderWidth: 1,
 alignItems:'center',justifyContent:'center',
    borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20
   }}>
-      <Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={require('../Assets/photo-camera.png')} /> 
+  {!this.state.SuccessScanned?<Image style={{ width: 30, height: 30, resizeMode: 'contain' }} source={require('../Assets/photo-camera.png')}/>:<View>
+  <View style={{justifyContent:'center',alignItems:'center'}}>
+  <Image style={{ width: 50, height: 50, resizeMode: 'contain' }} source={require('../Assets/successtik.png')}></Image>
+  </View>
+  
+  <Text style={{ fontSize: 17, color: '#000', textAlign: 'center' }}>Scanned</Text>
+  </View>}
+      
   </View>}      
 
                             
