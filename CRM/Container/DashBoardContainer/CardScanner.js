@@ -12,6 +12,7 @@ export default class CardScanner extends React.Component {
       SuccessScanned:false,
       Password: '',
       animate: false,
+      DetailsArray:[],
       webviewopen: false,
       externalLink: '',
       draweropen:false,
@@ -52,22 +53,32 @@ export default class CardScanner extends React.Component {
   }
   textRecognized=(data)=>{
     console.log('uri', data);
-    if(data.textBlocks.length>4){
+    if(data.textBlocks.length>3){
       this.setState({CameraView:false,SuccessScanned:true})
-     let Details={}
+   
      let DetailsArray=[]
+     
       for(let i=0;i<data.textBlocks.length;i++){
-        Details[data.textBlocks[i].type]=data.textBlocks[i].value
+          let Details={}
+        Details["key"]=data.textBlocks[i].value
+          DetailsArray.push(Details);
       }
-      DetailsArray.push(Details);
+    
       console.log('Card details',DetailsArray)
+      this.setState({DetailsArray:DetailsArray})
     }
   
   }
   Navigate=()=>{
-         //this.props.navigation.navigate('CreateCustomer');
-        this.setState({CameraView:true})
+      if(this.state.SuccessScanned){
+  this.props.navigation.navigate('CreateCustomer',{DetailsArray:this.state.DetailsArray});
+      }
+      else{
+         this.setState({CameraView:true})
          setTimeout(this.detectText,100)
+      }
+       
+         
   }
   render() {
  

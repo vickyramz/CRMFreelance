@@ -12,6 +12,7 @@ import SignIn from '../Container/LoginContainer/SignIn'
 import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import CardScanner from '../Container/DashBoardContainer/CardScanner'
 import Follow from '../Container/DashBoardContainer/Follow'
+import Enquiry from '../Container/DashBoardContainer/Enquiry'
 import CreateCustomer from '../Container/DashBoardContainer/CreateCustomer'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
@@ -23,7 +24,8 @@ const HomeTab = createStackNavigator(
     Home: HomeScreen,
     CardScanner:CardScanner,
     CreateCustomer:CreateCustomer,
-    Follow:Follow
+    Follow:Follow,
+    Enquiry:Enquiry,
      //Events:Events,
   },
 
