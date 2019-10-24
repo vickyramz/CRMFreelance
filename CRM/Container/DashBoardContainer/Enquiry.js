@@ -119,7 +119,7 @@ export default class Enquiry extends React.Component {
                         color='#f4347f'
                         textStyle={styles.spinnerTextStyle}
                     /> */}
-                    <ImageBackground source={require('../Assets/1--Menu.png')} style={{ width: '100%', height: '100%' }}>
+
                     <View>
                                 <ImageBackground style={{ resizeMode: 'contain', width: width, height: 80, justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -166,7 +166,7 @@ export default class Enquiry extends React.Component {
                                     </ScrollView> */}
                                 </View>
 
-                              <ScrollView contentContainerStyle={{}}>
+                              <ScrollView>
                                 {
             this.state.dataSource.length!=0? this.state.dataSource.map((item, key) =>
               (
@@ -174,7 +174,7 @@ export default class Enquiry extends React.Component {
               )):
               <View>
               <View style={{justifyContent:'center',alignItems:'center'}}>
-              <Text style={{color:'#fff',fontWeight:'bold',opacity:1,fontSize:15,fontFamily:'Exo2-Regular'}}>No Followups Found</Text>
+              <Text style={{color:'#fff',fontWeight:'bold',opacity:1,fontSize:15,fontFamily:'Exo2-Regular'}}>No Enquiries Found</Text>
               </View>
               </View>
            
@@ -183,7 +183,7 @@ export default class Enquiry extends React.Component {
 
                           
                         </View>
-                    </ImageBackground>
+                  
                 </View>
             </SafeAreaView>
         );
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
 
     MainContainer: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#eeeeee',
 
     },
 

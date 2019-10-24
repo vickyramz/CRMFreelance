@@ -65,10 +65,10 @@ export default class FollowChild extends Component {
           
            
         <View
-       style={{marginLeft:30,marginRight:30,marginBottom:20,height:100,backgroundColor:'#fff', shadowOffset: { width: 10, height: 10 },
+       style={{marginLeft:30,marginRight:30,marginBottom:20,height:100,backgroundColor:'#283462', shadowOffset: { width: 10, height: 10 },
        borderWidth:0.4,borderColor:'#7894f8',justifyContent:'center',
         borderRadius:20}}>
-    <View style={{flexDirection:'row',justifyContent:'space-between',padding:20,}}>
+    <View style={{justifyContent:'space-between',padding:20,}}>
     <View style={{flexDirection:'row'}}>
       <View style={{
      justifyContent:'center',alignItems:"center"}} >
@@ -80,23 +80,32 @@ export default class FollowChild extends Component {
           <View style={{marginLeft:30,justifyContent:
         'space-around',flexDirection:'row'}}>
         <View style={{paddingBottom:10}}>
-        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#000',}}>Invoice Number</Text>
+        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#fff',}}>Invoice Number</Text>
         </View>
     <View>
-    <Text  style={{marginRight:20,color:'#000',}}>{this.props.item.invoice_no}</Text> 
+    <Text  style={{marginRight:20,color:'#fff',}}>{this.props.item.invoice_no}</Text> 
     </View>
         
      </View>
       </View>
-      <View>
-      <View style={{justifyContent:'space-between',paddingBottom:10}}>    
-     
-     <Text  style={{marginRight:20,color:'#000',}}>{this.props.item.comments}</Text>    
-    </View>
-    <View style={{justifyContent:'space-between'}}>    
+      <View style={{flexDirection:'row'}}>
+      <View style={{
+     justifyContent:'center',alignItems:"center"}} >
+      
     
-    <Text  style={{marginRight:20,color:'#000',fontWeight:'bold'}}>{this.props.item.activity_status}</Text> 
+
+          </View>
+        
+          <View style={{marginLeft:30,justifyContent:
+        'space-around',flexDirection:'row'}}>
+        <View style={{paddingBottom:10}}>
+        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#fff',}}>Date</Text>
+        </View>
+    <View>
+    <Text  style={{marginRight:20,color:'#fff',}}>{this.props.item.date_created}</Text> 
     </View>
+        
+     </View>
       </View>
       
     </View>
@@ -112,12 +121,12 @@ export default class FollowChild extends Component {
     
           </View>
           </TouchableOpacity>
-          <View style={{ height: this.state.layout_Height, overflow: 'hidden' }}>
-<View style={{paddingLeft:20,paddingRight:20}}>
-<View style={{marginBottom:10,backgroundColor:'#fff'}}>
+          <View style={{ height: this.state.layout_Height, overflow: 'hidden' ,marginTop:-10}}>
+<View style={{paddingLeft:30,paddingRight:30}}>
+<View style={{marginBottom:10,backgroundColor:'#40d99e'}}>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#000',fontSize:12}}>Brand Name</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Brand Name</Text> 
          <View style={{}}>
   
    
@@ -131,7 +140,7 @@ export default class FollowChild extends Component {
 </View>
 </View>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#000',fontSize:12}}>Product Details</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Product Details</Text> 
          <View style={{}}>
   
    
@@ -148,7 +157,7 @@ export default class FollowChild extends Component {
 </View>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#000',fontSize:12}}>Price</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Price</Text> 
          <View style={{}}>
   <Text style={{marginRight:20,color:'#000',fontSize:10}}>->  {this.props.item.price}</Text>  
 </View>
@@ -157,7 +166,7 @@ export default class FollowChild extends Component {
 </View>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#000',fontSize:12}}>Discount</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Discount</Text> 
          <View style={{}}>
   <Text style={{marginRight:20,color:'#000',fontSize:10}}>->  {this.props.item.discount}</Text>  
 </View>
@@ -166,7 +175,7 @@ export default class FollowChild extends Component {
 </View>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#000',fontSize:12}}>GST</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>GST</Text> 
          <View style={{}}>
   <Text style={{marginRight:20,color:'#000',fontSize:10}}>->  {this.props.item.gst}</Text>  
 </View>
