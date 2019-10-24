@@ -30,6 +30,42 @@ let data = [
     legendFontSize: 15
     }
 ];
+let color=
+  [
+    '#006400',
+    '#00FF7F',
+    '#FFFF00',
+    '#FFD700',
+    '#CD5C5C',
+    '#B22222',
+    '#FF1493',
+    '#9932CC',
+    '#9400D3',
+    '#0000FF',
+    '#00F5FF',
+    '#00FF00',
+    '#2F4F4F',
+    '#696969',
+    '#191970',
+    '#00BFFF',
+    '#A52A2A',
+    '#00008B',
+    '#EEE685',
+    '#8B3626',
+    '#CD00CD',
+    '#303030',
+    '#191970',
+    '#00BFFF',
+    '#A52A2A',
+    '#00008B',
+    '#EEE685',
+    '#8B3626',
+    '#CD00CD',
+    '#303030'
+  
+
+  ]
+
 export default class HomeScreen extends React.Component {
 
   static navigationOptions =
@@ -86,13 +122,16 @@ export default class HomeScreen extends React.Component {
     legendFontSize: 15
     }
     data=[]
+  //  console.log('length',arraydata.length)
     for(let i=0;i<arraydata.length;i++){
+    //  console.log('color')
       dataobj={
         name:arraydata[i].region ,
         population: arraydata[i].sales_value,
-        legendFontColor: "#FB"+i+"7"+i+"0",
+        // population: i,
+        legendFontColor:color[i],
        
-        color: "#FD"+i+"7"+i+"0",
+        color:color[i],
         legendFontSize: 8
         }
       data.push(dataobj)
@@ -149,21 +188,22 @@ export default class HomeScreen extends React.Component {
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color: '#fff', textAlign: 'center' }}>Home</Text>
+                      <Text style={{ fontSize: 17, color: '#fff', textAlign: 'center',marginLeft:-20 }}>Home</Text>
                     </View>
                     <View style={{ justifyContent: "center", alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' }}>
            
 
                     </View>
+           
                   </View>
                                 </ImageBackground>
                             </View>
                             <ScrollView contentContainerStyle={{paddingBottom:20}} style={{flex:1}}>
 <View style={{flex:1,}}>
-<Text style={{color:'#000',fontWeight:'bold',padding:10}}> Bills</Text>
+<Text style={{color:'#16a086',fontWeight:'bold',padding:10}}> Bills</Text>
   <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20}}>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Today</Text>
@@ -174,7 +214,7 @@ export default class HomeScreen extends React.Component {
 
 </View>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Week</Text>
@@ -188,7 +228,7 @@ export default class HomeScreen extends React.Component {
   </View>
   <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20,paddingTop:10}}>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Month</Text>
@@ -199,7 +239,7 @@ export default class HomeScreen extends React.Component {
 
 </View>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Year</Text>
@@ -212,12 +252,12 @@ export default class HomeScreen extends React.Component {
 
   </View>
   
-<Text style={{color:'#000',fontWeight:'bold',padding:10}}> Values</Text>
+<Text style={{color:'#eeae44',fontWeight:'bold',padding:10}}> Values</Text>
 
 
 <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20}}>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Today</Text>
@@ -228,7 +268,7 @@ export default class HomeScreen extends React.Component {
 
 </View>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Week</Text>
@@ -242,7 +282,7 @@ export default class HomeScreen extends React.Component {
   </View>
   <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20,paddingTop:10}}>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Month</Text>
@@ -253,7 +293,7 @@ export default class HomeScreen extends React.Component {
 
 </View>
 
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center'}}>
+<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
   
     <View style={{justifyContent:'center',alignItems:'center'}}>
     <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Year</Text>
@@ -268,20 +308,21 @@ export default class HomeScreen extends React.Component {
     
   <View style={{flex:1,justifyContent:'space-around',padding:20,flexDirection:'row'}}>
   <View style={{flex:0.5,backgroundColor:'#eeae44',height:80,padding:10,justifyContent:'space-around'}}>
-  <Text style={{color:'#fff',textAlign:'center'}}>{this.state.ReceivedPayment}</Text>
+  <Text style={{color:'#fff',textAlign:'center',fontWeight:'bold',fontSize:16}}>{this.state.ReceivedPayment}</Text>
     <Text style={{color:'#fff',textAlign:'center'}}>Payment Received</Text>
    
     </View>
     <View style={{flex:0.5,backgroundColor:'#16a086',height:80,padding:10,justifyContent:'space-around'}}>
     <Text style={{color:'#fff',textAlign:'center'}}>Status</Text>
-    <Text style={{color:'#fff',textAlign:'center'}}>{this.state.status==0?'Completed':'Pending'}</Text>
+    <Text style={{color:'#fff',textAlign:'center',fontWeight:'bold',fontSize:16}}>{this.state.status==0?'Completed':'Pending'}</Text>
     </View>
 
   </View>
  
 </View>
 </View>
-<View style={{height:200,backgroundColor:'transparent',borderRadius:10,marginLeft:10}}>
+<View style={{backgroundColor:'transparent',borderRadius:10,marginLeft:10}}>
+<Text style={{color:'#000',fontWeight:'bold',padding:10}}> Sales and Reports</Text>
 <PieChart
   data={data}
   width={width}
