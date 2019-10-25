@@ -2,7 +2,14 @@ import React from "react";
 import { View, Image, Text, BackHandler, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import{RNCamera} from 'react-native-camera'
+import RNTesseractOcr from 'react-native-tesseract-ocr';
+import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 const width = Dimensions.get('window').width
+const tessOptions = {
+  whitelist: null, 
+  blacklist: '1234567890\'!"#$%&/()={}[]+*-_:;<>'
+};
 export default class CardScanner extends React.Component {
 
   constructor(props) {
@@ -12,6 +19,7 @@ export default class CardScanner extends React.Component {
       SuccessScanned:false,
       Password: '',
       animate: false,
+      image:'',
       DetailsArray:[],
       webviewopen: false,
       externalLink: '',
@@ -38,6 +46,7 @@ export default class CardScanner extends React.Component {
     //     to: 'closed',
     // });
   }
+  
   detectText = async () => {
     try {
       const options = {
@@ -45,39 +54,111 @@ export default class CardScanner extends React.Component {
         base64: true,
         skipProcessing: true,
       };
-      const { uri } = await this.camera.takePictureAsync(options);
+      const data = await this.camera.takePictureAsync(options);
+      console.log('data',data)
+      RNTesseractOcr.recognize(data.path, 'LANG_ENGLISH', tessOptions)
+  .then((result) => {
+    //this.setState({ ocrResult: result });
+    console.log("OCR Result: ", result);
+  })
+  .catch((err) => {
+    console.log("OCR Error: ", err);
+  })
+  .done();
+ 
       console.log('uri', uri);
     } catch (e) {
       console.warn(e);
     }
   }
-  textRecognized=(data)=>{
-    console.log('uri', data);
-    if(data.textBlocks.length>3){
-      this.setState({CameraView:false,SuccessScanned:true})
-   
-     let DetailsArray=[]
-     
-      for(let i=0;i<data.textBlocks.length;i++){
-          let Details={}
-        Details["key"]=data.textBlocks[i].value
-          DetailsArray.push(Details);
-      }
-    
-      console.log('Card details',DetailsArray)
-      this.setState({DetailsArray:DetailsArray})
+  submitToGoogle = async () => {
+    try {
+      this.setState({ uploading: true });
+      let { image } = this.state;
+      let body = JSON.stringify({
+        requests: [
+          {
+            features: [
+              { type: "LABEL_DETECTION", maxResults: 10 },
+              { type: "LANDMARK_DETECTION", maxResults: 5 },
+              { type: "FACE_DETECTION", maxResults: 5 },
+              { type: "LOGO_DETECTION", maxResults: 5 },
+              { type: "TEXT_DETECTION", maxResults: 5 },
+              { type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 },
+              { type: "SAFE_SEARCH_DETECTION", maxResults: 5 },
+              { type: "IMAGE_PROPERTIES", maxResults: 5 },
+              { type: "CROP_HINTS", maxResults: 5 },
+              { type: "WEB_DETECTION", maxResults: 5 }
+            ],
+            image: {
+              source: {
+                imageUri: image
+              }
+            }
+          }
+        ]
+      });
+      let response = await fetch(
+        "https://vision.googleapis.com/v1/images:annotate?key=" +
+          "AIzaSyDR-st4uUt8QQdxPfGFmrS-5TQDlZZXAyU",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          method: "POST",
+          body: body
+        }
+      );
+      let responseJson = await response.json();
+      console.log(responseJson);
+      this.setState({
+        googleResponse: responseJson,
+        uploading: false
+      });
+    } catch (error) {
+      console.log(error);
     }
-  
-  }
+  };
+ 
+   
   Navigate=()=>{
-      if(this.state.SuccessScanned){
-  this.props.navigation.navigate('CreateCustomer',{DetailsArray:this.state.DetailsArray});
-      }
-      else{
-         this.setState({CameraView:true})
-         setTimeout(this.detectText,100)
-      }
-       
+  //     if(this.state.SuccessScanned){
+        
+  // this.props.navigation.navigate('CreateCustomer',{DetailsArray:this.state.DetailsArray});
+  //     }
+  //     else{
+  //        this.setState({CameraView:true})
+  //        setTimeout(this.detectText,100)
+  //     }
+  const options = {
+    quality: 1.0,
+    maxWidth: 500,
+    maxHeight: 500,
+    storageOptions: {
+      skipBackup: false,
+      path: 'images',
+    }
+  };
+  ImagePicker.showImagePicker(options, (response) => {
+    console.log('Response = ', response);
+
+    if (response.didCancel) {
+      console.log('User cancelled photo picker');
+    }
+    else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    }
+    else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+    }
+    else {
+      //let source = { uri: response.uri };
+     
+      this.setState({image:response.uri.replace('file://', '')})
+      this.submitToGoogle()
+    }
+  });
          
   }
   render() {

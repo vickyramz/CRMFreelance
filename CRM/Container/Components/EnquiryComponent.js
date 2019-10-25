@@ -61,52 +61,49 @@ export default class FollowChild extends Component {
       return (
         <View>
           <TouchableOpacity activeOpacity={0.8} onPress={this.props.onClickFunction} >
-        <View elevation={5} style={{shadowOffset: { width: 10, height: 10 }}}>
+        <View elevation={5} style={{shadowColor: "#000",
+shadowOffset: {
+	width: 0,
+	height: 9,
+},
+shadowOpacity: 0.50,
+shadowRadius: 12.35,
+
+elevation: 19,}}>
           
            
         <View
-       style={{marginLeft:30,marginRight:30,marginBottom:20,height:100,backgroundColor:'#283462', shadowOffset: { width: 10, height: 10 },
+       style={{marginLeft:20,marginRight:20,marginBottom:20,height:100,backgroundColor:'#3c57a0', shadowOffset: { width: 10, height: 10 },
        borderWidth:0.4,borderColor:'#7894f8',justifyContent:'center',
         borderRadius:20}}>
     <View style={{justifyContent:'space-between',padding:20,}}>
     <View style={{flexDirection:'row'}}>
-      <View style={{
-     justifyContent:'center',alignItems:"center"}} >
+        
+        <View style={{marginLeft:30,justifyContent:
+      'space-around',flexDirection:'row'}}>
+      <View style={{paddingBottom:10}}>
+      <Text numberOfLines={1} style={{flexWrap: 'wrap',fontFamily: 'Exo2-Regular', marginRight:20,color:'#fff',}}>{this.props.item.companyname}</Text>
+      </View>
+  
       
-    
-
-          </View>
+   </View>
+    </View>
+    <View style={{flexDirection:'row'}}>
         
           <View style={{marginLeft:30,justifyContent:
         'space-around',flexDirection:'row'}}>
         <View style={{paddingBottom:10}}>
-        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#fff',}}>Invoice Number</Text>
+        <Text numberOfLines={1} style={{flexWrap: 'wrap', fontFamily: 'Exo2-Regular',marginRight:20,color:'#fff',}}>Invoice Number</Text>
         </View>
     <View>
-    <Text  style={{marginRight:20,color:'#fff',}}>{this.props.item.invoice_no}</Text> 
+    <Text  style={{marginRight:20,color:'#fff',fontFamily: 'Exo2-Regular'}}>{this.props.item.invoice_no}</Text> 
     </View>
         
      </View>
       </View>
-      <View style={{flexDirection:'row'}}>
-      <View style={{
-     justifyContent:'center',alignItems:"center"}} >
-      
-    
-
-          </View>
-        
-          <View style={{marginLeft:30,justifyContent:
-        'space-around',flexDirection:'row'}}>
-        <View style={{paddingBottom:10}}>
-        <Text numberOfLines={1} style={{flexWrap: 'wrap', marginRight:20,color:'#fff',}}>Date</Text>
-        </View>
-    <View>
-    <Text  style={{marginRight:20,color:'#fff',}}>{this.props.item.date_created}</Text> 
-    </View>
-        
-     </View>
-      </View>
+ <View style={{alignItems:'flex-end'}}>
+ <Text  style={{marginRight:20,color:'#5495fd',fontFamily: 'Exo2-Regular'}}>.{this.props.item.date_created}</Text> 
+ </View>
       
     </View>
   
@@ -126,7 +123,7 @@ export default class FollowChild extends Component {
 <View style={{marginBottom:10,backgroundColor:'#40d99e'}}>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Brand Name</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontFamily: 'Exo2-Bold'}}>Brand Name</Text> 
          <View style={{}}>
   
    
@@ -140,7 +137,7 @@ export default class FollowChild extends Component {
 </View>
 </View>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Product Details</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontFamily: 'Exo2-Bold'}}>Product Details</Text> 
          <View style={{}}>
   
    
@@ -157,7 +154,7 @@ export default class FollowChild extends Component {
 </View>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Price</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontFamily: 'Exo2-Bold'}}>Price</Text> 
          <View style={{}}>
   <Text style={{marginRight:20,color:'#000',fontSize:10}}>->  {this.props.item.price}</Text>  
 </View>
@@ -166,7 +163,7 @@ export default class FollowChild extends Component {
 </View>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>Discount</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontFamily: 'Exo2-Bold'}}>Discount</Text> 
          <View style={{}}>
   <Text style={{marginRight:20,color:'#000',fontSize:10}}>->  {this.props.item.discount}</Text>  
 </View>
@@ -175,7 +172,7 @@ export default class FollowChild extends Component {
 </View>
 <View style={{}}>
 <View style={{padding:10}}>
-      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontWeight:'bold'}}>GST</Text> 
+      <Text  style={{marginRight:20,color:'#fff',fontSize:13,fontFamily: 'Exo2-Bold'}}>GST</Text> 
          <View style={{}}>
   <Text style={{marginRight:20,color:'#000',fontSize:10}}>->  {this.props.item.gst}</Text>  
 </View>

@@ -4,6 +4,7 @@ import { TextInput } from "react-native-gesture-handler";
 import WebViewComponent from '../Components/WebViewComponent'
 import { WebView } from 'react-native-webview';
 import {LoginAPI} from '../API/PostApi'
+import Spinner from 'react-native-loading-spinner-overlay';
 import { NavigationActions, StackActions } from 'react-navigation'
 import {Base_URL,LoginUrl} from '../API/RequestUrl'
 import SplashScreen from 'react-native-splash-screen'
@@ -12,8 +13,8 @@ export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      EmailAddress: '',
-      Password: '',
+      EmailAddress: 'gigatronics@gmail.com',
+      Password: 'giga@123',
        visible: true ,
        animate: false,
       webviewopen: false,
@@ -78,18 +79,20 @@ hideSpinner=()=> {
 }
   render() {
  
-    if (this.state.animate) {
-      return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <ActivityIndicator
-          color='#1a5fe1'
-          size="large"
-          style={styles.activityIndicator} />
-      </View>
-    }
+
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ImageBackground source={require('../Assets/1--Menu.png')} style={{ flex: 1 }}>
+          <Spinner
+            visible={this.state.animate}
+            textContent={'sign In...'}
+            overlayColor='rgba(0,0,0,0.5)'
+            animation='fade'
+            size='large'
+            color='#f4347f'
+            textStyle={styles.spinnerTextStyle}
+          />
             <View style={{ flex: 0.8, justifyContent: 'center' }}>
               <View style={{ paddingTop: 30, paddingLeft: 30, paddingRight: 30, paddingBottom: 20 }}>
                 <Text style={{ color: 'white', fontSize: 30 }}>Sign in</Text>
@@ -194,5 +197,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
   },
 });

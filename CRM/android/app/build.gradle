@@ -188,6 +188,10 @@ keyPassword MYAPP_RELEASE_KEY_PASSWORD}}
 }
 
 dependencies {
+    implementation project(':react-native-tesseract-ocr')
+    implementation project(':react-native-image-resizer')
+    implementation project(':react-native-image-picker')
+    implementation project(':react-native-image-base64')
     implementation project(':react-native-svg')
     implementation project(':react-native-webview')
     implementation project(':react-native-splash-screen')

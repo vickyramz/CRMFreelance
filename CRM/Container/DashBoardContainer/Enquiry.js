@@ -3,6 +3,7 @@ import { View, ScrollView,UIManager, ActivityIndicator, Text, StyleSheet, AsyncS
 import EnquiryComponent from'../Components/EnquiryComponent'
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
+import Spinner from 'react-native-loading-spinner-overlay';
 
 export default class Enquiry extends React.Component {
     static navigationOptions =
@@ -28,9 +29,19 @@ export default class Enquiry extends React.Component {
             }
           
         }
-     componentDidMount() {
-        this.GetList()
-    }
+        componentDidMount() {
+          this.focusListener = this.props.navigation.addListener('didFocus', () => {
+            this.onFocusFunction()
+          })
+      
+        }
+        onFocusFunction=()=>{
+          this.GetList()
+        }
+        componentWillUnmount() {
+          //BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+          this.focusListener.remove()
+        }
     GetList = async() => {
 
       let userId=await AsyncStorage.getItem('user_id')
@@ -99,18 +110,11 @@ export default class Enquiry extends React.Component {
         // });
       }
     render() {
-        if (this.state.animate) {
-            return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-              <ActivityIndicator
-                color='#1a5fe1'
-                size="large"
-                style={styles.activityIndicator} />
-            </View>
-          }
+      
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.MainContainer}>
-                {/* <Spinner
+                <Spinner
                         visible={this.state.animate}
                         textContent={'Loading...'}
                         overlayColor='rgba(0,0,0,0.5)'
@@ -118,9 +122,9 @@ export default class Enquiry extends React.Component {
                         size='large'
                         color='#f4347f'
                         textStyle={styles.spinnerTextStyle}
-                    /> */}
+                    />
 
-                    <View>
+                    <View style={{flex:0.1}}>
                                 <ImageBackground style={{ resizeMode: 'contain', width: width, height: 80, justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
@@ -174,7 +178,7 @@ export default class Enquiry extends React.Component {
               )):
               <View>
               <View style={{justifyContent:'center',alignItems:'center'}}>
-              <Text style={{color:'#fff',fontWeight:'bold',opacity:1,fontSize:15,fontFamily:'Exo2-Regular'}}>No Enquiries Found</Text>
+              <Text style={{color:'#000',fontWeight:'bold',opacity:1,fontSize:15,fontFamily:'Exo2-Regular'}}>No Enquiries Found</Text>
               </View>
               </View>
            

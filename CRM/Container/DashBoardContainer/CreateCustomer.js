@@ -29,8 +29,8 @@ export default class CreateCustomer extends React.Component {
    this.GetDetails()
   }
   GetDetails=()=>{
-    this.setState({ contactperson:this.state.DetailsArray[0].key,
-      email: this.state.DetailsArray[1].key,
+    this.setState({ contactperson:this.state.DetailsArray[0].key?this.state.DetailsArray[0].key:'',
+      email: this.state.DetailsArray[1].key?this.state.DetailsArray[1].key:'',
       phone_number: this.state.DetailsArray[2].key?this.state.DetailsArray[2].key:'',
       mobileno:this.state.DetailsArray[3].key?this.state.DetailsArray[3].key:'',
       address:this.state.DetailsArray[4].key?this.state.DetailsArray[4].key:'',

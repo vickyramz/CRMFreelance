@@ -91,11 +91,11 @@ export default class FollowChild extends Component {
       <View>
       <View style={{justifyContent:'space-between',paddingBottom:10}}>    
      
-     <Text  style={{marginRight:20,color:'#fff',}}>{this.props.item.comments}</Text>    
+     <Text numberOfLines={1} style={{marginRight:20,color:'#fff',}}>{this.props.item.comments}</Text>    
     </View>
     <View style={{justifyContent:'space-between'}}>    
     
-    <Text  style={{marginRight:20,color:'#fff',fontWeight:'bold'}}>{this.props.item.activity_status}</Text> 
+    <Text numberOfLines={1} style={{marginRight:20,color:'#fff',fontWeight:'bold'}}>{this.props.item.activity_status}</Text> 
     </View>
       </View>
       

@@ -3,20 +3,26 @@ import { View, Image, Text, BackHandler,AsyncStorage, ImageBackground, Dimension
 import { TextInput, ScrollView } from "react-native-gesture-handler";
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
+import Spinner from 'react-native-loading-spinner-overlay';
+import ImagePicker from 'react-native-image-picker';
+import { PieChart } from 'react-native-svg-charts'
 import {
   LineChart,
   BarChart,
-  PieChart,
   ProgressChart,
   ContributionGraph,
   StackedBarChart
 } from 'react-native-chart-kit'
 let  mass=[100,1200,1300,140,120];
+let chart_wh = 300
+let series = [123, 321, 123, 789, 537]
+let sliceColor = ['#F44336','#2196F3','#FFEB3B', '#4CAF50', '#FF9800']
 const chartConfig = {
   backgroundGradientFrom: '#1E2923',
   backgroundGradientFromOpacity: 0,
   backgroundGradientTo: '#08130D',
   backgroundGradientToOpacity: 0.5,
+  
   color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
   strokeWidth: 2, // optional, default 3
   barPercentage:0.5
@@ -75,6 +81,7 @@ export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
+      categories:[],
       dataSourceBills:{},
       pie:[],
       ReceivedPayment:'',
@@ -90,7 +97,17 @@ export default class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-  this.GetData()
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.onFocusFunction()
+    })
+
+  }
+  onFocusFunction=()=>{
+    this.GetData()
+  }
+  componentWillUnmount() {
+    //BackHandler.removeEventListener('hardwareBackPress', this.onBackPress);
+    this.focusListener.remove()
   }
   GetData=()=>{
     this.Load()
@@ -113,30 +130,24 @@ export default class HomeScreen extends React.Component {
   GraphData=()=>{
     LoginAPI('http://got-crm.com/api/mobile/salesReports.php','',this.PieCharyData,this.error)
   }
+  renderCategories=()=> {
+   // const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
+    return this.state.categories.map((item, index) => <View style={{justifyContent:'center',alignItems:'center'}}>
+      <Text style={{fontSize:8, color:('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)}} key={index}>{item.region}</Text>
+    </View>);
+}
   PieCharyData=(arraydata)=>{
-    dataobj={
-    name: "Seoul",
-    population: 21500000,
-    color: "rgba(131, 167, 234, 1)",
-    legendFontColor: "#7F7F7F",
-    legendFontSize: 15
-    }
     data=[]
+    series=[]
+    sliceColor=[]
   //  console.log('length',arraydata.length)
     for(let i=0;i<arraydata.length;i++){
     //  console.log('color')
-      dataobj={
-        name:arraydata[i].region ,
-        population: arraydata[i].sales_value,
-        // population: i,
-        legendFontColor:color[i],
-       
-        color:color[i],
-        legendFontSize: 8
-        }
-      data.push(dataobj)
+    series.push(arraydata[i].sales_value)
+    sliceColor.push(color[i])
     }
-    this.setState({pie:data})
+    this.setState({pie:series,categories:arraydata})
+    console.log('data and color',sliceColor)
   
   }
   Load=()=>{
@@ -163,15 +174,21 @@ export default class HomeScreen extends React.Component {
     // });
   }
   render() {
- 
-    if (this.state.animate) {
-      return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <ActivityIndicator
-          color='#1a5fe1'
-          size="large"
-          style={styles.activityIndicator} />
-      </View>
-    }
+    const data = series
+
+    const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
+
+    const pieData = data
+        .filter((value) => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(),
+                onPress: () => console.log('press', index),
+            },
+            key: `pie-${index}`,
+        }))
+  
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 ,backgroundColor:'#eeeeee'}}>
@@ -200,6 +217,15 @@ export default class HomeScreen extends React.Component {
                             </View>
                             <ScrollView contentContainerStyle={{paddingBottom:20}} style={{flex:1}}>
 <View style={{flex:1,}}>
+<Spinner
+            visible={this.state.animate}
+            textContent={'Loading...'}
+            overlayColor='rgba(0,0,0,0)'
+            animation='fade'
+            size='large'
+            color='#f4347f'
+            textStyle={styles.spinnerTextStyle}
+          />
 <Text style={{color:'#16a086',fontWeight:'bold',padding:10}}> Bills</Text>
   <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20}}>
 
@@ -323,16 +349,8 @@ export default class HomeScreen extends React.Component {
 </View>
 <View style={{backgroundColor:'transparent',borderRadius:10,marginLeft:10}}>
 <Text style={{color:'#000',fontWeight:'bold',padding:10}}> Sales and Reports</Text>
-<PieChart
-  data={data}
-  width={width}
-  height={220}
-  chartConfig={chartConfig}
-  accessor="population"
-  backgroundColor="transparent"
-  paddingLeft="15"
-  absolute
-/>
+<PieChart style={{ height: 250 }} data={pieData} />
+{this.renderCategories()}
 </View>
 </ScrollView>        
         
@@ -348,4 +366,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  
 });
