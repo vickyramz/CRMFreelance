@@ -8,9 +8,14 @@ export default class CreateCustomer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = ({
-      DetailsArray:this.props.navigation.state.params.DetailsArray,
+      const { navigation } = this.props
+      const text  = navigation.getParam('text')
+      const lines = text.match(/[^\r\n]+/g)
+    this.state = {
+      DetailsArray:this.props.navigation.state.params.text,
       contactperson:'',
+      text: text,
+      lines: lines,
       email: '',
       phone_number: '',
       mobileno:'',
@@ -22,19 +27,19 @@ export default class CreateCustomer extends React.Component {
       webviewopen: false,
       externalLink: '',
       draweropen:false,
-    })
+    }
   }
 
   componentDidMount() {
    this.GetDetails()
   }
   GetDetails=()=>{
-    this.setState({ contactperson:this.state.DetailsArray[0].key?this.state.DetailsArray[0].key:'',
-      email: this.state.DetailsArray[1].key?this.state.DetailsArray[1].key:'',
-      phone_number: this.state.DetailsArray[2].key?this.state.DetailsArray[2].key:'',
-      mobileno:this.state.DetailsArray[3].key?this.state.DetailsArray[3].key:'',
-      address:this.state.DetailsArray[4].key?this.state.DetailsArray[4].key:'',
-      companyname:this.state.DetailsArray[5].key?this.state.DetailsArray[5].key:'',})
+    this.setState({ contactperson:this.state.lines[0]?this.state.lines[0]:'',
+      email: this.state.lines[1]?this.state.lines[1]:'',
+      phone_number: this.state.lines[2]?this.state.lines[2]:'',
+      mobileno:this.state.lines[3]?this.state.lines[3]:'',
+      address:this.state.lines[4]?this.state.lines[4]:'',
+      companyname:this.state.lines[5]?this.state.lines[5]:'',})
      
   }
   Load=()=>{
@@ -91,6 +96,7 @@ let params={
   address:this.state.address,
   user_id:userid
 }
+console.log('Request params',params)
 LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCallback,this.error,this.networkissue)
   }
   successCallback=(data)=>{
@@ -159,7 +165,8 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
 <View style={{ alignItems: 'flex-start', width: '80%' }}>
     <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
         onChangeText={(text) => this.setState({ companyname: text })}
-        placeholder='company Name' placeholderTextColor='black'
+        value={this.state.companyname}
+        placeholder='company Name' placeholderTextColor='grey'
     />
 </View>
 <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -177,7 +184,7 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ contactperson: text })}
                                             value={this.state.contactperson} 
-                                            placeholder='Contact Person' placeholderTextColor='black'>
+                                            placeholder='Contact Person' placeholderTextColor='grey'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -190,7 +197,7 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                              onChangeText={(text) => this.setState({ address: text })}
                                             value={this.state.address}
-                                            placeholder='Address' placeholderTextColor='black'>
+                                            placeholder='Address' placeholderTextColor='grey'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -201,8 +208,8 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
 
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
-                                           onChangeText={(text) => this.setState({ mobileno: text })} keyboardType={'numeric'} maxLength={10}
-                                            placeholder='Mobile No' placeholderTextColor='black'>
+                                           onChangeText={(text) => this.setState({ mobileno: text })} keyboardType={'numeric'} maxLength={10} value={this.state.mobileno}
+                                            placeholder='Mobile No' placeholderTextColor='grey'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -215,7 +222,8 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
-                                            placeholder='Alter No' placeholderTextColor='black'>
+                                            value={this.state.phone_number}
+                                            placeholder='Alter No' placeholderTextColor='grey'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>
@@ -227,7 +235,8 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                     <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ email: text })}  maxLength={10}
-                                            placeholder='Email address' placeholderTextColor='black'>
+                                            value={this.state.email}
+                                            placeholder='Email address' placeholderTextColor='grey'>
                                         </TextInput>
                                     </View>
                                     <View style={{ alignItems: 'flex-end', justifyContent: 'center', width: '20%' }}>

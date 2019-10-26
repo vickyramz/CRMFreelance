@@ -5,6 +5,8 @@ import{RNCamera} from 'react-native-camera'
 import RNTesseractOcr from 'react-native-tesseract-ocr';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 const width = Dimensions.get('window').width
 const tessOptions = {
   whitelist: null, 
@@ -47,130 +49,57 @@ export default class CardScanner extends React.Component {
     // });
   }
   
-  detectText = async () => {
-    try {
-      const options = {
-        quality: 0.8,
-        base64: true,
-        skipProcessing: true,
-      };
-      const data = await this.camera.takePictureAsync(options);
-      console.log('data',data)
-      RNTesseractOcr.recognize(data.path, 'LANG_ENGLISH', tessOptions)
-  .then((result) => {
-    //this.setState({ ocrResult: result });
-    console.log("OCR Result: ", result);
-  })
-  .catch((err) => {
-    console.log("OCR Error: ", err);
-  })
-  .done();
- 
-      console.log('uri', uri);
-    } catch (e) {
-      console.warn(e);
-    }
-  }
-  submitToGoogle = async () => {
-    try {
-      this.setState({ uploading: true });
-      let { image } = this.state;
-      let body = JSON.stringify({
-        requests: [
-          {
-            features: [
-              { type: "LABEL_DETECTION", maxResults: 10 },
-              { type: "LANDMARK_DETECTION", maxResults: 5 },
-              { type: "FACE_DETECTION", maxResults: 5 },
-              { type: "LOGO_DETECTION", maxResults: 5 },
-              { type: "TEXT_DETECTION", maxResults: 5 },
-              { type: "DOCUMENT_TEXT_DETECTION", maxResults: 5 },
-              { type: "SAFE_SEARCH_DETECTION", maxResults: 5 },
-              { type: "IMAGE_PROPERTIES", maxResults: 5 },
-              { type: "CROP_HINTS", maxResults: 5 },
-              { type: "WEB_DETECTION", maxResults: 5 }
-            ],
-            image: {
-              source: {
-                imageUri: image
-              }
-            }
-          }
-        ]
-      });
-      let response = await fetch(
-        "https://vision.googleapis.com/v1/images:annotate?key=" +
-          "AIzaSyDR-st4uUt8QQdxPfGFmrS-5TQDlZZXAyU",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          },
-          method: "POST",
-          body: body
-        }
-      );
-      let responseJson = await response.json();
-      console.log(responseJson);
-      this.setState({
-        googleResponse: responseJson,
-        uploading: false
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  
+  
  
    
   Navigate=()=>{
-  //     if(this.state.SuccessScanned){
+      if(this.state.SuccessScanned){
         
-  // this.props.navigation.navigate('CreateCustomer',{DetailsArray:this.state.DetailsArray});
-  //     }
-  //     else{
-  //        this.setState({CameraView:true})
-  //        setTimeout(this.detectText,100)
-  //     }
-  const options = {
-    quality: 1.0,
-    maxWidth: 500,
-    maxHeight: 500,
-    storageOptions: {
-      skipBackup: false,
-      path: 'images',
-    }
-  };
-  ImagePicker.showImagePicker(options, (response) => {
-    console.log('Response = ', response);
+  this.props.navigation.navigate('CreateCustomer',{DetailsArray:this.state.DetailsArray});
+      }
+      else{
+         this.setState({CameraView:true})
+         //setTimeout(this.detectText,100)
+      }
+      if(this.state.CameraView){
+        this.takePicture()
+      }
+}
+takePicture = async() =>{
+ 
+    const options = { quality: 0.5, base64: true };
+    const data = await this.camera.takePictureAsync(options)
+    this.setState({CameraView:false,animate:true})
+    this.detectText(data.base64)
+  
+}
 
-    if (response.didCancel) {
-      console.log('User cancelled photo picker');
-    }
-    else if (response.error) {
-      console.log('ImagePicker Error: ', response.error);
-    }
-    else if (response.customButton) {
-      console.log('User tapped custom button: ', response.customButton);
-    }
-    else {
-      //let source = { uri: response.uri };
-     
-      this.setState({image:response.uri.replace('file://', '')})
-      this.submitToGoogle()
-    }
-  });
-         
-  }
+detectText(base64){
+  fetch("https://vision.googleapis.com/v1/images:annotate?key=" + "AIzaSyDR-st4uUt8QQdxPfGFmrS-5TQDlZZXAyU", {
+      method: 'POST',
+      body: JSON.stringify({
+        "requests": [{
+          "image": { "content": base64 },
+          "features": [
+           
+              { "type": "TEXT_DETECTION" }
+          ]}]
+    })
+  })
+  .then(response => { return response.json()})
+  .then(jsonRes => {
+    this.setState({animate:false,SuccessScanned:true})
+     let text = jsonRes.responses[0].fullTextAnnotation.text
+   this.props.navigation.navigate('CreateCustomer', { text: text })
+   console.log('sucess', text)
+  }).catch(err => {
+    console.log('Error', err)
+  })
+}
+
   render() {
  
-    if (this.state.animate) {
-      return <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-        <ActivityIndicator
-          color='#1a5fe1'
-          size="large"
-          style={styles.activityIndicator} />
-      </View>
-    }
   if(this.state.CameraView){
 
   }
@@ -178,7 +107,15 @@ export default class CardScanner extends React.Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ImageBackground source={require('../Assets/1--Menu.png')} style={{ flex: 1 }}>
-         
+          <Spinner
+                        visible={this.state.animate}
+                        textContent={'Loading...'}
+                        overlayColor='rgba(0,0,0,0.5)'
+                        animation='fade'
+                        size='large'
+                        color='#f4347f'
+                        textStyle={styles.spinnerTextStyle}
+                    />
            <View style={{flex:0.2}}>
                                 <ImageBackground style={{ resizeMode: 'contain', width: width, height: 80, justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -218,7 +155,9 @@ export default class CardScanner extends React.Component {
           buttonNegative: 'Cancel',
           
         }}>
-        </RNCamera></View>:<View style={{
+        </RNCamera>
+        
+        </View>:<View style={{
     flex:1,
     borderStyle: 'dotted',
     borderWidth: 1,
@@ -239,10 +178,10 @@ alignItems:'center',justifyContent:'center',
                             </View>
 
                <View style={{ paddingTop: 35, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
-                    <TouchableOpacity onPress={() => this.Navigate()}>
+                    <TouchableOpacity onPress={() => this.state.CameraView?this.takePicture():this.Navigate()}>
                       <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
                         {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                        <Text style={{ color: 'white' }}>Next</Text>
+                        <Text style={{ color: 'white' }}>{this.state.CameraView?'Scan':'Next'}</Text>
                       </View>
                     </TouchableOpacity>
                   </View>
