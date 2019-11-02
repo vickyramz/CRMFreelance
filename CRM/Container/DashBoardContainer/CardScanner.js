@@ -2,7 +2,6 @@ import React from "react";
 import { View, Image, Text, BackHandler, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import{RNCamera} from 'react-native-camera'
-import RNTesseractOcr from 'react-native-tesseract-ocr';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import Spinner from 'react-native-loading-spinner-overlay';
