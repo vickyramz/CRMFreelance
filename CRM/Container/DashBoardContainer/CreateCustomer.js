@@ -160,9 +160,9 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
         </Dialog>              
 <Text style={{ fontSize: 17, color: '#fff',marginBottom:20,fontWeight:'bold'}}>Create Customer</Text>
                             <View style={{  flex: 1,backgroundColor: 'white', borderTopLeftRadius: 20, borderTopRightRadius: 20, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, padding: 20, }} >
-  <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginBottom: 20, marginEnd: 30, alignItems: 'center', paddingTop: 10 }}>
+  <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 10, marginBottom: 20, marginEnd: 10, alignItems: 'center', paddingTop: 10 }}>
 
-<View style={{ alignItems: 'flex-start', width: '80%' }}>
+<View style={{ alignItems: 'flex-start', width: '100%' }}>
     <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
         onChangeText={(text) => this.setState({ companyname: text })}
         value={this.state.companyname}
@@ -178,9 +178,9 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
 
                              
 
-                                <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+                                <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row',marginStart: 10, marginEnd: 10, marginBottom: 20, alignItems: 'center' }}>
 
-                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'space-around' }}>
+                                    <View style={{ alignItems: 'flex-start', width: '100%', justifyContent: 'space-around' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ contactperson: text })}
                                             value={this.state.contactperson} 
@@ -191,9 +191,9 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                         {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Shape-111.png')} /> */}
                                     </View>
                                 </KeyboardAvoidingView>
-   <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+   <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 10, marginEnd: 10, marginBottom: 20, alignItems: 'center' }}>
 
-                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'space-around' }}>
+                                    <View style={{ alignItems: 'flex-start', width: '100%', justifyContent: 'space-around' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                              onChangeText={(text) => this.setState({ address: text })}
                                             value={this.state.address}
@@ -204,9 +204,9 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                         {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Shape-111.png')} /> */}
                                     </View>
                                 </KeyboardAvoidingView>
-                                  <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+                                  <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 10, marginEnd: 10, marginBottom: 20, alignItems: 'center' }}>
 
-                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
+                                    <View style={{ alignItems: 'flex-start', width: '100%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                            onChangeText={(text) => this.setState({ mobileno: text })} keyboardType={'numeric'} maxLength={10} value={this.state.mobileno}
                                             placeholder='Mobile No' placeholderTextColor='grey'>
@@ -217,9 +217,9 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                     </View>
                                 </KeyboardAvoidingView>
 
-                      <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+                      <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row',marginStart: 10, marginEnd: 10, marginBottom: 20, alignItems: 'center' }}>
 
-                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
+                                    <View style={{ alignItems: 'flex-start', width: '100%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ phone_number: text })} keyboardType={'numeric'} maxLength={10}
                                             value={this.state.phone_number}
@@ -230,9 +230,9 @@ LoginAPI('http://got-crm.com/api/mobile/addCustomer.php',params,this.successCall
                                         {/* <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Forma-12.png')} /> */}
                                     </View>
                                 </KeyboardAvoidingView>
-                                                      <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 30, marginEnd: 30, marginBottom: 20, alignItems: 'center' }}>
+                                                      <KeyboardAvoidingView style={{ borderBottomWidth: 1, borderBottomColor: 'gray', flexDirection: 'row', marginStart: 10, marginEnd: 10, marginBottom: 20, alignItems: 'center' }}>
 
-                                    <View style={{ alignItems: 'flex-start', width: '80%', justifyContent: 'flex-start' }}>
+                                    <View style={{ alignItems: 'flex-start', width: '100%', justifyContent: 'flex-start' }}>
                                         <TextInput style={{ height: 40, fontWeight: 'bold', justifyContent: 'flex-start', width: '100%' }}
                                             onChangeText={(text) => this.setState({ email: text })}  maxLength={10}
                                             value={this.state.email}

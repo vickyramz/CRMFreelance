@@ -13,7 +13,7 @@ export default class Follow extends React.Component {
         constructor(props) {
             super(props)
             if (Platform.OS === 'android')
-            {
+             {
              UIManager.setLayoutAnimationEnabledExperimental(true)
              }
             this.state = {

@@ -13,8 +13,8 @@ export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      EmailAddress: 'gigatronics@gmail.com',
-      Password: 'giga@123',
+      EmailAddress: '',
+      Password: '',
        visible: true ,
        animate: false,
       webviewopen: false,
