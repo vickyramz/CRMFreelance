@@ -104,7 +104,7 @@ const BottomTab = createMaterialBottomTabNavigator(
           <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/offer.png')}></Image>
         ),
         activeColor: '#fff',  
-        inactiveColor: '#A9A9A92',  
+        inactiveColor: '#A9A9A9',  
         barStyle: { backgroundColor: '#FD325F' },  
       }
     },
@@ -118,7 +118,7 @@ const BottomTab = createMaterialBottomTabNavigator(
           <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/man-user.png')}></Image>
         ),
         activeColor: '#fff',  
-        inactiveColor: '#A9A9A92',  
+        inactiveColor: '#A9A9A9',  
         barStyle: { backgroundColor: '#FF643C' },  
       }
     },

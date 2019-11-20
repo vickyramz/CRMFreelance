@@ -4,6 +4,9 @@ import { TextInput, ScrollView } from "react-native-gesture-handler";
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
+import Carousel, { Pagination } from 'react-native-snap-carousel';
+import RNSpeedometer from 'react-native-speedometer'
+import CheckBox from 'react-native-check-box'
 import ImagePicker from 'react-native-image-picker';
 import { PieChart } from 'react-native-svg-charts'
 import {
@@ -83,11 +86,71 @@ export default class HomeScreen extends React.Component {
     this.state = ({
       categories:[],
       dataSourceBills:{},
+      isChecked:true,
+      value: 50,
+      values:20,
+      labels: [
+        {
+          name: 'Too Slow',
+          labelColor: '#ff2900',
+          activeBarColor: '#ff2900',
+        },
+        {
+          name: 'Very Slow',
+          labelColor: '#ff5400',
+          activeBarColor: '#ff5400',
+        },
+        {
+          name: 'Slow',
+          labelColor: '#f4ab44',
+          activeBarColor: '#f4ab44',
+        },
+        {
+          name: 'Normal',
+          labelColor: '#f2cf1f',
+          activeBarColor: '#f2cf1f',
+        },
+        {
+          name: 'Fast',
+          labelColor: '#14eb6e',
+          activeBarColor: '#14eb6e',
+        },
+        {
+          name: 'Unbelievably Fast',
+          labelColor: '#00ff6b',
+          activeBarColor: '#00ff6b',
+        },
+      ],
+      carouselItems: [
+        {
+
+         // ShadowImages: require('./assets/etherem.png'),
+
+          title: "Early Morning",
+          description:'This is the Notification ',
+          backgroundColor:'#FD325F',
+        },
+        {
+         // ShadowImages: require('./assets/bshadow.png'),
+         title: "Early Morning",
+         description:'This is the Notification ',
+         backgroundColor:'#FF643C',
+        },
+         {
+          // ShadowImages:require('./assets/bitwingslogowallet.png'),
+          title: "Early Morning",
+          description:'This is the Notification ',
+          backgroundColor:'#E8B212',
+         }
+
+      ]
+    ,
       pie:[],
       ReceivedPayment:'',
       status:'',
       Values:{},
       EmailAddress: '',
+      activeSlide:0,
       Password: '',
       animate: false,
       webviewopen: false,
@@ -113,6 +176,39 @@ export default class HomeScreen extends React.Component {
     this.Load()
     LoginAPI('http://got-crm.com/api/mobile/dashboard.php','',this.successcallback,this.error,this.networkissue)
   }
+  _renderItem({ item, index }) {
+    return (
+      <View style={{ width:300,height:100,backgroundColor:item.backgroundColor,borderWidth:1,borderColor:'#A9A9A9' ,borderRadius:10,justifyContent:'center',padding:10,alignItems:'center',opacity:0.9}}>
+        <Text style={{ color: '#fff', marginTop: 10,fontWeight:'bold' }} >{item.title}</Text>
+        <Text style={{ color: '#fff', marginTop: 2 }} >{item.description}</Text>
+        {/* <Image style={{ width: 100, height: 100, resizeMode: 'contain' }}
+          source={item.ShadowImages}
+        /> */}
+      </View>
+    )
+  }
+  get pagination () {
+    const { carouselItems, activeSlide } = this.state;
+    return (
+        <Pagination
+          dotsLength={carouselItems.length}
+          activeDotIndex={activeSlide}
+          containerStyle={{ backgroundColor: 'transparent)' }}
+          dotStyle={{
+              width: 10,
+              height: 10,
+              borderRadius: 5,
+              marginHorizontal: 2,
+              backgroundColor: '#FD325F'
+          }}
+          inactiveDotStyle={{
+              // Define styles for inactive dots here
+          }}
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
+    );
+}
   successcallback=async(data)=>{
   console.log('Login--->',data)
     this.Hide()
@@ -153,6 +249,12 @@ export default class HomeScreen extends React.Component {
   Load=()=>{
     this.setState({animate:true})
   }
+  Remeberme = async () => {
+    this.setState({
+      isChecked: !this.state.isChecked
+    })
+
+  }
   Hide=()=>{
     this.setState({animate:false})
   }
@@ -191,13 +293,11 @@ export default class HomeScreen extends React.Component {
   
     return (
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={{ flex: 1 ,backgroundColor:'#eeeeee'}}>
-        
-         
-           <View>
-                                <ImageBackground imageStyle={{titntColor:'#FF2E51'}} style={{ resizeMode: 'contain', width: width, height: 80, titntColor:'#FF2E51',justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
-
-                                       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+      
+      <View style={{ flex: 1}}>
+      <View style={{flex:0.13}}>
+                                <View style={{backgroundColor:'#FD325F',justifyContent:'center',height:60}} >
+                                       <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
                       <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
@@ -205,156 +305,103 @@ export default class HomeScreen extends React.Component {
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color: '#fff', textAlign: 'center',marginLeft:-20 }}>Home</Text>
+                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Auto RSP</Text>
                     </View>
-                    <View style={{ justifyContent: "center", alignItems: 'center', flexDirection: 'row', justifyContent: 'space-around' }}>
-           
-
-                    </View>
-           
+                    <View >
+                        <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
+                      </View>
                   </View>
-                                </ImageBackground>
+                                </View>
                             </View>
-                            <ScrollView contentContainerStyle={{paddingBottom:20}} style={{flex:1}}>
-<View style={{flex:1,}}>
-<Spinner
-            visible={this.state.animate}
-            textContent={'Loading...'}
-            overlayColor='rgba(0,0,0,0)'
-            animation='fade'
-            size='large'
-            color='#f4347f'
-            textStyle={styles.spinnerTextStyle}
-          />
-<Text style={{color:'#16a086',fontWeight:'bold',padding:10}}> Bills</Text>
-  <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20}}>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Today</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.dataSourceBills.today}</Text>
-
-    </View>
-  
-
-</View>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Week</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.dataSourceBills.week}</Text>
-
-    </View>
-  
-
-</View>
-
-  </View>
-  <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20,paddingTop:10}}>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Month</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.dataSourceBills.month}</Text>
-
-    </View>
-  
-
-</View>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Year</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.dataSourceBills.year}</Text>
-
-    </View>
-  
-
-</View>
-
-  </View>
-  
-<Text style={{color:'#eeae44',fontWeight:'bold',padding:10}}> Values</Text>
-
-
-<View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20}}>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Today</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.Values.today}</Text>
-
-    </View>
-  
-
-</View>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Week</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.Values.week}</Text>
-
-    </View>
-  
-
-</View>
-
-  </View>
-  <View style={{borderRadius:10,flexDirection:'row',justifyContent:'space-around',paddingLeft:20,paddingRight:20,paddingTop:10}}>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Month</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.Values.month}</Text>
-
-    </View>
-  
-
-</View>
-
-<View style={{width:150,height:100,borderRadius:10,borderColor:'#cfcfcf',backgroundColor:'#fff',justifyContent:'center',borderWidth:1}}>
-  
-    <View style={{justifyContent:'center',alignItems:'center'}}>
-    <Text style={{color:'#000',textAlign:'center',fontSize:15}}>Year</Text>
-    <Text style={{color:'#000',textAlign:'center',fontWeight:'bold',fontSize:18}}>{this.state.Values.year}</Text>
-
-    </View>
-  
-
-</View>
-</View>
-  <View style={{flex:0.5,backgroundColor:'#eeeeee',marginTop:30}}>
-    
-  <View style={{flex:1,justifyContent:'space-around',padding:20,flexDirection:'row'}}>
-  <View style={{flex:0.5,backgroundColor:'#eeae44',height:80,padding:10,justifyContent:'space-around'}}>
-  <Text style={{color:'#fff',textAlign:'center',fontWeight:'bold',fontSize:16}}>{this.state.ReceivedPayment}</Text>
-    <Text style={{color:'#fff',textAlign:'center'}}>Payment Received</Text>
-   
-    </View>
-    <View style={{flex:0.5,backgroundColor:'#16a086',height:80,padding:10,justifyContent:'space-around'}}>
-    <Text style={{color:'#fff',textAlign:'center'}}>Status</Text>
-    <Text style={{color:'#fff',textAlign:'center',fontWeight:'bold',fontSize:16}}>{this.state.status==0?'Completed':'Pending'}</Text>
-    </View>
-
-  </View>
- 
-</View>
-</View>
-<View style={{backgroundColor:'transparent',borderRadius:10,marginLeft:10}}>
-<Text style={{color:'#000',fontWeight:'bold',padding:10}}> Sales and Reports</Text>
-<PieChart style={{ height: 250 }} data={pieData} />
-{this.renderCategories()}
-</View>
-</ScrollView>        
-        
-        </View>
+        <View style={{padding:10,flex:0.87}}>
+          <View>
+          <Carousel
+                data={this.state.carouselItems}
+                sliderWidth={width}
+                itemWidth={300}
+                Pagination={true}
+                renderItem={this._renderItem}
+                onSnapToItem={(index) => this.setState({ activeSlide: index }) }
+                inactiveSlideOpacity={0.5}
+                loop={true}
+                autoplay={true}
+               // onSnapToItem={(index) => this.action(index)}
+              />
+              { this.pagination }
+          </View>
+              <View style={{flexDirection:'row',padding:10,justifyContent:'space-between'}}>
+              <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Auto RSP</Text>
+              <View style={{flexDirection:'row'}}> 
+              <View style={{justifyContent:'center',alignItems:'center'}}>
+              <Image style={{ resizeMode: 'contain', width: 15, height: 15,tintColor:'#FD325F' }} source={require('../Assets/refresh-button.png')}></Image>
+              </View>
+             
+              <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Last Updated Date 20/11/2017</Text>
+              </View>
+            
+              </View>
+              <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15}}>
+              <View >
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>Product</Text>
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>1</Text>
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center',marginTop:10}}>2</Text>
+              </View>
+              
+           
+              <View >
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>RSP</Text>
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>86.78</Text>
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center',marginTop:10}}>86.000</Text>
+              </View>
+              
+              <View >
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>RSP Received</Text>
+              <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
+                      <CheckBox
+                        checkBoxColor='#FD325F'
+                        onClick={() => this.Remeberme(this)}
+                        isChecked={this.state.isChecked}
+                      />
+                  
+                    </View>
+                    <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
+                      <CheckBox
+                        checkBoxColor='#FD325F'
+                        onClick={() => this.Remeberme(this)}
+                        isChecked={this.state.isChecked}
+                      />
+                  
+                    </View>
+                    
+              </View>
+              
+              <View >
+              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>RSP Puplished</Text>
+              <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
+                      <CheckBox
+                        checkBoxColor='#FD325F'
+                        onClick={() => this.Remeberme(this)}
+                        isChecked={this.state.isChecked}
+                      />
+                  
+                    </View>
+                    <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
+                      <CheckBox
+                        checkBoxColor='#FD325F'
+                        onClick={() => this.Remeberme(this)}
+                        isChecked={this.state.isChecked}
+                      />
+                  
+                    </View>
+              </View>
+              
+            </View>
+              <View style={{marginTop:30,justifyContent:'space-around',flexDirection:'row'}}>
+             <RNSpeedometer labels={this.state.labels} value={this.state.value} size={150}/>
+             <RNSpeedometer labels={this.state.labels} value={this.state.values} size={150}/>
+             </View>
+              </View>
+            </View>
       </SafeAreaView>
     );
   }
