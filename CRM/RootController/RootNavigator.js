@@ -13,6 +13,8 @@ import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import CardScanner from '../Container/DashBoardContainer/CardScanner'
 import Follow from '../Container/DashBoardContainer/Follow'
 import Enquiry from '../Container/DashBoardContainer/Enquiry'
+import Icon from 'react-native-vector-icons/Ionicons';
+import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import CreateCustomer from '../Container/DashBoardContainer/CreateCustomer'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
@@ -90,9 +92,60 @@ const HomeTab = createStackNavigator(
     },
   }
 );
+const BottomTab = createMaterialBottomTabNavigator(
+  {
+    Home: {
+      screen: HomeTab,
+      navigationOptions: {
+        title: 'Auto RSP',
+        tabBarLabel: 'Auto RSP',
 
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/offer.png')}></Image>
+        ),
+        activeColor: '#fff',  
+        inactiveColor: '#A9A9A92',  
+        barStyle: { backgroundColor: '#FD325F' },  
+      }
+    },
+    Profile: {
+      screen: HomeTab,
+      navigationOptions: {
+        title: 'Profile',
+        tabBarLabel: 'Profile',
+
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/man-user.png')}></Image>
+        ),
+        activeColor: '#fff',  
+        inactiveColor: '#A9A9A92',  
+        barStyle: { backgroundColor: '#FF643C' },  
+      }
+    },
+    Settings: {
+      screen: HomeTab,
+      navigationOptions: {
+        title: 'Settings',
+        tabBarLabel: 'Settings',
+
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/settings-gears.png')}></Image>
+        ),
+        activeColor: '#fff',  
+        inactiveColor: '#A9A9A9',  
+        barStyle: { backgroundColor: '#E8B212' },  
+      }
+    },
+  },
+  // {
+  //   initialRouteName: 'Home',
+  //   activeColor: '#fff',
+  //   inactiveColor: '#A9A9A92',
+  //   barStyle: { backgroundColor: '#FD325F' },
+  // }
+);
 const Drawer = createDrawerNavigator({
-  Tabs: { screen: HomeTab },
+  Tabs: { screen: BottomTab },
 
 }, {
   contentComponent: SideMenu,

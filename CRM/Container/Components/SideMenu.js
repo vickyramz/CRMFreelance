@@ -26,32 +26,32 @@ export default class SideMenu extends React.Component {
       status:false,
       ListItems: [
 
+        // {
+        //   id: 1,
+        //   Title: 'Home',
+
+        // images: require('../Assets/home.png')
+        // },
         {
           id: 1,
-          Title: 'Home',
-
-        images: require('../Assets/home.png')
-        },
-        {
-          id: 2,
-          Title: 'Follow-ups',
+          Title: 'Auto RSP',
 
           images: require('../Assets/influencer.png')
         },
         {
-          id: 3,
-          Title: 'Enquiries',
+          id: 2,
+          Title: 'Payment Mode',
 
           images: require('../Assets/call.png')
         },
         {
-          id: 4,
-          Title: 'Card Scanner',
+          id: 3,
+          Title: 'Alarms',
 
           images: require('../Assets/credit-card.png')
         },
         {
-          id: 5,
+          id: 4,
           Title: 'LogOut',
 
          // images: require('../Assets/nummenu.png')
@@ -164,7 +164,7 @@ export default class SideMenu extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.MainContainer}>
-          <ImageBackground source={require('../Assets/1--Menu.png')} style={styles.MainContainer}>
+          <ImageBackground source={require('../Assets/petrol.png')} style={styles.MainContainer}>
       <View style={{flex:0.05}}></View>
             <View style={{ flex: 0.95}}>
             <FlatList

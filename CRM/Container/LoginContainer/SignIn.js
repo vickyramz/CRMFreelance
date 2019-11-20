@@ -133,11 +133,13 @@ _onPressHandler() {
     this.loadingButton.showLoading(true);
   
     // mock
-    setTimeout(() => {
-      this.loadingButton.showLoading(false);
-    }, 2000);
+    setTimeout(this.nav,2000);
     
 }
+
+}
+nav=()=>{
+  this.props.navigation.navigate('Home')
 }
 LoginStatic=()=>{
   this.setState({color:'#6BAD00',image:require('../Assets/success.png'),animate:true})

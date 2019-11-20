@@ -195,7 +195,7 @@ export default class HomeScreen extends React.Component {
         
          
            <View>
-                                <ImageBackground style={{ resizeMode: 'contain', width: width, height: 80, justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
+                                <ImageBackground imageStyle={{titntColor:'#FF2E51'}} style={{ resizeMode: 'contain', width: width, height: 80, titntColor:'#FF2E51',justifyContent: 'flex-start', padding: 10 }} source={require('../Assets/menu.png')}>
 
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
