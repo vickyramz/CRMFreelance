@@ -5,6 +5,7 @@ import WebViewComponent from '../Components/WebViewComponent'
 import { WebView } from 'react-native-webview';
 import {LoginAPI} from '../API/PostApi'
 import Spinner from 'react-native-loading-spinner-overlay';
+import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { NavigationActions, StackActions } from 'react-navigation'
 import {Base_URL,LoginUrl} from '../API/RequestUrl'
 import SplashScreen from 'react-native-splash-screen'
@@ -24,7 +25,61 @@ export default class SignIn extends React.Component {
 
   componentDidMount() {
     SplashScreen.hide();
+    GoogleSignin.configure({
+      scopes: ['https://www.googleapis.com/auth/drive.readonly'], webClientId: '1016162784235-1hnu6qmfdtk6liolvor5lc24q37mm8cv.apps.googleusercontent.com', 
+      offlineAccess: true, 
+      hostedDomain: '', 
+      loginHint: '', 
+      forceConsentPrompt: true, 
+      accountName: '',
+      iosClientId: 'XXXXXX-krv1hjXXXXXXp51pisuc1104q5XXXXXXe.apps.googleusercontent.com'
+      });
   }
+  _signIn = async () => {
+    try {
+    //  Alert.alert('User Info','')
+
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      //this.setState({ userInfo: userInfo, loggedIn: true });
+      Alert.alert('User Info',userInfo.idToken)
+    } catch (error) {
+      Alert.alert('User Info',error.code)
+
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // user cancelled the login flow
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // operation (f.e. sign in) is in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // play services not available or outdated
+      } else {
+        // some other error happened
+      }
+    }
+  };
+  getCurrentUserInfo = async () => {
+    try {
+      const userInfo = await GoogleSignin.signInSilently();
+      this.setState({ userInfo });
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+        // user has not signed in yet
+        this.setState({ loggedIn: false });
+      } else {
+        // some other error
+        this.setState({ loggedIn: false });
+      }
+    }
+  };
+  signOut = async () => {
+    try {
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      this.setState({ user: null, loggedIn: false }); // Remember to remove the user from your app's state as well
+    } catch (error) {
+      console.error(error);
+    }
+  };
 Navigate=()=>{
   if(this.state.EmailAddress==''){
     Alert.alert('Alert','please Enter email')
@@ -83,13 +138,13 @@ hideSpinner=()=> {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          <ImageBackground source={require('../Assets/1--Menu.png')} style={{ flex: 1 }}>
+          <ImageBackground source={require('../Assets/petrol.png')} style={{ flex: 1 }}>
           <Spinner
             visible={this.state.animate}
             textContent={'sign In...'}
             overlayColor='rgba(0,0,0,0.5)'
             animation='fade'
-            size='large'
+            size='large'   
             color='#f4347f'
             textStyle={styles.spinnerTextStyle}
           />
@@ -160,12 +215,17 @@ hideSpinner=()=> {
                 </View>
               </View>
             </View>
-            <View style={{ flex: 0.2, marginBottom: 10, alignItems: 'flex-end', marginRight: 30 }}>
+            <View style={{ flex: 0.2,marginRight: 30,justifyContent:'flex-start',alignItems:'center' }}>
               <View style={{ flexDirection: 'row' }}>
-                {/* <Image source={require('../Assets/applogo.png')} style={{ width: '40%', height: 80, resizeMode: 'contain', alignItems: 'flex-end', justifyContent: 'flex-end' }}> */}
-                {/* </Image> */}
+              <GoogleSigninButton
+style={{ width: '90%', height: 50,marginLeft:30 }}
+size={GoogleSigninButton.Size.Wide}
+color={GoogleSigninButton.Color.Dark}
+onPress={this._signIn}
+disabled={this.state.isSigninInProgress} />
               </View>
             </View>
+           
           </ImageBackground>
         </View>
       </SafeAreaView>
