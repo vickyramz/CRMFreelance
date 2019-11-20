@@ -5,8 +5,10 @@ import WebViewComponent from '../Components/WebViewComponent'
 import { WebView } from 'react-native-webview';
 import {LoginAPI} from '../API/PostApi'
 import Spinner from 'react-native-loading-spinner-overlay';
+import AnimateLoadingButton from 'react-native-animate-loading-button';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { NavigationActions, StackActions } from 'react-navigation'
+import Snackbar from '../Components/Snackbar'
 import {Base_URL,LoginUrl} from '../API/RequestUrl'
 import SplashScreen from 'react-native-splash-screen'
 export default class SignIn extends React.Component {
@@ -17,6 +19,10 @@ export default class SignIn extends React.Component {
       EmailAddress: '',
       Password: '',
        visible: true ,
+       color:'#EB6A00',
+       image:require('../Assets/warning.png'),
+       ShowAlert:false,
+       alert:'',
        animate: false,
       webviewopen: false,
       externalLink: '',
@@ -80,23 +86,62 @@ export default class SignIn extends React.Component {
       console.error(error);
     }
   };
+  hidebar=()=>
+  {
+    this.setState({ShowAlert:false})
+  }
+  showbar=(msg)=>
+  {
+    this.setState({ShowAlert:true,alert:msg})
+  }
 Navigate=()=>{
   if(this.state.EmailAddress==''){
-    Alert.alert('Alert','please Enter email')
+    //Alert.alert('Alert','please Enter email')
+    this.showbar('please Enter email')
   }
  else if(this.state.Password==''){
-    Alert.alert('Alert','please Enter Password')
+  this.showbar('please Enter Password')
   }
   else{
     let params={
       user_name:this.state.EmailAddress,
       user_pass:this.state.Password
     }
-    this.Load()
-    LoginAPI('http://got-crm.com/api/mobile/userAuth.php',params,this.successcallback,this.error,this.networkissue)
+    
+    this.LoginStatic()
+   // LoginAPI('http://got-crm.com/api/mobile/userAuth.php',params,this.successcallback,this.error,this.networkissue)
   }
 
   //this.props.navigation.navigate('Dashboard')
+}
+_onPressHandler() {
+  if(this.state.EmailAddress==''){
+    //Alert.alert('Alert','please Enter email')
+    this.showbar('please Enter email')
+  }
+ else if(this.state.Password==''){
+  this.showbar('please Enter Password')
+  }
+  else{
+    let params={
+      user_name:this.state.EmailAddress,
+      user_pass:this.state.Password
+      
+    }
+    this.setState({color:'#6BAD00',image:require('../Assets/success.png')})
+    this.showbar('Login Success')
+    this.loadingButton.showLoading(true);
+  
+    // mock
+    setTimeout(() => {
+      this.loadingButton.showLoading(false);
+    }, 2000);
+    
+}
+}
+LoginStatic=()=>{
+  this.setState({color:'#6BAD00',image:require('../Assets/success.png'),animate:true})
+  this.showbar('Login Success')
 }
 successcallback=async(data)=>{
   //console.log('Login Response--->',data)
@@ -124,7 +169,7 @@ Hide=()=>{
 }
 error=(error)=>{
   this.Hide()
-  Alert.alert(error.status,error.message)
+  this.showbar('Invalid credentials')
 }
 networkissue=(error)=>{
   Alert.alert('Failure',error)
@@ -139,15 +184,8 @@ hideSpinner=()=> {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
           <ImageBackground source={require('../Assets/petrol.png')} style={{ flex: 1 }}>
-          <Spinner
-            visible={this.state.animate}
-            textContent={'sign In...'}
-            overlayColor='rgba(0,0,0,0.5)'
-            animation='fade'
-            size='large'   
-            color='#f4347f'
-            textStyle={styles.spinnerTextStyle}
-          />
+          <Snackbar Visible={this.state.ShowAlert} color={this.state.color} image={this.state.image} alert={this.state.alert}></Snackbar>
+          
             <View style={{ flex: 0.8, justifyContent: 'center' }}>
               <View style={{ paddingTop: 30, paddingLeft: 30, paddingRight: 30, paddingBottom: 20 }}>
                 <Text style={{ color: 'white', fontSize: 30 }}>Sign in</Text>
@@ -159,7 +197,7 @@ hideSpinner=()=> {
 
                     <View style={{ width: '80%' }}>
                       <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start' }}
-                        onChangeText={(text) => this.setState({ EmailAddress: text })}
+                        onChangeText={(text) => this.setState({ EmailAddress: text ,ShowAlert:false})}
                         value={this.state.EmailAddress}
                         placeholder='Email address' placeholderTextColor='black'>
                       </TextInput>
@@ -173,7 +211,7 @@ hideSpinner=()=> {
 
                     <View style={{ width: '80%' }}>
                       <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start' }}
-                        onChangeText={(text) => this.setState({ Password: text })} secureTextEntry={true}
+                        onChangeText={(text) => this.setState({ Password: text ,ShowAlert:false})} secureTextEntry={true}
                         value={this.state.Password}
                         placeholder='Password' placeholderTextColor='black'>
                       </TextInput>
@@ -191,17 +229,30 @@ hideSpinner=()=> {
                     </TouchableOpacity> */}
                   </View>
                   <View style={{ paddingTop: 10, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
-                    <TouchableOpacity onPress={() => this.Navigate()}>
-                      <View style={{ height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: 10, backgroundColor: '#0a70ff', flexDirection: 'row', }}>
-                        {/* <Image source={require('../Assets/Shape-1.png')} style={{ width: 15, height: 15, marginRight: 10 }} /> */}
-                        <Text style={{ color: 'white' }}>SIGN IN</Text>
-                      </View>
-                    </TouchableOpacity>
+                  <AnimateLoadingButton
+          ref={c => (this.loadingButton = c)}
+          width={200}
+          height={50}
+          title="sign In"
+          titleFontSize={16}
+          titleColor="#fff"
+          backgroundColor="#FF2E51"
+          borderRadius={10}
+          onPress={this._onPressHandler.bind(this)}
+        />
                   </View>
                   <View style={{ justifyContent: 'center', alignItems: 'center', }}>
                     <Text numberOfLines={1} style={{ fontSize: 8 }}>For any assistance please contact our Customer Care 800 11 800 10</Text>
                   </View>
-
+                  <Spinner
+            visible={this.state.animate}
+            textContent={'sign In...'}
+            overlayColor='rgba(0,0,0,0.5)'
+            animation='fade'
+            size='large'   
+            color='#f4347f'
+            textStyle={styles.spinnerTextStyle}
+          />
                   <View style={{ justifyContent: 'center', alignItems: 'center', paddingTop: 50 }}>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Signup')}>
                       {/* <TouchableOpacity onPress={() =>Alert.alert('Coming Soon','This feature will be available very soon')}> */}
