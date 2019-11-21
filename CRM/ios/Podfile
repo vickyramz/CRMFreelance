@@ -41,7 +41,6 @@ target 'CRM' do
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
 
-  pod 'RNImgToBase64', :path => '../node_modules/react-native-image-base64'
 
   pod 'react-native-image-picker', :path => '../node_modules/react-native-image-picker'
 

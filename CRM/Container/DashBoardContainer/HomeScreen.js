@@ -294,7 +294,7 @@ export default class HomeScreen extends React.Component {
         }))
   
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 ,}}>
       
       <View style={{ flex: 1}}>
       <View style={{flex:0.11}}>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, BackHandler, ImageBackground, TouchableOpacity, StyleSheet, AsyncStorage, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+import { View, Image, Text, BackHandler, ImageBackground,Keyboard,  TouchableOpacity, StyleSheet, AsyncStorage, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import WebViewComponent from '../Components/WebViewComponent'
 import { WebView } from 'react-native-webview';
@@ -39,7 +39,7 @@ export default class SignIn extends React.Component {
       loginHint: '', 
       forceConsentPrompt: true, 
       accountName: '',
-      iosClientId: 'XXXXXX-krv1hjXXXXXXp51pisuc1104q5XXXXXXe.apps.googleusercontent.com'
+      iosClientId: '1016162784235-2b64s8hgrin19d854mc8b14rc1bal8c0.apps.googleusercontent.com'
       });
   }
   _signIn = async () => {
@@ -49,9 +49,9 @@ export default class SignIn extends React.Component {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       //this.setState({ userInfo: userInfo, loggedIn: true });
-      Alert.alert('User Info',userInfo.idToken)
+      Alert.alert('User Info','success')
     } catch (error) {
-      Alert.alert('User Info',error.code)
+      Alert.alert('User error',error.code)
 
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -116,6 +116,7 @@ Navigate=()=>{
   //this.props.navigation.navigate('Dashboard')
 }
 _onPressHandler() {
+  Keyboard.dismiss()
   if(this.state.EmailAddress==''){
     //Alert.alert('Alert','please Enter email')
     this.showbar('please Enter email')
@@ -184,7 +185,7 @@ hideSpinner=()=> {
  
 
     return (
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1,backgroundColor:'#FD325F' }}>
         <View style={{ flex: 1 }}>
         <LinearGradient
   colors= {['#FD325F','#fd3280','#fd32a8']} style={{flex:1}}> 
@@ -192,36 +193,36 @@ hideSpinner=()=> {
           
             <View style={{ flex: 0.8, justifyContent: 'center' }}>
               <View style={{ paddingTop: 30, paddingLeft: 30, paddingRight: 30, paddingBottom: 20 }}>
-                <Text style={{ color: 'white', fontSize: 30 }}>Sign in</Text>
+                <Text style={{ color: 'white', fontWeight:'bold' ,fontSize:25}}>Sign in</Text>
                 <Text style={{ color: 'white', fontSize: 14 }}>Log in with an existing account</Text>
               </View>
               <View >
-                <View style={{ borderRadius: 10, backgroundColor: '#fff', padding: 30, marginLeft: 30, marginRight: 30 }}>
-                  <KeyboardAvoidingView style={{ borderBottomWidth: 0.5, borderBottomColor: '#919191', flexDirection: 'row', justifyContent: 'space-between' }}>
+                <View style={{ borderRadius: 10, backgroundColor: 'transparent', padding: 30, marginLeft: 30, marginRight: 30 }}>
+                  <KeyboardAvoidingView style={{ borderBottomWidth: 0.5, borderBottomColor: '#fff', flexDirection: 'row', justifyContent: 'space-between' }}>
 
                     <View style={{ width: '80%' }}>
-                      <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start' }}
+                      <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start',color:'#fff' }}
                         onChangeText={(text) => this.setState({ EmailAddress: text ,ShowAlert:false})}
                         value={this.state.EmailAddress}
-                        placeholder='Email address' placeholderTextColor='black'>
+                        placeholder='Email address' placeholderTextColor='#fff'>
                       </TextInput>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center', }}>
-                      <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Icon---Username.png')} />
+                      <Image style={{ width: 20, height: 20, resizeMode: 'contain',tintColor:'#fff' }} source={require('../Assets/Icon---Username.png')} />
                     </View>
                   </KeyboardAvoidingView>
 
-                  <KeyboardAvoidingView style={{ borderBottomWidth: 0.5, borderBottomColor: '#919191', flexDirection: 'row', alignItems: 'center', paddingTop: 20, justifyContent: 'space-between' }}>
+                  <KeyboardAvoidingView style={{ borderBottomWidth: 0.5, borderBottomColor: '#fff', flexDirection: 'row', alignItems: 'center', paddingTop: 20, justifyContent: 'space-between' }}>
 
                     <View style={{ width: '80%' }}>
-                      <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start' }}
+                      <TextInput style={{ height: 40, width: '100%', justifyContent: 'flex-start',color:'#fff' }}
                         onChangeText={(text) => this.setState({ Password: text ,ShowAlert:false})} secureTextEntry={true}
                         value={this.state.Password}
-                        placeholder='Password' placeholderTextColor='black'>
+                        placeholder='Password' placeholderTextColor='#fff'>
                       </TextInput>
                     </View>
                     <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-                      <Image style={{ width: 20, height: 20, resizeMode: 'contain' }} source={require('../Assets/Icon---Password.png')} />
+                      <Image style={{ width: 20, height: 20, resizeMode: 'contain',tintColor:'#fff' }} source={require('../Assets/Icon---Password.png')} />
                     </View>
                   </KeyboardAvoidingView>
                   <View style={{ justifyContent: 'space-between', flexDirection: 'row', paddingTop: 30 }}>
@@ -239,14 +240,14 @@ hideSpinner=()=> {
           height={50}
           title="sign In"
           titleFontSize={16}
-          titleColor="#fff"
-          backgroundColor="#FF2E51"
+          titleColor="#000"
+          backgroundColor="#E1E100"
           borderRadius={10}
           onPress={this._onPressHandler.bind(this)}
         />
                   </View>
                   <View style={{ justifyContent: 'center', alignItems: 'center', }}>
-                    <Text numberOfLines={1} style={{ fontSize: 8 }}>For any assistance please contact our Customer Care 800 11 800 10</Text>
+                    <Text numberOfLines={1} style={{ fontSize: 8,color:'#fff' }}>For any assistance please contact our Customer Care 800 11 800 10</Text>
                   </View>
                   <Spinner
             visible={this.state.animate}
