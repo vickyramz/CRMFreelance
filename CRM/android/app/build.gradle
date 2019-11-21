@@ -188,6 +188,7 @@ keyPassword MYAPP_RELEASE_KEY_PASSWORD}}
 }
 
 dependencies {
+    implementation project(':react-native-linear-gradient')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-google-signin')
     implementation project(':react-native-image-resizer')

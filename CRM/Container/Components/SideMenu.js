@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, UIManager, Linking, AsyncStorage, Platfo
 var height = Dimensions.get('window').height; //full height
 var width = Dimensions.get('window').width; //full height
 let uname, firstname, lastName;
+import LinearGradient from 'react-native-linear-gradient';
 import { NavigationActions ,StackActions} from 'react-navigation'
 const shareOptions = {
   title: 'Share via',
@@ -164,7 +165,9 @@ export default class SideMenu extends React.Component {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.MainContainer}>
-          <ImageBackground source={require('../Assets/petrol.png')} style={styles.MainContainer}>
+        <LinearGradient
+  colors= {['#FD325F','#fd3280','#fd32a8']} style={{flex:1}}> 
+         
       <View style={{flex:0.05}}></View>
             <View style={{ flex: 0.95}}>
             <FlatList
@@ -175,8 +178,9 @@ export default class SideMenu extends React.Component {
 
               />
                       
-            </View>
-          </ImageBackground>
+           
+          </View>
+          </LinearGradient>
         </View>
       </SafeAreaView>
     );

@@ -1,12 +1,14 @@
 import React from "react";
-import { View, Image, Text, BackHandler,AsyncStorage, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
-import { TextInput, ScrollView } from "react-native-gesture-handler";
+import { View, Image, Text, ScrollView,TouchableHighlight,AsyncStorage, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import RNSpeedometer from 'react-native-speedometer'
+import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box'
+import Wave from 'react-native-waveview'
 import ImagePicker from 'react-native-image-picker';
 import { PieChart } from 'react-native-svg-charts'
 import {
@@ -178,7 +180,7 @@ export default class HomeScreen extends React.Component {
   }
   _renderItem({ item, index }) {
     return (
-      <View style={{ width:300,height:100,backgroundColor:item.backgroundColor,borderWidth:1,borderColor:'#A9A9A9' ,borderRadius:10,justifyContent:'center',padding:10,alignItems:'center',opacity:0.9}}>
+      <View style={{ width:300,height:80,backgroundColor:item.backgroundColor,borderWidth:1,borderColor:'#A9A9A9' ,borderRadius:10,justifyContent:'center',padding:10,alignItems:'center',opacity:0.9}}>
         <Text style={{ color: '#fff', marginTop: 10,fontWeight:'bold' }} >{item.title}</Text>
         <Text style={{ color: '#fff', marginTop: 2 }} >{item.description}</Text>
         {/* <Image style={{ width: 100, height: 100, resizeMode: 'contain' }}
@@ -295,7 +297,7 @@ export default class HomeScreen extends React.Component {
       <SafeAreaView style={{ flex: 1 }}>
       
       <View style={{ flex: 1}}>
-      <View style={{flex:0.13}}>
+      <View style={{flex:0.11}}>
                                 <View style={{backgroundColor:'#FD325F',justifyContent:'center',height:60}} >
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
@@ -313,7 +315,12 @@ export default class HomeScreen extends React.Component {
                   </View>
                                 </View>
                             </View>
-        <View style={{padding:10,flex:0.87}}>
+        <View style={{flex:0.89}}>
+         
+          <LinearGradient
+  colors= {['#FFFFFF','#DFE1ED','#CCCFE2']} style={{flex:1}}>   
+         <ScrollView style={{flex:1}}>
+          <View style={{flex:1}}>
           <View>
           <Carousel
                 data={this.state.carouselItems}
@@ -400,6 +407,43 @@ export default class HomeScreen extends React.Component {
              <RNSpeedometer labels={this.state.labels} value={this.state.value} size={150}/>
              <RNSpeedometer labels={this.state.labels} value={this.state.values} size={150}/>
              </View>
+             <View style={{marginVertical: 10,
+        marginHorizontal: 20,
+        justifyContent: 'center',
+       
+        alignItems: 'center',
+       }} >
+    <TouchableHighlight onPress={()=>{
+        // Stop Animation
+      //  this._waveRect && this._waveRect.stopAnim();
+
+        // set water baseline height
+        this._waveRect && this._waveRect.setWaterHeight(70);
+
+        // reset wave effect
+        this._waveRect && this._waveRect.setWaveParams([
+            {A: 10, T: 180, fill: '#FF9F2E'},
+            {A: 15, T: 140, fill: '#FF643C'},
+            {A: 20, T: 100, fill: '#B36100'},
+        ]);
+    }}>
+    <Wave
+        ref={ref=>this._waveRect = ref}
+        style={styles.wave}
+        H={70}
+        waveParams={[
+            {A: 10, T: 180, fill: '#E8B212'},
+            {A: 15, T: 140, fill: '#FD325F'},
+            {A: 20, T: 100, fill: '#FF643C'},
+        ]}
+        animated={true}
+    />
+    </TouchableHighlight>
+</View>
+</View>
+              </ScrollView>
+</LinearGradient>
+             
               </View>
             </View>
       </SafeAreaView>
@@ -413,5 +457,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  wave: {
+    width: 250,
+    marginTop:-100,
+    aspectRatio: 1,
+    overflow: 'hidden',
+    backgroundColor: 'transparent',
+},
+waveBall: {
+    width: 100,
+    aspectRatio: 1,
+    borderRadius: 50,
+    overflow: 'hidden',
+}
   
 });

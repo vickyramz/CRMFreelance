@@ -5,6 +5,7 @@ import WebViewComponent from '../Components/WebViewComponent'
 import { WebView } from 'react-native-webview';
 import {LoginAPI} from '../API/PostApi'
 import Spinner from 'react-native-loading-spinner-overlay';
+import LinearGradient from 'react-native-linear-gradient';
 import AnimateLoadingButton from 'react-native-animate-loading-button';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from 'react-native-google-signin';
 import { NavigationActions, StackActions } from 'react-navigation'
@@ -185,7 +186,8 @@ hideSpinner=()=> {
     return (
       <SafeAreaView style={{ flex: 1 }}>
         <View style={{ flex: 1 }}>
-          <ImageBackground source={require('../Assets/petrol.png')} style={{ flex: 1 }}>
+        <LinearGradient
+  colors= {['#FD325F','#fd3280','#fd32a8']} style={{flex:1}}> 
           <Snackbar Visible={this.state.ShowAlert} color={this.state.color} image={this.state.image} alert={this.state.alert}></Snackbar>
           
             <View style={{ flex: 0.8, justifyContent: 'center' }}>
@@ -279,7 +281,7 @@ disabled={this.state.isSigninInProgress} />
               </View>
             </View>
            
-          </ImageBackground>
+          </LinearGradient>
         </View>
       </SafeAreaView>
 //       <View style={{flex:1}}>
