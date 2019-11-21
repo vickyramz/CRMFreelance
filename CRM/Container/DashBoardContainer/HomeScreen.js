@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Image, Text, ScrollView,TouchableHighlight,AsyncStorage, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+import { View, Image, Text,TouchableWithoutFeedback, ScrollView,Easing,TouchableHighlight,AsyncStorage,FlatList, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
@@ -11,6 +11,15 @@ import CheckBox from 'react-native-check-box'
 import Wave from 'react-native-waveview'
 import ImagePicker from 'react-native-image-picker';
 import { PieChart } from 'react-native-svg-charts'
+import CircleTransition from 'react-native-expanding-circle-transition'
+const ANIMATION_DURATION = 1200
+const INITIAL_VIEW_BACKGROUND_COLOR = '#E3E4E5'
+const CIRCLE_COLOR1 = '#29C5DB'
+const CIRCLE_COLOR2 = '#4EB8AE'
+const CIRCLE_COLOR3 = '#81C781'
+const CIRCLE_COLOR4 = '#B0D882'
+const TRANSITION_BUFFER = 10
+const POSITON = 'custom'
 import {
   LineChart,
   BarChart,
@@ -88,6 +97,11 @@ export default class HomeScreen extends React.Component {
     this.state = ({
       categories:[],
       dataSourceBills:{},
+      viewBackgroundColor: INITIAL_VIEW_BACKGROUND_COLOR,
+      circleColor: CIRCLE_COLOR1,
+      customLeftMargin: 0,
+      customTopMargin: 0,
+      counter: 0,
       isChecked:true,
       value: 50,
       values:20,
@@ -123,6 +137,15 @@ export default class HomeScreen extends React.Component {
           activeBarColor: '#00ff6b',
         },
       ],
+      dataSource:[
+{name:'Auto  RSP',id:1,image:require('../Assets/timetable.png')},
+{name:'Tank Stock',id:2,image:require('../Assets/increasing-stocks-graphic.png')},
+{name:'MPD Connectivity',id:3,image:require('../Assets/bar.png')},
+{name:'EDC Connectivity',id:4,image:require('../Assets/edc.png')},
+{name:'Product Wise Sales',id:5,image:require('../Assets/timetable.png')},
+{name :'MOP',id:6,image:require('../Assets/timetable.png')},
+{name:'VSAT/SIM Connectivity',id:7,image:require('../Assets/timetable.png')}
+      ],
       carouselItems: [
         {
 
@@ -147,6 +170,32 @@ export default class HomeScreen extends React.Component {
 
       ]
     ,
+    dataList: [
+      {
+
+       // ShadowImages: require('./assets/etherem.png'),
+
+        title: "Exceptions & Alarms",
+        description:'Lists of exceptions triggered by the server and the alarms genrated from your outlet',
+        backgroundColor:'#FD325F',
+        image:require('../Assets/radiation.png')
+      },
+      {
+       // ShadowImages: require('./assets/bshadow.png'),
+       title: "Last Active",
+       description:'Last Active status for your tanks,mdps,bays',
+       backgroundColor:'#FF643C',
+       image:require('../Assets/energy.png')
+      },
+       {
+        // ShadowImages:require('./assets/bitwingslogowallet.png'),
+        title: "Top Customers",
+        description:'you top customer based on fuelling amount/quantity/count',
+        backgroundColor:'#E8B212',
+        image:require('../Assets/cup.png')
+       }
+
+    ],
       pie:[],
       ReceivedPayment:'',
       status:'',
@@ -159,6 +208,8 @@ export default class HomeScreen extends React.Component {
       externalLink: '',
       draweropen:false,
     })
+    this.handlePress = this.handlePress.bind(this)
+    this.changeColor = this.changeColor.bind(this)
   }
 
   componentDidMount() {
@@ -167,6 +218,7 @@ export default class HomeScreen extends React.Component {
     })
 
   }
+  
   onFocusFunction=()=>{
     this.GetData()
   }
@@ -260,6 +312,91 @@ export default class HomeScreen extends React.Component {
   Hide=()=>{
     this.setState({animate:false})
   }
+  handlePress (event) {
+    let pressLocationX = event.nativeEvent.locationX
+    let pressLocationY = event.nativeEvent.locationY
+    this.setState({
+      customLeftMargin: pressLocationX,
+      customTopMargin: pressLocationY
+    }, this.circleTransition.start(this.changeColor))
+  }
+  renderSeparator=(item)=>{
+    return(
+      <View style={{backgroundColor:'#fff',height:1}}></View>
+    )
+  }
+  renderList = ({item}) => {
+    
+
+    return (
+      <TouchableWithoutFeedback
+          style={styles.touchable}
+          onPress={this.handlePress}>
+                 <View Elevation={5}
+      style={{ borderWidth: 0.5,padding:20, borderRadius: 10, borderColor: '#C1C1C1',  backgroundColor: '#fff', marginLeft: 10, marginRight: 10, marginTop: 10, }}
+      >
+        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+<View>
+<Text style={{color:'#000',fontSize:12,fontWeight:'bold'}}>{item.title}</Text>
+       <Text  numberOfLines={4} style={{fontSize:11,color:'#C1C1C1',width:200}}>{item.description}</Text>
+</View>
+<View style={{justifyContent:'center',alignItems:'center'}}></View>
+<Image style={{ width: 30, height: 30, resizeMode: 'contain' }}
+          source={item.image}></Image>
+        </View>
+      
+      </View>
+          </TouchableWithoutFeedback>
+ 
+    );
+  };
+  renderItem = ({item}) => {
+    
+
+    return (
+      <TouchableWithoutFeedback
+          style={styles.touchable}
+          onPress={this.handlePress}>
+                 <View
+      style={{ borderWidth: 0.5, borderRadius: 40, borderColor: '#47b19a', height: 180, backgroundColor: '#6659B1', width: 200, marginLeft: 10, marginRight: 10,justifyContent:'center',alignItems:'center' }}
+      >
+         {/* <CircleTransition
+          ref={(circle) => { this.circleTransition = circle }}
+          color={this.state.circleColor}
+          expand
+          customTopMargin={this.state.customTopMargin}
+          customLeftMargin={this.state.customLeftMargin}
+          transitionBuffer={TRANSITION_BUFFER}
+          duration={ANIMATION_DURATION}
+          easing={Easing.linear}
+          position={POSITON}
+        /> */}
+        <Image style={{ width: 50, height: 50, resizeMode: 'contain' }}
+          source={item.image}></Image>
+       <Text style={{textAlign:'center',color:'#fff',fontSize:17,fontWeight:'bold',marginTop:10}}>{item.name}</Text>
+      </View>
+          </TouchableWithoutFeedback>
+ 
+    );
+  };
+  changeColor () {
+    const { circleColor, counter } = this.state
+    let newCounter = counter < 3 ? counter + 1 : 0
+    let newCircleColor = this.getColor(newCounter)
+    this.setState({
+      viewBackgroundColor: circleColor,
+      counter: newCounter
+    })
+    this.changeCircleColor(newCircleColor)
+  }
+ 
+  changeCircleColor (newCircleColor) {
+    this.setTimeout(() => {
+      this.setState({
+        circleColor: newCircleColor
+      })
+    }, TRANSITION_BUFFER + 5)
+  }
   error=(error)=>{
     this.Hide()
     Alert.alert(error.status,error.message)
@@ -307,7 +444,7 @@ export default class HomeScreen extends React.Component {
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Auto RSP</Text>
+                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Home</Text>
                     </View>
                     <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
@@ -320,7 +457,46 @@ export default class HomeScreen extends React.Component {
           <LinearGradient
   colors= {['#FFFFFF','#DFE1ED','#CCCFE2']} style={{flex:1}}>   
          <ScrollView style={{flex:1}}>
-          <View style={{flex:1}}>
+           <View style={{flex:1}}>
+           <View>
+
+          <Carousel
+                data={this.state.carouselItems}
+                sliderWidth={width}
+                itemWidth={300}
+                Pagination={true}
+                renderItem={this._renderItem}
+                onSnapToItem={(index) => this.setState({ activeSlide: index }) }
+                inactiveSlideOpacity={0.5}
+                loop={true}
+                autoplay={true}
+               // onSnapToItem={(index) => this.action(index)}
+              />
+              { this.pagination }
+          </View>
+          <View>
+          <FlatList
+                      horizontal={true}
+                      data={this.state.dataSource}
+                      extraData={this.state}
+                      keyExtractor={this._keyExtractor}
+                      renderItem={this.renderItem}
+                      showsHorizontalScrollIndicator={false}
+                    />
+
+<FlatList
+                      //horizontal={true}
+                      data={this.state.dataList}
+                      extraData={this.state}
+                      keyExtractor={this._keyExtractor}
+                      renderItem={this.renderList}
+                      showsHorizontalScrollIndicator={false}
+                    />
+          </View>
+         
+          <View></View>
+           </View>
+          {/* <View style={{flex:1}}>
           <View>
           <Carousel
                 data={this.state.carouselItems}
@@ -440,7 +616,7 @@ export default class HomeScreen extends React.Component {
     />
     </TouchableHighlight>
 </View>
-</View>
+</View> */}
               </ScrollView>
 </LinearGradient>
              

@@ -97,11 +97,11 @@ const BottomTab = createMaterialBottomTabNavigator(
     Home: {
       screen: HomeTab,
       navigationOptions: {
-        title: 'Auto RSP',
-        tabBarLabel: 'Auto RSP',
+        title: 'Home',
+        tabBarLabel: 'Home',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/offer.png')}></Image>
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/home.png')}></Image>
         ),
         activeColor: '#fff',  
         inactiveColor: '#A9A9A9',  
@@ -111,8 +111,8 @@ const BottomTab = createMaterialBottomTabNavigator(
     Profile: {
       screen: HomeTab,
       navigationOptions: {
-        title: 'Profile',
-        tabBarLabel: 'Profile',
+        title: 'New Customer',
+        tabBarLabel: 'New Customer',
 
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/man-user.png')}></Image>
@@ -122,20 +122,20 @@ const BottomTab = createMaterialBottomTabNavigator(
         barStyle: { backgroundColor: '#FF643C' },  
       }
     },
-    Settings: {
-      screen: HomeTab,
-      navigationOptions: {
-        title: 'Settings',
-        tabBarLabel: 'Settings',
+    // Settings: {
+    //   screen: HomeTab,
+    //   navigationOptions: {
+    //     title: 'Settings',
+    //     tabBarLabel: 'Settings',
 
-        tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/settings-gears.png')}></Image>
-        ),
-        activeColor: '#fff',  
-        inactiveColor: '#A9A9A9',  
-        barStyle: { backgroundColor: '#E8B212' },  
-      }
-    },
+    //     tabBarIcon: ({ tintColor, focused }) => (
+    //       <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/settings-gears.png')}></Image>
+    //     ),
+    //     activeColor: '#fff',  
+    //     inactiveColor: '#A9A9A9',  
+    //     barStyle: { backgroundColor: '#E8B212' },  
+    //   }
+    // },
   },
   // {
   //   initialRouteName: 'Home',
