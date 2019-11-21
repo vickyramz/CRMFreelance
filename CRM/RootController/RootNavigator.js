@@ -11,7 +11,7 @@ import {  createAppContainer, createBottomTabNavigator, createSwitchNavigator, D
 import SignIn from '../Container/LoginContainer/SignIn'
 import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import CardScanner from '../Container/DashBoardContainer/CardScanner'
-import Follow from '../Container/DashBoardContainer/Follow'
+import AutoRsp from '../Container/DashBoardContainer/AutoRsp'
 import Enquiry from '../Container/DashBoardContainer/Enquiry'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
@@ -35,7 +35,7 @@ const TransitionConfiguration = () => {
       const params = route.params || {}; // <- That's new
       const transition = params.transition || 'default'; // <- That's new
       return {
-        //collapseExpand: CollapseExpand(index, position),
+      //  collapseExpand: CollapseExpand(index, position),
         default: SlideFromRight(index, position,width),
       }[transition];
     },
@@ -76,7 +76,7 @@ const HomeTab = createStackNavigator(
     Home: HomeScreen,
     CardScanner:CardScanner,
     CreateCustomer:CreateCustomer,
-    Follow:Follow,
+    AutoRsp:AutoRsp,
     Enquiry:Enquiry,
      //Events:Events,
   },

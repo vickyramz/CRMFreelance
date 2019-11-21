@@ -321,7 +321,10 @@ export default class HomeScreen extends React.Component {
   handlePress (event) {
     let pressLocationX = event.nativeEvent.locationX
     let pressLocationY = event.nativeEvent.locationY
-    this.props.navigation.navigate('AutoRsp')
+    this.setState({
+      customLeftMargin: pressLocationX,
+      customTopMargin: pressLocationY
+    }, this.circleTransition.start(this.changeColor))
   }
   renderSeparator=(item)=>{
     return(
@@ -451,7 +454,7 @@ export default class HomeScreen extends React.Component {
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Home</Text>
+                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Auto RSP</Text>
                     </View>
                     <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
@@ -465,45 +468,12 @@ export default class HomeScreen extends React.Component {
   colors= {['#FFFFFF','#DFE1ED','#CCCFE2']} style={{flex:1}}>   
          <ScrollView contentContainerStyle={{paddingBottom:30}} style={{flex:1}}>
            <View style={{flex:1}}>
-           <View>
-
-          <Carousel
-                data={this.state.carouselItems}
-                sliderWidth={width}
-                itemWidth={300}
-                Pagination={true}
-                renderItem={this._renderItem}
-                onSnapToItem={(index) => this.setState({ activeSlide: index }) }
-                inactiveSlideOpacity={0.5}
-                loop={true}
-                autoplay={true}
-               // onSnapToItem={(index) => this.action(index)}
-              />
-              { this.pagination }
-          </View>
-          <View>
-          <FlatList
-                      horizontal={true}
-                      data={this.state.dataSource}
-                      extraData={this.state}
-                      keyExtractor={this._keyExtractor}
-                      renderItem={this.renderItem}
-                      showsHorizontalScrollIndicator={true}
-                    />
-
-<FlatList
-                      //horizontal={true}
-                      data={this.state.dataList}
-                      extraData={this.state}
-                      keyExtractor={this._keyExtractor}
-                      renderItem={this.renderList}
-                      showsHorizontalScrollIndicator={false}
-                    />
-          </View>
+           
+  
          
           <View></View>
            </View>
-          {/* <View style={{flex:1}}>
+          <View style={{flex:1}}>
           <View>
           <Carousel
                 data={this.state.carouselItems}
@@ -586,11 +556,11 @@ export default class HomeScreen extends React.Component {
               </View>
               
             </View>
-              <View style={{marginTop:30,justifyContent:'space-around',flexDirection:'row'}}>
+              {/* <View style={{marginTop:30,justifyContent:'space-around',flexDirection:'row'}}>
              <RNSpeedometer labels={this.state.labels} value={this.state.value} size={150}/>
              <RNSpeedometer labels={this.state.labels} value={this.state.values} size={150}/>
-             </View>
-             <View style={{marginVertical: 10,
+             </View> */}
+             {/* <View style={{marginVertical: 10,
         marginHorizontal: 20,
         justifyContent: 'center',
        
@@ -622,8 +592,8 @@ export default class HomeScreen extends React.Component {
         animated={true}
     />
     </TouchableHighlight>
-</View>
 </View> */}
+</View>
               </ScrollView>
 </LinearGradient>
              
