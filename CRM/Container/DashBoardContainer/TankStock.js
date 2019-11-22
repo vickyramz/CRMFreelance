@@ -15,6 +15,8 @@ import ImagePicker from 'react-native-image-picker';
 import { PieChart } from 'react-native-svg-charts'
 import CircleTransition from 'react-native-expanding-circle-transition'
 const ANIMATION_DURATION = 1200
+import { HcdWaveView } from 'react-native-art-hcdwave'
+
 const INITIAL_VIEW_BACKGROUND_COLOR = '#E3E4E5'
 const CIRCLE_COLOR1 = '#29C5DB'
 const CIRCLE_COLOR2 = '#4EB8AE'
@@ -488,38 +490,20 @@ export default class HomeScreen extends React.Component {
             </View>
             
              </View>
-             <View style={{marginVertical: 10,
-        marginHorizontal: 20,
+             <View style={{
+               marginTop:60,
         justifyContent: 'center',
        
         alignItems: 'center',
        }} >
-    <TouchableHighlight onPress={()=>{
-        // Stop Animation
-      //  this._waveRect && this._waveRect.stopAnim();
-
-        // set water baseline height
-        this._waveRect && this._waveRect.setWaterHeight(70);
-
-        // reset wave effect
-        this._waveRect && this._waveRect.setWaveParams([
-            {A: 10, T: 180, fill: '#FF9F2E'},
-            {A: 15, T: 140, fill: '#FF643C'},
-            {A: 20, T: 100, fill: '#B36100'},
-        ]);
-    }}>
-    <Wave
-        ref={ref=>this._waveRect = ref}
-        style={styles.wave}
-        H={70}
-        waveParams={[
-            {A: 10, T: 180, fill: '#E8B212'},
-            {A: 15, T: 140, fill: '#FD325F'},
-            {A: 20, T: 100, fill: '#FF643C'},
-        ]}
-        animated={true}
-    />
-    </TouchableHighlight>
+    <HcdWaveView
+          surfaceWidth = {230} 
+          surfaceHeigth ={230}
+          Gradient1={'#d53369'}
+          powerPercent = {76}
+         // type="dc"
+          style = {{backgroundColor:'#FD325F'}}></HcdWaveView>
+       
 </View>
 </View>
               </ScrollView>

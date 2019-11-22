@@ -8,7 +8,6 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import DraggableList from 'react-native-draggable-list';
 import AnimateLoadingButton from 'react-native-animate-loading-button';
 import Dialog, {SlideAnimation, DialogContent } from 'react-native-popup-dialog';
-import RNSpeedometer from 'react-native-speedometer'
 import RNPickerSelect from 'react-native-picker-select';
 import Pie from 'react-native-pie'
 import LinearGradient from 'react-native-linear-gradient';

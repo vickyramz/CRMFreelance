@@ -20,6 +20,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* CRMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CRMTests.m */; };
 		406AD35FBD944B86A367A418 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0BB30BFFE7B8464ABF3A9DAB /* SimpleLineIcons.ttf */; };
+		41EB6C28BC864107BECBD2B3 /* libPods-CRM.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71D6202FD18621D082581F71 /* libPods-CRM.a */; };
 		46EEFBF3373E43A6B95DFD8F /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F959B0B7601347E499B80E43 /* MaterialCommunityIcons.ttf */; };
 		4EBE4A7848A125732F04B6ED /* libPods-CRM-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 88E932B10775AFF740A33F77 /* libPods-CRM-tvOS.a */; };
 		5A428028373046879C9B4818 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DEED9139BC8423493769C8D /* Entypo.ttf */; };
@@ -122,6 +123,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8BC6999B97CF90B6A91A94 /* libPods-CRM-tvOSTests.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		460E81CB9B9610D665B8FD91 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				41EB6C28BC864107BECBD2B3 /* libPods-CRM.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,6 +277,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				95BBE550A32540EC1007F48B /* [CP] Copy Pods Resources */,
+				460E81CB9B9610D665B8FD91 /* Frameworks */,
 			);
 			buildRules = (
 			);
