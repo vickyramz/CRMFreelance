@@ -10,6 +10,7 @@ import AnimateLoadingButton from 'react-native-animate-loading-button';
 import Dialog, {SlideAnimation, DialogContent } from 'react-native-popup-dialog';
 import RNSpeedometer from 'react-native-speedometer'
 import RNPickerSelect from 'react-native-picker-select';
+import Pie from 'react-native-pie'
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box'
 import DraggableFlatList from 'react-native-draggable-flatlist'
@@ -430,12 +431,12 @@ export default class HomeScreen extends React.Component {
   }
   NavigationOpen = () => {
     console.log('Navigation drawer open')
-    this.props.navigation.navigate('Home');
-    //   this.props.navigation.toggleDrawer({
-    //     side:'left',
-    //     animated: true,
-    //     to: 'closed',
-    // });
+   // this.props.navigation.navigate('Home');
+      this.props.navigation.toggleDrawer({
+        side:'left',
+        animated: true,
+        to: 'closed',
+    });
   }
   render() {
     const data = series
@@ -462,7 +463,7 @@ export default class HomeScreen extends React.Component {
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
                       <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 ,tintColor:'#fff'}} source={require('../Assets/left-arrow.png')}></Image>
+                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 ,tintColor:'#fff'}} source={require('../Assets/ham.png')}></Image>
                       </View>
                     </TouchableOpacity>
 
@@ -598,7 +599,7 @@ export default class HomeScreen extends React.Component {
           </View>
            </View>
           <View style={{flex:1}}>
-          <View>
+          {/* <View>
           <Carousel
                 data={this.state.carouselItems}
                 sliderWidth={width}
@@ -612,7 +613,7 @@ export default class HomeScreen extends React.Component {
                // onSnapToItem={(index) => this.action(index)}
               />
               { this.pagination }
-          </View>
+          </View> */}
           <View style={{padding:10}}>
           <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Good Morning Abishek kumar!</Text>
           </View>
@@ -700,43 +701,43 @@ export default class HomeScreen extends React.Component {
               </View>
               
             </View>
-              {/* <View style={{marginTop:30,justifyContent:'space-around',flexDirection:'row'}}>
-             <RNSpeedometer labels={this.state.labels} value={this.state.value} size={150}/>
-             <RNSpeedometer labels={this.state.labels} value={this.state.values} size={150}/>
-             </View> */}
-             {/* <View style={{marginVertical: 10,
-        marginHorizontal: 20,
-        justifyContent: 'center',
-       
-        alignItems: 'center',
-       }} >
-    <TouchableHighlight onPress={()=>{
-        // Stop Animation
-      //  this._waveRect && this._waveRect.stopAnim();
-
-        // set water baseline height
-        this._waveRect && this._waveRect.setWaterHeight(70);
-
-        // reset wave effect
-        this._waveRect && this._waveRect.setWaveParams([
-            {A: 10, T: 180, fill: '#FF9F2E'},
-            {A: 15, T: 140, fill: '#FF643C'},
-            {A: 20, T: 100, fill: '#B36100'},
-        ]);
-    }}>
-    <Wave
-        ref={ref=>this._waveRect = ref}
-        style={styles.wave}
-        H={70}
-        waveParams={[
-            {A: 10, T: 180, fill: '#E8B212'},
-            {A: 15, T: 140, fill: '#FD325F'},
-            {A: 20, T: 100, fill: '#FF643C'},
-        ]}
-        animated={true}
-    />
-    </TouchableHighlight>
-</View> */}
+            <View style={{justifyContent:'center',alignItems:'center',marginTop:20}}>
+            <Pie
+          radius={80}
+          series={[60,40]}
+          colors={['#FD325F','#E8B212']} />
+            </View>
+         
+      
+        <View>
+          <View style={{flexDirection:'row',justifyContent:'space-evenly',padding:10}}>
+            <View>
+          <Pie
+            radius={50}
+            innerRadius={45}
+            series={[60]}
+            colors={['#FD325F']}
+            backgroundColor='#ddd' />
+          <View style={styles.gauge}>
+            <Text style={styles.gaugeText}>60%</Text>
+          </View>
+          <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>Connected</Text>
+          </View>
+          <View>
+          <Pie
+            radius={50}
+            innerRadius={45}
+            series={[40]}
+            colors={['#E8B212']}
+            backgroundColor='#ddd' />
+          <View style={styles.gauge}>
+            <Text style={styles.gaugeText}>40%</Text>
+          </View>
+          <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>Not-Connected</Text>
+          </View>
+          </View>
+          
+        </View>
 </View>
               </ScrollView>
 </LinearGradient>
@@ -776,6 +777,17 @@ waveBall: {
     aspectRatio: 1,
     borderRadius: 50,
     overflow: 'hidden',
-}
-  
+},
+gauge: {
+  position: 'absolute',
+  width: 100,
+  height: 100,
+  alignItems: 'center',
+  justifyContent: 'center',
+},
+gaugeText: {
+  backgroundColor: 'transparent',
+  color: '#000',
+  fontSize: 24,
+},
 });

@@ -41,18 +41,36 @@ export default class SideMenu extends React.Component {
         },
         {
           id: 2,
-          Title: 'Payment Mode',
+          Title: 'Tank Stock',
 
           images: require('../Assets/call.png')
         },
         {
           id: 3,
-          Title: 'Alarms',
+          Title: 'Payment Mode',
+
+          images: require('../Assets/call.png')
+        },
+        {
+          id: 4,
+          Title: 'MPD Connectivity',
 
           images: require('../Assets/credit-card.png')
         },
         {
-          id: 4,
+          id: 5,
+          Title: 'EDC Connectivity',
+
+          images: require('../Assets/credit-card.png')
+        },
+        {
+          id: 6,
+          Title: 'VSAT/SIM',
+
+          images: require('../Assets/credit-card.png')
+        },
+        {
+          id: 7,
           Title: 'LogOut',
 
          // images: require('../Assets/nummenu.png')
@@ -85,12 +103,12 @@ export default class SideMenu extends React.Component {
     console.log('Method trigggered')
 
     if (item.id == 1) {
-      this.props.navigation.navigate('Home')
+      this.props.navigation.navigate('AutoRsp')
       //  Alert.alert('Coming Soon','This feature will be available very soon');
     }
     else if (item.id == 2) {
     //  this.call()
-     this.props.navigation.navigate('Follow')
+     this.props.navigation.navigate('TankStock')
       // this.props.navigation.navigate('UsefullNumbers')
     }
     else if (item.id == 3) {

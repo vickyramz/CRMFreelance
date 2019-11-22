@@ -141,7 +141,7 @@ _onPressHandler() {
 
 }
 nav=()=>{
-  this.props.navigation.navigate('Home')
+  this.props.navigation.navigate('AutoRsp')
 }
 LoginStatic=()=>{
   this.setState({color:'#6BAD00',image:require('../Assets/success.png'),animate:true})
