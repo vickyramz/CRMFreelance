@@ -12,7 +12,7 @@ import SignIn from '../Container/LoginContainer/SignIn'
 import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
 import CardScanner from '../Container/DashBoardContainer/CardScanner'
 import AutoRsp from '../Container/DashBoardContainer/AutoRsp'
-import Enquiry from '../Container/DashBoardContainer/Enquiry'
+import TankStock from '../Container/DashBoardContainer/TankStock'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
 import CreateCustomer from '../Container/DashBoardContainer/CreateCustomer'
@@ -77,7 +77,7 @@ const HomeTab = createStackNavigator(
     CardScanner:CardScanner,
     CreateCustomer:CreateCustomer,
     AutoRsp:AutoRsp,
-    Enquiry:Enquiry,
+    TankStock:TankStock,
      //Events:Events,
   },
   {
