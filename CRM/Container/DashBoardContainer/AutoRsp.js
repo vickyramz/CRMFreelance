@@ -6,7 +6,10 @@ const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import DraggableList from 'react-native-draggable-list';
+import AnimateLoadingButton from 'react-native-animate-loading-button';
+import Dialog, {SlideAnimation, DialogContent } from 'react-native-popup-dialog';
 import RNSpeedometer from 'react-native-speedometer'
+import RNPickerSelect from 'react-native-picker-select';
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box'
 import DraggableFlatList from 'react-native-draggable-flatlist'
@@ -107,6 +110,7 @@ export default class HomeScreen extends React.Component {
       activeBlock: null,
       itemsPerRow: 1,
       itemHeight: 150,
+      visible:false,
       isChecked:true,
       value: 50,
       values:20,
@@ -414,10 +418,19 @@ export default class HomeScreen extends React.Component {
   networkissue=(error)=>{
     Alert.alert('Failure',error)
   }
-
+  _onPressHandler() {
+    Keyboard.dismiss()
+    this.loadingButton.showLoading(true);
+  
+    // mock
+    setTimeout(this.nav,2000);
+  }
+  nav=()=>{
+    this.loadingButton.showLoading(false);
+  }
   NavigationOpen = () => {
     console.log('Navigation drawer open')
-    this.props.navigation.toggleDrawer();
+    this.props.navigation.navigate('Home');
     //   this.props.navigation.toggleDrawer({
     //     side:'left',
     //     animated: true,
@@ -449,12 +462,12 @@ export default class HomeScreen extends React.Component {
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
                       <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
+                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 ,tintColor:'#fff'}} source={require('../Assets/left-arrow.png')}></Image>
                       </View>
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Auto RSP</Text>
+                      <Text style={{ fontSize: 17, color:'#fff',fontWeight:'bold'}}>Auto RSP</Text>
                     </View>
                     <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
@@ -471,7 +484,118 @@ export default class HomeScreen extends React.Component {
            
   
          
-          <View></View>
+          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+          <Dialog
+ dialogAnimation={new SlideAnimation({
+      slideFrom: 'bottom',
+    })}
+  onTouchOutside={() => {
+      this.setState({ visible: false })
+    }}
+          visible={this.state.visible}>
+          <DialogContent>
+            <View style={{width:300,height:300 }}>
+           <View>
+           <RNPickerSelect
+                         placeholder={{
+                          label: 'Region',
+                          value: 'Region',
+                          color: '#000',
+                        }}
+                        textInputProps={{ color: '#fff' }}
+                        style={styles.inputIOS}
+                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
+                        items={[
+                          { label: "ETH-BTC", value: "ETH-BTC" },
+						     { label: "BTC-ETH", value: "BTC-ETH" },
+                        
+                        ]}
+                      />
+
+                       <RNPickerSelect
+                         placeholder={{
+                          label: 'State',
+                          value: 'State',
+                          color: '#fff',
+                        }}
+                        textInputProps={{ color: '#fff' }}
+                        style={styles.inputIOS}
+                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
+                        items={[
+                          { label: "ETH-BTC", value: "ETH-BTC" },
+						     { label: "BTC-ETH", value: "BTC-ETH" },
+                        
+                        ]}
+                      />
+                       <RNPickerSelect
+                         placeholder={{
+                          label: 'Territory',
+                          value: 'Territory',
+                          color: '#fff',
+                        }}
+                        textInputProps={{ color: '#fff' }}
+                        style={styles.inputIOS}
+                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
+                        items={[
+                          { label: "ETH-BTC", value: "ETH-BTC" },
+						     { label: "BTC-ETH", value: "BTC-ETH" },
+                        
+                        ]}
+                      />
+   
+
+   <RNPickerSelect
+                         placeholder={{
+                          label: 'Sales Area',
+                          value: 'Sales Area',
+                          color: '#fff',
+                        }}
+                        textInputProps={{ color: '#fff' }}
+                        style={styles.inputIOS}
+                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
+                        items={[
+                          { label: "ETH-BTC", value: "ETH-BTC" },
+						     { label: "BTC-ETH", value: "BTC-ETH" },
+                        
+                        ]}
+                      />
+                         <RNPickerSelect
+                         placeholder={{
+                          label: 'RO',
+                          value: 'RO',
+                          color: '#fff',
+                        }}
+                        textInputProps={{ color: '#fff' }}
+                        style={styles.inputIOS}
+                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
+                        items={[
+                          { label: "ETH-BTC", value: "ETH-BTC" },
+						     { label: "BTC-ETH", value: "BTC-ETH" },
+                        
+                        ]}
+                      />
+                         <View style={{ paddingTop: 10, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
+                  <AnimateLoadingButton
+          ref={c => (this.loadingButton = c)}
+          width={200}
+          height={50}
+          title="Submit"
+          titleFontSize={16}
+          titleColor="#fff"
+          backgroundColor="#FD325F"
+          borderRadius={10}
+          onPress={this._onPressHandler.bind(this)}
+        />
+                  </View>
+           </View>
+            </View>
+          
+                  
+                
+                    
+          </DialogContent>
+        </Dialog> 
+          </View>
            </View>
           <View style={{flex:1}}>
           <View>
@@ -489,6 +613,9 @@ export default class HomeScreen extends React.Component {
               />
               { this.pagination }
           </View>
+          <View style={{padding:10}}>
+          <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Good Morning Abishek kumar!</Text>
+          </View>
               <View style={{flexDirection:'row',padding:10,justifyContent:'space-between'}}>
               <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Auto RSP</Text>
               <View style={{flexDirection:'row'}}> 
@@ -499,6 +626,23 @@ export default class HomeScreen extends React.Component {
               <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Last Updated Date 20/11/2017</Text>
               </View>
             
+              </View>
+              <View style={{alignSelf:'flex-end',marginTop:10,padding:10}}>
+                <TouchableOpacity onPress={()=>this.setState({visible:true})}>
+                <View style={{width:200,height:39,borderWidth:1,borderColor:'#FD325F',borderRadius:5,justifyContent:'center',padding:5}}>
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View>
+                    <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Sales area-chennai</Text>
+                    </View>
+                <View style={{justifyContent:'center',alignItems:'center'}}>
+                    <Image source={require('../Assets/drop-down-arrow.png')} resizeMode='contain' style={{width:15,height:15,tintColor:'#FD325F'}}></Image>
+                    </View>
+                  </View>
+               
+                </View>
+                </TouchableOpacity>
+               
+             
               </View>
               <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15}}>
               <View >
@@ -609,6 +753,16 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
   wave: {
     width: 250,
