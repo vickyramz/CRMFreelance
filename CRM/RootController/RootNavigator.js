@@ -15,7 +15,7 @@ import AutoRsp from '../Container/DashBoardContainer/AutoRsp'
 import TankStock from '../Container/DashBoardContainer/TankStock'
 import Icon from 'react-native-vector-icons/Ionicons';
 import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import CreateCustomer from '../Container/DashBoardContainer/CreateCustomer'
+import Payment from '../Container/DashBoardContainer/Payment'
 import { createStackNavigator } from 'react-navigation-stack';
 import {createDrawerNavigator} from 'react-navigation-drawer'
 import SideMenu from '../Container/Components/SideMenu'
@@ -75,7 +75,7 @@ const HomeTab = createStackNavigator(
   {
     Home: HomeScreen,
     CardScanner:CardScanner,
-    CreateCustomer:CreateCustomer,
+    Payment:Payment,
     AutoRsp:AutoRsp,
     TankStock:TankStock,
      //Events:Events,

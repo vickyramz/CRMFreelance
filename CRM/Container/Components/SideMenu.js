@@ -112,7 +112,7 @@ export default class SideMenu extends React.Component {
       // this.props.navigation.navigate('UsefullNumbers')
     }
     else if (item.id == 3) {
-       this.props.navigation.navigate('Enquiry')
+       this.props.navigation.navigate('Payment')
      // Share.open(shareOptions).catch((err) => { err && console.log("share error", err); })
     }
     else if (item.id == 4) {

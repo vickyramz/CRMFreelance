@@ -6,10 +6,7 @@ const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import DraggableList from 'react-native-draggable-list';
-import AnimateLoadingButton from 'react-native-animate-loading-button';
-import Dialog, {SlideAnimation, DialogContent } from 'react-native-popup-dialog';
-import RNPickerSelect from 'react-native-picker-select';
-import Pie from 'react-native-pie'
+import RNSpeedometer from 'react-native-speedometer'
 import PureChart from 'react-native-pure-chart';
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box'
@@ -19,6 +16,8 @@ import ImagePicker from 'react-native-image-picker';
 import { PieChart } from 'react-native-svg-charts'
 import CircleTransition from 'react-native-expanding-circle-transition'
 const ANIMATION_DURATION = 1200
+import { HcdWaveView } from 'react-native-art-hcdwave'
+
 const INITIAL_VIEW_BACKGROUND_COLOR = '#E3E4E5'
 const CIRCLE_COLOR1 = '#29C5DB'
 const CIRCLE_COLOR2 = '#4EB8AE'
@@ -47,6 +46,34 @@ const chartConfig = {
   strokeWidth: 2, // optional, default 3
   barPercentage:0.5
 }
+let sampleData = [
+  {
+    seriesName: 'series1',
+    data: [
+      {x: '2018-02-01', y: 30},
+      {x: '2018-02-02', y: 200},
+      {x: '2018-02-01', y: 30},
+      {x: '2018-02-02', y: 200},
+      {x: '2018-02-01', y: 30},
+      {x: '2018-02-02', y: 200},
+    
+    ],
+    color: '#FD325F'
+  },
+  {
+    seriesName: 'series2',
+    data: [
+      {x: '2018-02-01', y: 20},
+      {x: '2018-02-02', y: 100},
+      {x: '2018-02-01', y: 30},
+      {x: '2018-02-02', y: 200},
+      {x: '2018-02-01', y: 30},
+      {x: '2018-02-02', y: 200},
+    
+    ],
+    color: '#E8B212'
+  }
+]
 let data = [  
     {
     name: "Seoul",
@@ -56,17 +83,6 @@ let data = [
     legendFontSize: 15
     }
 ];
-let sampleData = [
-  {
-    value: 60,
-    label: 'Connected',
-    color: '#FD325F',
-  }, {
-    value: 40,
-    label: 'Not Connected',
-    color: '#E8B212'
-  },
-]
 let color=
   [
     '#006400',
@@ -103,7 +119,7 @@ let color=
 
   ]
 
-export default class HomeScreen extends React.Component {
+export default class Payment extends React.Component {
 
   static navigationOptions =
   {
@@ -122,7 +138,6 @@ export default class HomeScreen extends React.Component {
       activeBlock: null,
       itemsPerRow: 1,
       itemHeight: 150,
-      visible:false,
       isChecked:true,
       value: 50,
       values:20,
@@ -337,10 +352,7 @@ export default class HomeScreen extends React.Component {
   handlePress (event) {
     let pressLocationX = event.nativeEvent.locationX
     let pressLocationY = event.nativeEvent.locationY
-    this.setState({
-      customLeftMargin: pressLocationX,
-      customTopMargin: pressLocationY
-    }, this.circleTransition.start(this.changeColor))
+    this.props.navigation.navigate('AutoRsp')
   }
   renderSeparator=(item)=>{
     return(
@@ -430,24 +442,15 @@ export default class HomeScreen extends React.Component {
   networkissue=(error)=>{
     Alert.alert('Failure',error)
   }
-  _onPressHandler() {
-    Keyboard.dismiss()
-    this.loadingButton.showLoading(true);
-  
-    // mock
-    setTimeout(this.nav,2000);
-  }
-  nav=()=>{
-    this.loadingButton.showLoading(false);
-  }
+
   NavigationOpen = () => {
     console.log('Navigation drawer open')
-   // this.props.navigation.navigate('Home');
-      this.props.navigation.toggleDrawer({
-        side:'left',
-        animated: true,
-        to: 'closed',
-    });
+    this.props.navigation.toggleDrawer();
+    //   this.props.navigation.toggleDrawer({
+    //     side:'left',
+    //     animated: true,
+    //     to: 'closed',
+    // });
   }
   render() {
     const data = series
@@ -474,12 +477,12 @@ export default class HomeScreen extends React.Component {
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
                       <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 ,tintColor:'#fff'}} source={require('../Assets/ham.png')}></Image>
+                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
                       </View>
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color:'#fff',fontWeight:'bold'}}>Auto RSP</Text>
+                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Payment</Text>
                     </View>
                     <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
@@ -492,159 +495,29 @@ export default class HomeScreen extends React.Component {
           <LinearGradient
   colors= {['#FFFFFF','#DFE1ED','#CCCFE2']} style={{flex:1}}>   
          <ScrollView contentContainerStyle={{paddingBottom:30}} style={{flex:1}}>
-           <View style={{flex:1}}>
-           
-  
-         
-          <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-          <Dialog
- dialogAnimation={new SlideAnimation({
-      slideFrom: 'bottom',
-    })}
-  onTouchOutside={() => {
-      this.setState({ visible: false })
-    }}
-          visible={this.state.visible}>
-          <DialogContent>
-            <View style={{width:300,height:300 }}>
-           <View>
-           <RNPickerSelect
-                         placeholder={{
-                          label: 'Region',
-                          value: 'Region',
-                          color: '#000',
-                        }}
-                        textInputProps={{ color: '#fff' }}
-                        style={styles.inputIOS}
-                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
-                        items={[
-                          { label: "ETH-BTC", value: "ETH-BTC" },
-						     { label: "BTC-ETH", value: "BTC-ETH" },
-                        
-                        ]}
-                      />
-
-                       <RNPickerSelect
-                         placeholder={{
-                          label: 'State',
-                          value: 'State',
-                          color: '#fff',
-                        }}
-                        textInputProps={{ color: '#fff' }}
-                        style={styles.inputIOS}
-                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
-                        items={[
-                          { label: "ETH-BTC", value: "ETH-BTC" },
-						     { label: "BTC-ETH", value: "BTC-ETH" },
-                        
-                        ]}
-                      />
-                       <RNPickerSelect
-                         placeholder={{
-                          label: 'Territory',
-                          value: 'Territory',
-                          color: '#fff',
-                        }}
-                        textInputProps={{ color: '#fff' }}
-                        style={styles.inputIOS}
-                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
-                        items={[
-                          { label: "ETH-BTC", value: "ETH-BTC" },
-						     { label: "BTC-ETH", value: "BTC-ETH" },
-                        
-                        ]}
-                      />
-   
-
-   <RNPickerSelect
-                         placeholder={{
-                          label: 'Sales Area',
-                          value: 'Sales Area',
-                          color: '#fff',
-                        }}
-                        textInputProps={{ color: '#fff' }}
-                        style={styles.inputIOS}
-                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
-                        items={[
-                          { label: "ETH-BTC", value: "ETH-BTC" },
-						     { label: "BTC-ETH", value: "BTC-ETH" },
-                        
-                        ]}
-                      />
-                         <RNPickerSelect
-                         placeholder={{
-                          label: 'RO',
-                          value: 'RO',
-                          color: '#fff',
-                        }}
-                        textInputProps={{ color: '#fff' }}
-                        style={styles.inputIOS}
-                        //onValueChange={(itemValue, itemIndex) => this.selected1(itemValue, itemIndex)}
-                        items={[
-                          { label: "ETH-BTC", value: "ETH-BTC" },
-						     { label: "BTC-ETH", value: "BTC-ETH" },
-                        
-                        ]}
-                      />
-                         <View style={{ paddingTop: 10, paddingLeft: 25, paddingRight: 25, paddingBottom: 10 }}>
-                  <AnimateLoadingButton
-          ref={c => (this.loadingButton = c)}
-          width={200}
-          height={50}
-          title="Submit"
-          titleFontSize={16}
-          titleColor="#fff"
-          backgroundColor="#FD325F"
-          borderRadius={10}
-          onPress={this._onPressHandler.bind(this)}
-        />
-                  </View>
-           </View>
-            </View>
           
-                  
-                
-                    
-          </DialogContent>
-        </Dialog> 
-          </View>
-           </View>
           <View style={{flex:1}}>
-          {/* <View>
-          <Carousel
-                data={this.state.carouselItems}
-                sliderWidth={width}
-                itemWidth={300}
-                Pagination={true}
-                renderItem={this._renderItem}
-                onSnapToItem={(index) => this.setState({ activeSlide: index }) }
-                inactiveSlideOpacity={0.5}
-                loop={true}
-                autoplay={true}
-               // onSnapToItem={(index) => this.action(index)}
-              />
-              { this.pagination }
-          </View> */}
-          <View style={{padding:10}}>
-          <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Good Morning Abishek kumar!</Text>
-          </View>
-              <View style={{flexDirection:'row',padding:10,justifyContent:'space-between'}}>
-              <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Auto RSP</Text>
-              <View style={{flexDirection:'row'}}> 
+        
+        <View>
+        <Text style={{color:'#000',fontWeight:'bold',fontSize:16,padding:20}}>Payments</Text>
+        </View>
+        <View style={{flexDirection:'row',alignSelf:'flex-end'}}> 
               <View style={{justifyContent:'center',alignItems:'center'}}>
               <Image style={{ resizeMode: 'contain', width: 15, height: 15,tintColor:'#FD325F' }} source={require('../Assets/refresh-button.png')}></Image>
               </View>
              
               <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Last Updated Date 20/11/2017</Text>
               </View>
-            
-              </View>
-              <View style={{alignSelf:'flex-end',marginTop:10,padding:10}}>
-                <TouchableOpacity onPress={()=>this.setState({visible:true})}>
-                <View style={{width:200,height:39,borderWidth:1,borderColor:'#FD325F',borderRadius:5,justifyContent:'center',padding:5}}>
+              <View style={{flexDirection:'row',justifyContent:'space-between',padding:10}}>
+                <View>
+                <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Mode Of Payment</Text>
+                </View>
+                <View >
+                <TouchableOpacity >
+                <View style={{width:130,height:30,borderWidth:1,borderColor:'#FD325F',borderRadius:5,justifyContent:'center',padding:5}}>
                   <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                     <View>
-                    <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Sales area-chennai</Text>
+                    <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>2019-07-17</Text>
                     </View>
                 <View style={{justifyContent:'center',alignItems:'center'}}>
                     <Image source={require('../Assets/drop-down-arrow.png')} resizeMode='contain' style={{width:15,height:15,tintColor:'#FD325F'}}></Image>
@@ -656,97 +529,45 @@ export default class HomeScreen extends React.Component {
                
              
               </View>
-              <View style={{flexDirection:'row',justifyContent:'space-between',marginTop:15}}>
-              <View >
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>Product</Text>
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>1</Text>
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center',marginTop:10}}>2</Text>
+             
               </View>
-              
-           
-              <View >
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>RSP</Text>
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>86.78</Text>
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center',marginTop:10}}>86.000</Text>
+             <View style={{marginTop:10}}>
+             <PureChart type='bar'
+    data={sampleData}
+    width={'100%'}
+    height={150}
+/>
+             </View>
+             <View style={{flexDirection:'row',justifyContent:'space-between',padding:10}}>
+               <View>
+               <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Mode Of Payment</Text>
+              <Text style={{ fontSize: 12, color: '#696969',fontWeight:'bold',marginLeft:10}}>MonthToDay</Text>
+               </View>
+               <View >
+                <TouchableOpacity >
+                <View style={{width:130,height:30,borderWidth:1,borderColor:'#FD325F',borderRadius:5,justifyContent:'center',padding:5}}>
+                  <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+                    <View>
+                    <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Jul-2019</Text>
+                    </View>
+                <View style={{justifyContent:'center',alignItems:'center'}}>
+                    <Image source={require('../Assets/drop-down-arrow.png')} resizeMode='contain' style={{width:15,height:15,tintColor:'#FD325F'}}></Image>
+                    </View>
+                  </View>
+               
+                </View>
+                </TouchableOpacity>
+               
+             
               </View>
-              
-              <View >
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>RSP Received</Text>
-              <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
-                      <CheckBox
-                        checkBoxColor='#FD325F'
-                        onClick={() => this.Remeberme(this)}
-                        isChecked={this.state.isChecked}
-                      />
-                  
-                    </View>
-                    <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
-                      <CheckBox
-                        checkBoxColor='#FD325F'
-                        onClick={() => this.Remeberme(this)}
-                        isChecked={this.state.isChecked}
-                      />
-                  
-                    </View>
-                    
               </View>
-              
-              <View >
-              <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>RSP Puplished</Text>
-              <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
-                      <CheckBox
-                        checkBoxColor='#FD325F'
-                        onClick={() => this.Remeberme(this)}
-                        isChecked={this.state.isChecked}
-                      />
-                  
-                    </View>
-                    <View style={{   flexDirection: 'row' ,alignItems:'center',justifyContent:'center'}}>
-                      <CheckBox
-                        checkBoxColor='#FD325F'
-                        onClick={() => this.Remeberme(this)}
-                        isChecked={this.state.isChecked}
-                      />
-                  
-                    </View>
-              </View>
-              
-            </View>
-            <View style={{justifyContent:'center',alignItems:'center',marginTop:20}}>
-            <PureChart  width={100}
-    height={80} data={sampleData} type='pie' />
-            </View>
-         
-           
-        <View>
-          <View style={{flexDirection:'row',justifyContent:'space-evenly',padding:10}}>
-            <View>
-          <Pie
-            radius={50}
-            innerRadius={45}
-            series={[60]}
-            colors={['#FD325F']}
-            backgroundColor='#ddd' />
-          <View style={styles.gauge}>
-            <Text style={styles.gaugeText}>60%</Text>
-          </View>
-          <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>Connected</Text>
-          </View>
-          <View>
-          <Pie
-            radius={50}
-            innerRadius={45}
-            series={[40]}
-            colors={['#E8B212']}
-            backgroundColor='#ddd' />
-          <View style={styles.gauge}>
-            <Text style={styles.gaugeText}>40%</Text>
-          </View>
-          <Text style={{color:'#000',fontWeight:'bold',fontSize:12,textAlign:'center'}}>Not-Connected</Text>
-          </View>
-          </View>
-          
-        </View>
+             <View style={{marginTop:10}}>
+             <PureChart type='bar'
+    data={sampleData}
+    width={'100%'}
+    height={150}
+/>
+             </View>
 </View>
               </ScrollView>
 </LinearGradient>
@@ -764,16 +585,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  inputIOS: {
-    fontSize: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 4,
-    color: 'black',
-    paddingRight: 30, // to ensure the text is never behind the icon
-  },
   wave: {
     width: 250,
     marginTop:-100,
@@ -786,17 +597,6 @@ waveBall: {
     aspectRatio: 1,
     borderRadius: 50,
     overflow: 'hidden',
-},
-gauge: {
-  position: 'absolute',
-  width: 100,
-  height: 100,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-gaugeText: {
-  backgroundColor: 'transparent',
-  color: '#000',
-  fontSize: 24,
-},
+}
+  
 });
