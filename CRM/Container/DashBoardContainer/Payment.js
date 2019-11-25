@@ -6,9 +6,11 @@ const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import DraggableList from 'react-native-draggable-list';
+import DateTimePicker from "react-native-modal-datetime-picker";
 import RNSpeedometer from 'react-native-speedometer'
 import PureChart from 'react-native-pure-chart';
 import LinearGradient from 'react-native-linear-gradient';
+import MonthSelectorCalendar from 'react-native-month-selector'; //add this import line
 import CheckBox from 'react-native-check-box'
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Wave from 'react-native-waveview'
@@ -74,6 +76,10 @@ let sampleData = [
     color: '#E8B212'
   }
 ]
+
+
+var today = new Date();
+var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 let data = [  
     {
     name: "Seoul",
@@ -137,6 +143,9 @@ export default class Payment extends React.Component {
       counter: 0,
       activeBlock: null,
       itemsPerRow: 1,
+      PaymentDate:date, 
+      isDateTimePickerVisible:false,
+      isDateTimePickerVisibleMonth:false,
       itemHeight: 150,
       isChecked:true,
       value: 50,
@@ -267,6 +276,19 @@ export default class Payment extends React.Component {
     this.Load()
     LoginAPI('http://got-crm.com/api/mobile/dashboard.php','',this.successcallback,this.error,this.networkissue)
   }
+  handleDatePicked = date => {
+    console.log("A date has been picked: ", date);
+    this.hideDateTimePicker(date);
+  };
+  hideDateTimePicker = (date) => {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    this.setState({ isDateTimePickerVisible: false,PaymentDate:year+'-'+month+'-'+day});
+  };
   _renderItem({ item, index }) {
     return (
       <View style={{ width:300,height:80,backgroundColor:item.backgroundColor,borderWidth:1,borderColor:'#A9A9A9' ,borderRadius:10,justifyContent:'center',padding:10,alignItems:'center',opacity:0.9}}>
@@ -278,6 +300,12 @@ export default class Payment extends React.Component {
       </View>
     )
   }
+  showDateTimePicker = () => {
+    this.setState({ isDateTimePickerVisible: true });
+  };
+  showDateTimePickerMonth = () => {
+    this.setState({ isDateTimePickerVisibleMonth: true });
+  };
   get pagination () {
     const { carouselItems, activeSlide } = this.state;
     return (
@@ -484,8 +512,14 @@ export default class Payment extends React.Component {
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
                       <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Payment</Text>
                     </View>
-                    <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
+                    <View style={{justifyContent:'space-between',flexDirection:'row'}}>
+                    <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff' }} source={require('../Assets/exclamation.png')}></Image>
+                      </View>
+                      <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff',marginLeft:10 }} source={require('../Assets/alarm.png')}></Image>
+                      </View>
+                       
                       </View>
                   </View>
                                 </View>
@@ -498,26 +532,37 @@ export default class Payment extends React.Component {
           
           <View style={{flex:1}}>
         
+       
+        <View style={{flexDirection:'row',justifyContent:'space-between',padding:5}}> 
         <View>
-        <Text style={{color:'#000',fontWeight:'bold',fontSize:16,padding:20}}>Payments</Text>
+        <Text style={{color:'#000',fontWeight:'bold',fontSize:16}}>Payments</Text>
         </View>
-        <View style={{flexDirection:'row',alignSelf:'flex-end'}}> 
-              <View style={{justifyContent:'center',alignItems:'center'}}>
+        <View style={{flexDirection:'row'}}>
+        <View style={{justifyContent:'center',alignItems:'center'}}>
               <Image style={{ resizeMode: 'contain', width: 15, height: 15,tintColor:'#FD325F' }} source={require('../Assets/refresh-button.png')}></Image>
               </View>
+              <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Last Updated Date {this.state.PaymentDate}</Text>
+        </View>
+            
              
-              <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Last Updated Date 20/11/2017</Text>
+             
               </View>
               <View style={{flexDirection:'row',justifyContent:'space-between',padding:10}}>
                 <View>
                 <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Mode Of Payment</Text>
                 </View>
                 <View >
-                <TouchableOpacity >
+                <TouchableOpacity onPress={()=>this.showDateTimePicker()}>
                 <View style={{width:130,height:30,borderWidth:1,borderColor:'#FD325F',borderRadius:5,justifyContent:'center',padding:5}}>
+                <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this.handleDatePicked}
+         
+          onCancel={this.hideDateTimePicker}
+        />
                   <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                     <View>
-                    <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>2019-07-17</Text>
+                    <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>{this.state.PaymentDate}</Text>
                     </View>
                 <View style={{justifyContent:'center',alignItems:'center'}}>
                     <Image source={require('../Assets/drop-down-arrow.png')} resizeMode='contain' style={{width:15,height:15,tintColor:'#FD325F'}}></Image>
@@ -539,12 +584,18 @@ export default class Payment extends React.Component {
 />
              </View>
              <View style={{flexDirection:'row',justifyContent:'space-between',padding:10}}>
+             <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisibleMonth}
+          onConfirm={this.handleDatePicked}
+         
+          onCancel={this.hideDateTimePicker}
+        />
                <View>
                <Text style={{ fontSize: 12, color: '#000',fontWeight:'bold',marginLeft:10}}>Mode Of Payment</Text>
               <Text style={{ fontSize: 12, color: '#696969',fontWeight:'bold',marginLeft:10}}>MonthToDay</Text>
                </View>
                <View >
-                <TouchableOpacity >
+                <TouchableOpacity onPress={()=>this.showDateTimePickerMonth()}>
                 <View style={{width:130,height:30,borderWidth:1,borderColor:'#FD325F',borderRadius:5,justifyContent:'center',padding:5}}>
                   <View style={{flexDirection:'row',justifyContent:'space-between'}}>
                     <View>

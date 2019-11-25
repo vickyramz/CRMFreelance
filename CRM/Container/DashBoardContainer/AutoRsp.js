@@ -2,7 +2,7 @@ import React from "react";
 import { View, Image, Text,TouchableWithoutFeedback, ScrollView,Easing,TouchableHighlight,AsyncStorage,FlatList, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 
 import {LoginAPI} from '../API/PostApi'
-const width = Dimensions.get('window').width
+const SCREEN_HEIGHT = Dimensions.get('window').height
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 import DraggableList from 'react-native-draggable-list';
@@ -12,6 +12,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Pie from 'react-native-pie'
 import PureChart from 'react-native-pure-chart';
 import LinearGradient from 'react-native-linear-gradient';
+import ReactNativeParallaxHeader from 'react-native-parallax-header';
 import CheckBox from 'react-native-check-box'
 import DraggableFlatList from 'react-native-draggable-flatlist'
 import Wave from 'react-native-waveview'
@@ -47,6 +48,11 @@ const chartConfig = {
   strokeWidth: 2, // optional, default 3
   barPercentage:0.5
 }
+
+const IS_IPHONE_X = SCREEN_HEIGHT === 812 || SCREEN_HEIGHT === 896;
+const STATUS_BAR_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONE_X ? 44 : 20) : 0;
+const HEADER_HEIGHT = Platform.OS === 'ios' ? (IS_IPHONE_X ? 88 : 64) : 80;
+const NAV_BAR_HEIGHT = HEADER_HEIGHT - STATUS_BAR_HEIGHT;
 let data = [  
     {
     name: "Seoul",
@@ -66,6 +72,7 @@ let sampleData = [
     label: 'Not Connected',
     color: '#E8B212'
   },
+  
 ]
 let color=
   [
@@ -440,54 +447,34 @@ export default class HomeScreen extends React.Component {
   nav=()=>{
     this.loadingButton.showLoading(false);
   }
-  NavigationOpen = () => {
-    console.log('Navigation drawer open')
-   // this.props.navigation.navigate('Home');
-      this.props.navigation.toggleDrawer({
-        side:'left',
-        animated: true,
-        to: 'closed',
-    });
-  }
-  render() {
-    const data = series
-
-    const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
-
-    const pieData = data
-        .filter((value) => value > 0)
-        .map((value, index) => ({
-            value,
-            svg: {
-                fill: randomColor(),
-                onPress: () => console.log('press', index),
-            },
-            key: `pie-${index}`,
-        }))
-  
-    return (
-      <SafeAreaView style={{ flex: 1 ,}}>
-      
-      <View style={{ flex: 1}}>
-      <View style={{flex:0.11}}>
+  renderNavBar = () => (
+    <View style={{flex:0.11}}>
                                 <View style={{backgroundColor:'#FD325F',justifyContent:'center',height:60}} >
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
                       <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 ,tintColor:'#fff'}} source={require('../Assets/ham.png')}></Image>
+                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
                       </View>
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
-                      <Text style={{ fontSize: 17, color:'#fff',fontWeight:'bold'}}>Auto RSP</Text>
+                      <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Tank Stock</Text>
                     </View>
-                    <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
+                    <View style={{justifyContent:'space-between',flexDirection:'row'}}>
+                    <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff' }} source={require('../Assets/exclamation.png')}></Image>
+                      </View>
+                      <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff',marginLeft:10 }} source={require('../Assets/alarm.png')}></Image>
+                      </View>
+                       
                       </View>
                   </View>
                                 </View>
                             </View>
-        <View style={{flex:0.89}}>
+  )
+  renderContent=()=>(
+    <View style={{flex:0.89}}>
          
           <LinearGradient
   colors= {['#FFFFFF','#DFE1ED','#CCCFE2']} style={{flex:1}}>   
@@ -713,8 +700,11 @@ export default class HomeScreen extends React.Component {
               
             </View>
             <View style={{justifyContent:'center',alignItems:'center',marginTop:20}}>
-            <PureChart  width={100}
-    height={80} data={sampleData} type='pie' />
+           {Platform.OS === 'ios' ? <Pie
+          radius={100}
+          innerRadius={50}
+          series={[60,40]}
+          colors={['#FD325F', '#E8B212']} />:<PureChart   data={sampleData} type='pie' />} 
             </View>
          
            
@@ -752,6 +742,61 @@ export default class HomeScreen extends React.Component {
 </LinearGradient>
              
               </View>
+  )
+
+  
+  NavigationOpen = () => {
+    console.log('Navigation drawer open')
+   // this.props.navigation.navigate('Home');
+      this.props.navigation.toggleDrawer({
+        side:'left',
+        animated: true,
+        to: 'closed',
+    });
+  }
+  render() {
+    const data = series
+
+    const randomColor = () => ('#' + ((Math.random() * 0xffffff) << 0).toString(16) + '000000').slice(0, 7)
+
+    const pieData = data
+        .filter((value) => value > 0)
+        .map((value, index) => ({
+            value,
+            svg: {
+                fill: randomColor(),
+                onPress: () => console.log('press', index),
+            },
+            key: `pie-${index}`,
+        }))
+  
+    return (
+      <SafeAreaView style={{ flex: 1 ,}}>
+      
+      <View style={{ flex: 1}}>
+      {/* <ReactNativeParallaxHeader
+        headerMinHeight={HEADER_HEIGHT}
+        headerMaxHeight={90}
+        extraScrollHeight={20}
+        navbarColor="#FD325F"
+        title="Auto RSP"
+        titleStyle={styles.titleStyle}
+       // backgroundImage={images.background}
+        backgroundImageScale={1.2}
+        renderNavBar={this.renderNavBar}
+        renderContent={this.renderContent}
+        containerStyle={styles.container}
+        contentContainerStyle={styles.contentContainer}
+        innerContainerStyle={styles.container}
+        scrollViewProps={{
+          onScrollBeginDrag: () => console.log('onScrollBeginDrag'),
+          onScrollEndDrag: () => console.log('onScrollEndDrag'),
+        }}
+      /> */}
+      {this.renderNavBar()}
+      {this.renderContent()}
+
+    
             </View>
       </SafeAreaView>
     );
@@ -786,6 +831,32 @@ waveBall: {
     aspectRatio: 1,
     borderRadius: 50,
     overflow: 'hidden',
+},
+container: {
+  flex: 1,
+},
+contentContainer: {
+  flexGrow: 1,
+},
+navContainer: {
+  height: HEADER_HEIGHT,
+  marginHorizontal: 10,
+},
+statusBar: {
+  height: STATUS_BAR_HEIGHT,
+  backgroundColor: 'transparent',
+},
+navBar: {
+  height: NAV_BAR_HEIGHT,
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  flexDirection: 'row',
+  backgroundColor: 'transparent',
+},
+titleStyle: {
+  color: 'white',
+  fontWeight: 'bold',
+  fontSize: 18,
 },
 gauge: {
   position: 'absolute',

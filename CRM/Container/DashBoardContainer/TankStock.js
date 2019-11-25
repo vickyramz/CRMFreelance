@@ -5,6 +5,7 @@ import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+
 import DraggableList from 'react-native-draggable-list';
 import RNSpeedometer from 'react-native-speedometer'
 import LinearGradient from 'react-native-linear-gradient';
@@ -423,6 +424,33 @@ export default class HomeScreen extends React.Component {
     //     to: 'closed',
     // });
   }
+  renderNavBar = () => (
+    <View style={styles.navContainer}> 
+      <View style={styles.statusBar} />
+
+      <View style={{backgroundColor:'transparent'}}>
+        <View style={styles.navBar}>
+        <TouchableOpacity style={styles.iconLeft} onPress={this.NavigationOpen}>
+      <View >
+                        <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
+                      </View>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.iconRight} onPress={() => {}}>
+      <View style={{justifyContent:'space-between',flexDirection:'row'}}>
+                    <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff' }} source={require('../Assets/exclamation.png')}></Image>
+                      </View>
+                      <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff',marginLeft:10 }} source={require('../Assets/alarm.png')}></Image>
+                      </View>
+                       
+                      </View>
+      </TouchableOpacity>
+        </View>
+    
+    </View>
+    </View>
+  )
   render() {
     const data = series
 
@@ -455,8 +483,14 @@ export default class HomeScreen extends React.Component {
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
                       <Text style={{ fontSize: 17, color: '#fff',fontWeight:'bold'}}>Tank Stock</Text>
                     </View>
-                    <View >
-                        <Image style={{ resizeMode: 'contain', width: 30, height: 100,tintColor:'#fff' }} source={require('../Assets/alarm.png')}></Image>
+                    <View style={{justifyContent:'space-between',flexDirection:'row'}}>
+                    <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff' }} source={require('../Assets/exclamation.png')}></Image>
+                      </View>
+                      <View>
+                      <Image style={{ resizeMode: 'contain', width: 30, height: 30,tintColor:'#fff',marginLeft:10 }} source={require('../Assets/alarm.png')}></Image>
+                      </View>
+                       
                       </View>
                   </View>
                                 </View>
