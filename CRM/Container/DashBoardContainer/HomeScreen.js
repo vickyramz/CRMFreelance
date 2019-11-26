@@ -500,7 +500,7 @@ export default class HomeScreen extends React.Component {
                 autoplay={true}
                // onSnapToItem={(index) => this.action(index)}
               />
-              { this.pagination }
+              {/* { this.pagination } */}
           </View>
           <View>
         <View style={{flexDirection:'row'}}>

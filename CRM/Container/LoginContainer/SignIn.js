@@ -17,8 +17,8 @@ export default class SignIn extends React.Component {
   constructor(props) {
     super(props);
     this.state = ({
-      EmailAddress: '',
-      Password: '',
+      EmailAddress: 'admin@bpcl.co.in',
+      Password: '12345',
        visible: true ,
        color:'#EB6A00',
        image:require('../Assets/warning.png'),
@@ -109,8 +109,8 @@ Navigate=()=>{
       user_pass:this.state.Password
     }
     
-    this.LoginStatic()
-   // LoginAPI('http://got-crm.com/api/mobile/userAuth.php',params,this.successcallback,this.error,this.networkissue)
+    this.LoginStatic(params)
+   // 
   }
 
   //this.props.navigation.navigate('Dashboard')
@@ -126,16 +126,17 @@ _onPressHandler() {
   }
   else{
     let params={
-      user_name:this.state.EmailAddress,
-      user_pass:this.state.Password
+      userName:this.state.EmailAddress,
+      userPassword:this.state.Password
       
     }
-    this.setState({color:'#6BAD00',image:require('../Assets/success.png')})
-    this.showbar('Login Success')
     this.loadingButton.showLoading(true);
+    LoginAPI(Base_URL+LoginUrl,params,this.successcallback,this.error,this.networkissue)
+    
+  
   
     // mock
-    setTimeout(this.nav,2000);
+   // setTimeout(this.nav,2000);
     
 }
 
@@ -149,10 +150,16 @@ LoginStatic=()=>{
 }
 successcallback=async(data)=>{
   //console.log('Login Response--->',data)
-  
-  if(data.status){  
+  //Alert.alert(data.status.status)
+  // if(data.status.status=='APPLICATION_ERROR'){
+  //   this.showbar('Invalid credentials')
+  // }
+  if(data.statusDTO){
+   if(data.statusDTO.status==='SUCCESS'){  
    console.log('Login Response--->',data.data)    
-  await AsyncStorage.setItem('user_id',data.data.user_id.toString())
+   this.setState({color:'#6BAD00',image:require('../Assets/success.png')})
+   this.showbar(data.statusDTO.message)
+  await AsyncStorage.setItem('userDTO',data.userDTO.toString())
    const resetAction = StackActions.reset({
     index: 0,
     actions: [NavigationActions.navigate({ routeName:'Home'})],
@@ -161,9 +168,15 @@ successcallback=async(data)=>{
   }
  else {  
     //console.log('Login Response--->',data)   
-    Alert.alert('Alert','Invalid user input') 
+    this.showbar('Invalid credentials')
    }
-   this.Hide()
+ 
+}
+else {  
+  //console.log('Login Response--->',data)   
+  this.showbar('Invalid credentials')
+ }
+ this.loadingButton.showLoading(false);
 }
 Load=()=>{
   this.setState({animate:true})
@@ -173,10 +186,10 @@ Hide=()=>{
 }
 error=(error)=>{
   this.Hide()
-  this.showbar('Invalid credentials')
+  this.showbar(error.message)
 }
 networkissue=(error)=>{
-  Alert.alert('Failure',error)
+  this.showbar(error)
 }
 hideSpinner=()=> {
   this.setState({ visible: false });
@@ -272,14 +285,14 @@ hideSpinner=()=> {
               </View>
             </View>
             <View style={{ flex: 0.2,marginRight: 30,justifyContent:'flex-start',alignItems:'center' }}>
-              <View style={{ flexDirection: 'row' }}>
+              {/* <View style={{ flexDirection: 'row' }}>
               <GoogleSigninButton
 style={{ width: '90%', height: 50,marginLeft:30 }}
 size={GoogleSigninButton.Size.Wide}
 color={GoogleSigninButton.Color.Dark}
 onPress={this._signIn}
 disabled={this.state.isSigninInProgress} />
-              </View>
+              </View> */}
             </View>
            
           </LinearGradient>
