@@ -449,12 +449,12 @@ export default class HomeScreen extends React.Component {
   }
   renderNavBar = () => (
     <View style={{flex:0.11}}>
-                                <View style={{backgroundColor:'#FD325F',justifyContent:'center',height:60}} >
+                                <View style={{backgroundColor:'#FF7E06',justifyContent:'center',height:60}} >
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
-                    <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
-                      <View >
+                    <TouchableOpacity  style={{ width: 40, height: 40, justifyContent: 'center' }}>
+                      {/* <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
-                      </View>
+                      </View> */}
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>
@@ -612,9 +612,9 @@ export default class HomeScreen extends React.Component {
               />
               { this.pagination }
           </View> */}
-          <View style={{padding:10}}>
+          {/* <View style={{padding:10}}>
           <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Good Morning Abishek kumar!</Text>
-          </View>
+          </View> */}
               <View style={{flexDirection:'row',padding:10,justifyContent:'space-between'}}>
               <Text style={{ fontSize: 15, color: '#000',fontWeight:'bold'}}>Auto RSP</Text>
               <View style={{flexDirection:'row'}}> 

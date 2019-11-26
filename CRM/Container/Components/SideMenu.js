@@ -184,7 +184,7 @@ export default class SideMenu extends React.Component {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.MainContainer}>
         <LinearGradient
-  colors= {['#FD325F','#fd3280','#fd32a8']} style={{flex:1}}> 
+  colors= {['#FC8101','#FE8C29','#FF9E4B','#FFB26C']} style={{flex:1}}> 
          
       <View style={{flex:0.05}}></View>
             <View style={{ flex: 0.95}}>

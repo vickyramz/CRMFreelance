@@ -141,7 +141,7 @@ _onPressHandler() {
 
 }
 nav=()=>{
-  this.props.navigation.navigate('AutoRsp')
+  this.props.navigation.navigate('Dashboard')
 }
 LoginStatic=()=>{
   this.setState({color:'#6BAD00',image:require('../Assets/success.png'),animate:true})
@@ -188,7 +188,7 @@ hideSpinner=()=> {
       <SafeAreaView style={{ flex: 1,backgroundColor:'#FD325F' }}>
         <View style={{ flex: 1 }}>
         <LinearGradient
-  colors= {['#FD325F','#fd3280','#fd32a8']} style={{flex:1}}> 
+  colors= {['#FC8101','#FF8B23','#FEA049','#FFB26C']} style={{flex:1}}> 
           <Snackbar Visible={this.state.ShowAlert} color={this.state.color} image={this.state.image} alert={this.state.alert}></Snackbar>
           
             <View style={{ flex: 0.8, justifyContent: 'center' }}>

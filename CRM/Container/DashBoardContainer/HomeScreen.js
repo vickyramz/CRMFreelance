@@ -145,9 +145,10 @@ export default class HomeScreen extends React.Component {
       dataSource:[
 {name:'Auto  RSP',id:1,image:require('../Assets/timetable.png')},
 {name:'Tank Stock',id:2,image:require('../Assets/increasing-stocks-graphic.png')},
-{name:'MPD Connectivity',id:3,image:require('../Assets/bar.png')},
-{name:'EDC Connectivity',id:4,image:require('../Assets/edc.png')},
-{name:'Product Wise Sales',id:5,image:require('../Assets/timetable.png')},
+{name:'Product Wise Sales',id:3,image:require('../Assets/timetable.png')},
+{name:'MPD Connectivity',id:4,image:require('../Assets/bar.png')},
+{name:'EDC Connectivity',id:5,image:require('../Assets/edc.png')},
+
 {name :'MOP',id:6,image:require('../Assets/timetable.png')},
 {name:'VSAT/SIM Connectivity',id:7,image:require('../Assets/timetable.png')}
       ],
@@ -318,10 +319,19 @@ export default class HomeScreen extends React.Component {
   Hide=()=>{
     this.setState({animate:false})
   }
-  handlePress (event) {
-    let pressLocationX = event.nativeEvent.locationX
-    let pressLocationY = event.nativeEvent.locationY
-    this.props.navigation.navigate('AutoRsp')
+  handlePress= (event) =>{
+    if(event.id==1){
+      // let pressLocationX = event.nativeEvent.locationX
+      // let pressLocationY = event.nativeEvent.locationY
+      this.props.navigation.navigate('AutoRsp')
+    }
+    else if(event.id==2){
+      this.props.navigation.navigate('TankStock')
+    }
+    else if(event.id==3){
+      this.props.navigation.navigate('Payment')
+    }
+  
   }
   renderSeparator=(item)=>{
     return(
@@ -363,7 +373,7 @@ export default class HomeScreen extends React.Component {
     return (
       <TouchableWithoutFeedback
           style={styles.touchable}
-          onPress={this.handlePress}>
+          onPress={()=>this.handlePress(item)}>
                  <View
       style={{ borderWidth: 0.5, borderRadius: 40, borderColor: '#47b19a', height: 180, backgroundColor: '#6659B1', width: 200, marginLeft: 10, marginRight: 10,justifyContent:'center',alignItems:'center' }}
       >
@@ -442,12 +452,12 @@ export default class HomeScreen extends React.Component {
       
       <View style={{ flex: 1}}>
       <View style={{flex:0.11}}>
-                                <View style={{backgroundColor:'#FD325F',justifyContent:'center',height:60}} >
+                                <View style={{backgroundColor:'#F88308',justifyContent:'center',height:60}} >
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
-                    <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
-                      <View >
+                    <TouchableOpacity  style={{ width: 40, height: 40, justifyContent: 'center' }}>
+                      {/* <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
-                      </View>
+                      </View> */}
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>

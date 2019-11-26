@@ -501,12 +501,12 @@ export default class Payment extends React.Component {
       
       <View style={{ flex: 1}}>
       <View style={{flex:0.11}}>
-                                <View style={{backgroundColor:'#FD325F',justifyContent:'center',height:60}} >
+                                <View style={{backgroundColor:'#FF7E06',justifyContent:'center',height:60}} >
                                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',padding:10 }}>
                     <TouchableOpacity onPress={this.NavigationOpen} style={{ width: 40, height: 40, justifyContent: 'center' }}>
-                      <View >
+                      {/* <View >
                         <Image style={{ resizeMode: 'contain', width: 30, height: 100 }} source={require('../Assets/ham.png')}></Image>
-                      </View>
+                      </View> */}
                     </TouchableOpacity>
 
                     <View style={{ justifyContent: "center", alignItems: 'center' }}>

@@ -103,9 +103,9 @@ const BottomTab = createMaterialBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/home.png')}></Image>
         ),
-        activeColor: '#fff',  
-        inactiveColor: '#A9A9A9',  
-        barStyle: { backgroundColor: '#FD325F' },  
+        activeColor: '#000',  
+        inactiveColor: '#B3C3C3',  
+        barStyle: { backgroundColor: '#fff' },  
       }
     },
     Profile: {
@@ -117,9 +117,9 @@ const BottomTab = createMaterialBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/man-user.png')}></Image>
         ),
-        activeColor: '#fff',  
-        inactiveColor: '#A9A9A9',  
-        barStyle: { backgroundColor: '#FF643C' },  
+        activeColor: '#000',  
+        inactiveColor: '#B3C3C3',  
+        barStyle: { backgroundColor: '#fff' },  
       }
     },
     // Settings: {
@@ -159,7 +159,7 @@ const authStack = createSwitchNavigator({
   Signin: { screen: SignIn },
   //Signup: { screen: Signup },
 
-   Dashboard: Drawer
+   Dashboard: BottomTab
 })
 const container = createAppContainer(authStack)
 
