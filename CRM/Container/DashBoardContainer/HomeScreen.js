@@ -1,19 +1,22 @@
 import React from "react";
-import { View, Image, Text,TouchableWithoutFeedback, ScrollView,Easing,TouchableHighlight,AsyncStorage,FlatList, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
+import { View, Image, Text,TouchableWithoutFeedback, ScrollView,Easing,UIManager,Platform,LayoutAnimation,TouchableHighlight,AsyncStorage,FlatList, ImageBackground, Dimensions, StyleSheet, TouchableOpacity, KeyboardAvoidingView, SafeAreaView, ActivityIndicator, Alert } from "react-native";
 
 import {LoginAPI} from '../API/PostApi'
 const width = Dimensions.get('window').width
 import Spinner from 'react-native-loading-spinner-overlay';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
+import SwipeUpDown from 'react-native-swipe-up-down';
 import DraggableList from 'react-native-draggable-list';
 import RNSpeedometer from 'react-native-speedometer'
 import LinearGradient from 'react-native-linear-gradient';
 import CheckBox from 'react-native-check-box'
 import DraggableFlatList from 'react-native-draggable-flatlist'
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 import Wave from 'react-native-waveview'
 import ImagePicker from 'react-native-image-picker';
 import { PieChart } from 'react-native-svg-charts'
 import CircleTransition from 'react-native-expanding-circle-transition'
+import MenuExpandable from '../Components/MenuExpandable'
 const ANIMATION_DURATION = 1200
 const INITIAL_VIEW_BACKGROUND_COLOR = '#E3E4E5'
 const CIRCLE_COLOR1 = '#29C5DB'
@@ -96,6 +99,9 @@ export default class HomeScreen extends React.Component {
   };
   constructor(props) {
     super(props);
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true)
+    }
     this.state = ({
       categories:[],
       dataSourceBills:{},
@@ -372,27 +378,18 @@ export default class HomeScreen extends React.Component {
 
     return (
       <TouchableWithoutFeedback
-          style={styles.touchable}
-          onPress={()=>this.handlePress(item)}>
-                 <View
-      style={{ borderWidth: 0.5, borderRadius: 40, borderColor: '#47b19a', height: 180, backgroundColor: '#6659B1', width: 200, marginLeft: 10, marginRight: 10,justifyContent:'center',alignItems:'center' }}
-      >
-         {/* <CircleTransition
-          ref={(circle) => { this.circleTransition = circle }}
-          color={this.state.circleColor}
-          expand
-          customTopMargin={this.state.customTopMargin}
-          customLeftMargin={this.state.customLeftMargin}
-          transitionBuffer={TRANSITION_BUFFER}
-          duration={ANIMATION_DURATION}
-          easing={Easing.linear}
-          position={POSITON}
-        /> */}
-        <Image style={{ width: 50, height: 50, resizeMode: 'contain' }}
-          source={item.image}></Image>
-       <Text style={{textAlign:'center',color:'#fff',fontSize:17,fontWeight:'bold',marginTop:10}}>{item.name}</Text>
-      </View>
-          </TouchableWithoutFeedback>
+      style={styles.touchable}
+      onPress={()=>this.handlePress(item)}>
+             <View
+  style={{ borderWidth: 0.5, borderRadius: 40, borderColor: '#47b19a', height: 180, backgroundColor: '#6659B1', width: 200, marginLeft: 10, marginRight: 10,justifyContent:'center',alignItems:'center' }}
+  >
+  
+    <Image style={{ width: 50, height: 50, resizeMode: 'contain' }}
+      source={item.image}></Image>
+   <Text style={{textAlign:'center',color:'#fff',fontSize:17,fontWeight:'bold',marginTop:10}}>{item.name}</Text>
+  </View>
+      </TouchableWithoutFeedback>
+   
  
     );
   };
@@ -430,6 +427,20 @@ export default class HomeScreen extends React.Component {
     //     animated: true,
     //     to: 'closed',
     // });
+  }
+  update_Layout = (index) => {
+
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+
+    const array = [...this.state.dataSource];
+
+    array[index]['expanded'] = !array[index]['expanded'];
+
+    this.setState(() => {
+      return {
+        dataSource: array
+      }
+    });
   }
   render() {
     const data = series
@@ -492,14 +503,31 @@ export default class HomeScreen extends React.Component {
               { this.pagination }
           </View>
           <View>
-          <FlatList
+        <View style={{flexDirection:'row'}}>
+          <ScrollView horizontal={true}>
+          {
+                    this.state.dataSource.length!=0?this.state.dataSource.map((item, key) =>
+                      (
+                        <MenuExpandable handlePress={this.handlePress.bind(this)} key={item.id} onClickFunction={this.update_Layout.bind(this, key)} item={item} />
+                      )):
+                      <View>
+              <View style={{justifyContent:'center',alignItems:'center'}}>
+              <Text style={{color:'#fff',fontWeight:'bold',opacity:1,fontSize:15,fontFamily:'Exo2-Regular'}}>No Data Found</Text>
+              </View>
+              </View>
+                  }
+          </ScrollView>
+      
+        </View>
+    
+          {/* <FlatList
                       horizontal={true}
                       data={this.state.dataSource}
                       extraData={this.state}
                       keyExtractor={this._keyExtractor}
                       renderItem={this.renderItem}
                       showsHorizontalScrollIndicator={true}
-                    />
+                    /> */}
 
 <FlatList
                       //horizontal={true}
