@@ -9,16 +9,8 @@
 import React, { Fragment } from 'react';
 import {  createAppContainer, createBottomTabNavigator, createSwitchNavigator, DrawerItems } from "react-navigation";
 import SignIn from '../Container/LoginContainer/SignIn'
-import HomeScreen from '../Container/DashBoardContainer/HomeScreen'
-import CardScanner from '../Container/DashBoardContainer/CardScanner'
-import AutoRsp from '../Container/DashBoardContainer/AutoRsp'
-import TankStock from '../Container/DashBoardContainer/TankStock'
-import Icon from 'react-native-vector-icons/Ionicons';
-import { createMaterialBottomTabNavigator } from 'react-navigation-material-bottom-tabs';
-import Payment from '../Container/DashBoardContainer/Payment'
-import { createStackNavigator } from 'react-navigation-stack';
-import {createDrawerNavigator} from 'react-navigation-drawer'
-import SideMenu from '../Container/Components/SideMenu'
+
+import {createStackNavigator} from 'react-navigation-stack'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
 const TransitionConfiguration = () => {
   return {
@@ -71,13 +63,9 @@ let CollapseExpand = (index, position) => {
   };
 };
 
-const HomeTab = createStackNavigator(
+const Contacts = createStackNavigator(
   {
-    Home: HomeScreen,
-    CardScanner:CardScanner,
-    Payment:Payment,
-    AutoRsp:AutoRsp,
-    TankStock:TankStock,
+    contact: SignIn,
      //Events:Events,
   },
   {
@@ -92,50 +80,50 @@ const HomeTab = createStackNavigator(
     },
   }
 );
-const BottomTab = createMaterialBottomTabNavigator(
+const BottomTab = createBottomTabNavigator(
   {
-    Home: {
-      screen: HomeTab,
+    Contacts: {
+      screen: Contacts,
       navigationOptions: {
         title: 'Home',
         tabBarLabel: 'Home',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/home.png')}></Image>
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/contact-black.png')}></Image>
         ),
         activeColor: '#000',  
         inactiveColor: '#B3C3C3',  
         barStyle: { backgroundColor: '#fff' },  
       }
     },
-    Profile: {
-      screen: HomeTab,
+    Enquires: {
+      screen: Contacts,
       navigationOptions: {
         title: 'New Customer',
         tabBarLabel: 'New Customer',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/man-user.png')}></Image>
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/contact-black.png')}></Image>
         ),
         activeColor: '#000',  
         inactiveColor: '#B3C3C3',  
         barStyle: { backgroundColor: '#fff' },  
       }
     },
-    // Settings: {
-    //   screen: HomeTab,
-    //   navigationOptions: {
-    //     title: 'Settings',
-    //     tabBarLabel: 'Settings',
+    Schedule: {
+      screen: Contacts,
+      navigationOptions: {
+        title: 'Settings',
+        tabBarLabel: 'Settings',
 
-    //     tabBarIcon: ({ tintColor, focused }) => (
-    //       <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/settings-gears.png')}></Image>
-    //     ),
-    //     activeColor: '#fff',  
-    //     inactiveColor: '#A9A9A9',  
-    //     barStyle: { backgroundColor: '#E8B212' },  
-    //   }
-    // },
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/contact-black.png')}></Image>
+        ),
+        activeColor: '#fff',  
+        inactiveColor: '#A9A9A9',  
+        barStyle: { backgroundColor: '#E8B212' },  
+      }
+    },
   },
   // {
   //   initialRouteName: 'Home',
@@ -144,22 +132,9 @@ const BottomTab = createMaterialBottomTabNavigator(
   //   barStyle: { backgroundColor: '#FD325F' },
   // }
 );
-const Drawer = createDrawerNavigator({
-  Tabs: { screen: BottomTab },
-
-}, {
-  contentComponent: SideMenu,
-  drawerWidth: Dimensions.get('window').width - 130,
-  drawerLockMode: 'locked-closed'
-},
-
-
-)
 const authStack = createSwitchNavigator({
   Signin: { screen: SignIn },
   //Signup: { screen: Signup },
-
-   Dashboard: BottomTab
 })
 const container = createAppContainer(authStack)
 
