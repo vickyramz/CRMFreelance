@@ -7,9 +7,10 @@
  */
 
 import React, { Fragment } from 'react';
-import {  createAppContainer, createBottomTabNavigator, createSwitchNavigator, DrawerItems } from "react-navigation";
+import {  createAppContainer, createSwitchNavigator, DrawerItems } from "react-navigation";
 import SignIn from '../Container/LoginContainer/SignIn'
-
+import Contact from '../Container/AppContainer/Contact'
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
 const TransitionConfiguration = () => {
@@ -65,7 +66,7 @@ let CollapseExpand = (index, position) => {
 
 const Contacts = createStackNavigator(
   {
-    contact: SignIn,
+    contact: Contact,
      //Events:Events,
   },
   {
@@ -85,28 +86,28 @@ const BottomTab = createBottomTabNavigator(
     Contacts: {
       screen: Contacts,
       navigationOptions: {
-        title: 'Home',
-        tabBarLabel: 'Home',
+        title: 'Contacts',
+        tabBarLabel: 'Contacts',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/contact-black.png')}></Image>
+          <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/contact-black.png')}></Image>
         ),
         activeColor: '#000',  
-        inactiveColor: '#B3C3C3',  
+        inactiveColor: '#f39a3e',  
         barStyle: { backgroundColor: '#fff' },  
       }
     },
     Enquires: {
       screen: Contacts,
       navigationOptions: {
-        title: 'New Customer',
-        tabBarLabel: 'New Customer',
+        title: 'Enquires',
+        tabBarLabel: 'Enquires',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/contact-black.png')}></Image>
+          <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
         ),
         activeColor: '#000',  
-        inactiveColor: '#B3C3C3',  
+        inactiveColor: '#f39a3e',  
         barStyle: { backgroundColor: '#fff' },  
       }
     },
@@ -117,10 +118,10 @@ const BottomTab = createBottomTabNavigator(
         tabBarLabel: 'Settings',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:25,height:25,tintColor:tintColor}} source={require('../Container/Assets/contact-black.png')}></Image>
+          <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
         ),
         activeColor: '#fff',  
-        inactiveColor: '#A9A9A9',  
+        inactiveColor: '#f39a3e',  
         barStyle: { backgroundColor: '#E8B212' },  
       }
     },
@@ -132,10 +133,29 @@ const BottomTab = createBottomTabNavigator(
   //   barStyle: { backgroundColor: '#FD325F' },
   // }
 );
-const authStack = createSwitchNavigator({
-  Signin: { screen: SignIn },
+const AuthStack=createStackNavigator({
+  Signin: SignIn,
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+ }  )
+const AppStack=createStackNavigator({
+  BottomTab: BottomTab,
+},
+{
+  headerMode: 'none',
+  navigationOptions: {
+    headerVisible: false,
+  }
+ }  )
+const Containers = createSwitchNavigator({
+    Auth:AuthStack,
+    App:AppStack
   //Signup: { screen: Signup },
 })
-const container = createAppContainer(authStack)
+const container = createAppContainer(Containers)
 
 export default container;

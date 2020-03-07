@@ -4,6 +4,8 @@ import React from 'react';
 import { View, Text,KeyboardAvoidingView,TextInput, ImageBackground, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 export default class SignIn extends React.Component {
   constructor(props){
     super(props);
@@ -61,9 +63,12 @@ export default class SignIn extends React.Component {
          
           </View>
          </View>
+         <TouchableOpacity onPress={()=>this.props.navigation.navigate('App')}>
          <View style={{marginHorizontal:30,borderRadius:20,justifyContent:'center',alignItems:'center', backgroundColor:'#f39a3e',height:40,marginTop:20}}>
          <Text style={{ fontSize: 16, color: '#fff', fontWeight:'bold' }}>Sign In</Text>
          </View>
+         </TouchableOpacity>
+         
          <View style={{marginHorizontal:60,marginTop:20,flexDirection:'row',alignItems:'center'}}>
          <Text style={{ fontSize: 14, color: '#5c6c80' }}>Dont' have an Account?</Text>
          <Text style={{ fontSize: 14, color: '#2046f6' }}>Sign Up here</Text>
