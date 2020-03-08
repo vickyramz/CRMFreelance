@@ -5,7 +5,6 @@ import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity} from 're
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
-import MultiSelect from 'react-native-multiple-select';
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
@@ -57,7 +56,8 @@ export default class AddSchedule extends React.Component {
   };
   navigate=()=>{
     this.props.onShut()
-    this.props.props.navigation.navigate('SearchUser')
+    const {props}= this.props
+    props.navigation.navigate('SearchUser')
   }
   render() {
     const { selectedItems } = this.state;

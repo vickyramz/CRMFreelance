@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View,StyleSheet ,FlatList,TouchableOpacity,Text,Image,TextInput,Animated} from 'react-native';
-import MultiSelect from 'react-native-multiple-select';
  let items = [{
     id: '92iijs7yta',
     name: 'Ondo',
@@ -33,7 +32,7 @@ export default class SearchUser extends Component {
     static navigationOptions = () => {
         return {
           header: null,
-          tabBarVisible: navigation.getParam('bottombar'),
+        
         }
       }
       constructor(props){
@@ -53,7 +52,7 @@ export default class SearchUser extends Component {
         
         return item;
       });
-      this.props.navigation.setParams({ bottombar: false })
+
       this.setState({  dataSource:items})
  }
  selectItem = data => {
@@ -69,12 +68,14 @@ export default class SearchUser extends Component {
       dataSource: this.state.dataSource,
     });   
   };
+
   animation=()=>{
+    console.log('this.state.dataSource.length',this.state.dataSource.length)
     Animated.timing(this._visibility, {
-        toValue:1,
+        toValue:this.state.dataSource.length>0?1:0,
         duration: 200,
         useNativeDriver:true
-      });
+      }).start();
   }
   renderItem = (data) =>{
     console.log('data',data)
@@ -130,7 +131,7 @@ export default class SearchUser extends Component {
         {
           translateY: this._visibility.interpolate({
             inputRange: [0, 1],
-            outputRange: [0, 100],
+            outputRange: [100, 0],
           }),
         },
       ],}}>

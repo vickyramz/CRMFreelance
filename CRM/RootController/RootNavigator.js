@@ -110,8 +110,8 @@ const BottomTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/contact-black.png')}></Image>
         ),
-        activeColor: '#000',  
-        inactiveColor: '#f39a3e',  
+        activeColor: '#f39a3e',  
+        inactiveColor: '#000',  
         barStyle: { backgroundColor: '#fff' },  
       }
     },
@@ -124,8 +124,8 @@ const BottomTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
         ),
-        activeColor: '#000',  
-        inactiveColor: '#f39a3e',  
+        activeColor: '#f39a3e',  
+        inactiveColor: '#000',  
         barStyle: { backgroundColor: '#fff' },  
       }
     },
@@ -136,10 +136,10 @@ const BottomTab = createBottomTabNavigator(
         tabBarLabel: 'Schedule',
 
         tabBarIcon: ({ tintColor, focused }) => (
-          <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
+          <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/calendar.png')}></Image>
         ),
-        activeColor: '#fff',  
-        inactiveColor: '#f39a3e',  
+        activeColor: '#f39a3e',  
+        inactiveColor: '#000',  
         barStyle: { backgroundColor: '#E8B212' },  
       }
     },

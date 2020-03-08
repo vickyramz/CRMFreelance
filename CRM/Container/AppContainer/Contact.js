@@ -6,6 +6,8 @@ import { View, Text,Dimensions,TextInput, ImageBackground, StyleSheet, Image } f
 import SplashScreen from 'react-native-splash-screen'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import AlphaScrollFlatList from 'alpha-scroll-flat-list';
+import RBSheet from "react-native-raw-bottom-sheet";
+import Filter from '../Components/Filter'
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
 export default class Contact extends React.Component {
@@ -22,105 +24,66 @@ export default class Contact extends React.Component {
     dataSource:[],
     data: [
         {
-          "id": "5b588d4acb1fe7c48301af77",
+          "id": "0",
           "name": "Iris Maddox",
           "company": "COLAIRE"
         },
         {
-          "id": "5b588d4a7e7b0b916259c3f0",
+          "id": "1",
           "name": "Jane Small",
           "company": "DUOFLEX"
         },
         {
-          "id": "5b588d4a478f8056d34b794c",
+          "id": "2",
           "name": "Dotson Ortiz",
           "company": "CYTREX"
         },
         {
-          "id": "5b588d4a14ed168a2673c902",
+          "id": "3",
           "name": "Hall Nguyen",
           "company": "ENTROFLEX"
         },
         {
-          "id": "5b588d4a7549063dbb46df0b",
+          "id": "4",
           "name": "Estrada Armstrong",
           "company": "BOILICON"
         },
         {
-          "id": "5b588d4aa564689268c5472a",
+          "id": "5",
           "name": "Josie Harmon",
           "company": "RODEMCO"
         },
         {
-          "id": "5b588d4a00f614c7ae794fd3",
+          "id": "6",
           "name": "Sondra Stevenson",
           "company": "OHMNET"
         },
         {
-          "id": "5b588d4a69a2745fe601a688",
+          "id": "7",
           "name": "Booker Trevino",
           "company": "OCEANICA"
         },
         {
-          "id": "5b588d4a22d9a7800b157b0e",
+          "id": "8",
           "name": "Lilly Luna",
           "company": "INCUBUS"
         },
         {
-          "id": "5b588d4a04251caba4c9fb97",
+          "id": "9",
           "name": "Bird Landry",
           "company": "ELECTONIC"
         },
         {
-          "id": "5b588d4acb1fe7c48301af77",
+          "id": "10",
           "name": "Iris Maddox",
           "company": "COLAIRE"
         },
         {
-          "id": "5b588d4a7e7b0b916259c3f0",
+          "id": "11",
           "name": "Jane Small",
           "company": "DUOFLEX"
         },
-        {
-          "id": "5b588d4a478f8056d34b794c",
-          "name": "Dotson Ortiz",
-          "company": "CYTREX"
-        },
-        {
-          "id": "5b588d4a14ed168a2673c902",
-          "name": "Hall Nguyen",
-          "company": "ENTROFLEX"
-        },
-        {
-          "id": "5b588d4a7549063dbb46df0b",
-          "name": "Estrada Armstrong",
-          "company": "BOILICON"
-        },
-        {
-          "id": "5b588d4aa564689268c5472a",
-          "name": "Josie Harmon",
-          "company": "RODEMCO"
-        },
-        {
-          "id": "5b588d4a00f614c7ae794fd3",
-          "name": "Sondra Stevenson",
-          "company": "OHMNET"
-        },
-        {
-          "id": "5b588d4a69a2745fe601a688",
-          "name": "Booker Trevino",
-          "company": "OCEANICA"
-        },
-        {
-          "id": "5b588d4a22d9a7800b157b0e",
-          "name": "Lilly Luna",
-          "company": "INCUBUS"
-        },
-        {
-          "id": "5b588d4a04251caba4c9fb97",
-          "name": "Bird Landry",
-          "company": "ELECTONIC"
-        },
+      
        
       ],}
   }
@@ -147,14 +110,36 @@ export default class Contact extends React.Component {
   keyExtractor (item) {
     return item.id;
   }
+  openFilter=()=>{
+    this.RBSheet.open();
+  }
+  close=()=>{
+    this.RBSheet.close();
+  }
 
   render() {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.2 }}>
-            <View style={{padding:20}}>
+          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+          <View style={{padding:20}}>
                 <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Contacts</Text>
             </View>
+            <TouchableOpacity onPress={()=>this.openFilter()}>
+            <View style={{padding:20,
+            backgroundColor:'#366af1',
+            borderBottomLeftRadius:30, 
+            justifyContent:'center',
+            alignItems:'center'}}>
+            <Image 
+            source={require('../Assets/filter.png')}
+            style={{width:30,height:30,resizeMode:'contain',tintColor:'#fff'}}
+          />
+            </View>
+            </TouchableOpacity>
+           
+          </View>
+            
             <View style={{paddingHorizontal:20}}>
             <View style={styles.SectionStyle}>
           <Image 
@@ -194,12 +179,25 @@ export default class Contact extends React.Component {
           data={this.state.data}
           //data={this.state.dataSource}
           renderItem={this.renderItem.bind(this)}
-          scrollKey={'name'}
+          scrollKey={'id'}
           reverse={false}
           itemHeight={ITEM_HEIGHT}
         />  
             </View>
-           
+           <RBSheet
+          ref={ref => {
+            this.RBSheet = ref;
+          }}
+          height={600}
+          duration={250}
+          customStyles={{
+            container: {
+            
+            }
+          }}
+        >
+          <Filter onShut={()=>this.close()} props={this.props} />
+        </RBSheet>
          
       </View>
 
