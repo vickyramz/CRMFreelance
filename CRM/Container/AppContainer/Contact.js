@@ -124,7 +124,9 @@ export default class Contact extends React.Component {
        
       ],}
   }
-
+  navigate=()=>{
+    this.props.navigation.navigate('AddContacts')
+  }
   renderItem ({item}) {
 
     return (
@@ -171,16 +173,21 @@ export default class Contact extends React.Component {
             </View>
             <View style={{flex:0.8}}>
                 <View style={{height:40,backgroundColor:'#f3f3f3',justifyContent:'center'}}>
+                <TouchableOpacity onPress={()=>this.navigate()}>
                     <View style={{paddingHorizontal:40,flexDirection:'row'}}>
-                        <View style={{justifyContent:'center',alignItems:'center'}}>
+                     
+                      <View style={{justifyContent:'center',alignItems:'center'}}>
                         <Image 
             source={require('../Assets/more.png')}
             style={{width:15,height:15,resizeMode:'contain',tintColor:'#f39a3e'}}
           />
                         </View>
                   
+                       
+                  
           <Text style={{color:'#f39a3e',fontWeight:'bold',fontSize:16,paddingHorizontal:10}}>Add Contacts</Text>
                     </View>
+                    </TouchableOpacity>
                 </View>
                 <AlphaScrollFlatList
           keyExtractor={this.keyExtractor.bind(this)}

@@ -10,6 +10,9 @@ import React, { Fragment } from 'react';
 import {  createAppContainer, createSwitchNavigator, DrawerItems } from "react-navigation";
 import SignIn from '../Container/LoginContainer/SignIn'
 import Contact from '../Container/AppContainer/Contact'
+import AddContacts from '../Container/AppContainer/AddContacts'
+import Calender from '../Container/AppContainer/Calender'
+import SearchUser from '../Container/AppContainer/SearchUser'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
@@ -67,6 +70,7 @@ let CollapseExpand = (index, position) => {
 const Contacts = createStackNavigator(
   {
     contact: Contact,
+    AddContacts:AddContacts
      //Events:Events,
   },
   {
@@ -75,6 +79,20 @@ const Contacts = createStackNavigator(
       headerStyle: {
         backgroundColor: '#0091EA',
       },
+      headerTintColor: '#fff',
+      title: null,
+
+    },
+  }
+);
+const CalenderStack = createStackNavigator(
+  {
+    Calender: Calender,
+    SearchUser:SearchUser
+  },
+  {
+    transitionConfig: TransitionConfiguration,
+    defaultNavigationOptions: {
       headerTintColor: '#fff',
       title: null,
 
@@ -112,10 +130,10 @@ const BottomTab = createBottomTabNavigator(
       }
     },
     Schedule: {
-      screen: Contacts,
+      screen: CalenderStack,
       navigationOptions: {
-        title: 'Settings',
-        tabBarLabel: 'Settings',
+        title: 'Schedule',
+        tabBarLabel: 'Schedule',
 
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
