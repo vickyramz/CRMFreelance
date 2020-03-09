@@ -1,18 +1,17 @@
 //This is an example code to set Backgroud image///
 import React from 'react';
 //import react in our code. 
-import { View, Text,Dimensions,StyleSheet, Image } from 'react-native';
+import { View, Text,Dimensions,FlatList, Image,StyleSheet,TextInput,TouchableOpacity } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
-import AddContacts from '../Components/AddSchedule'
+import Leadsheet from '../Components/Leadsheet'
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination}from 'react-native-snap-carousel';
 const { width: screenWidth } = Dimensions.get('window')
-import { TouchableOpacity } from 'react-native-gesture-handler';
 const workout = {key:'workout', color: 'green'};
 const item=[
   {
@@ -101,7 +100,7 @@ export default class Lead extends React.Component {
 }
 _renderItem = ({item, index}) => {
   return (
-      <View style={{backgroundColor:'#504fe1',height:160,padding:20,justifyContent:'space-between',borderRadius:15}}>
+      <View style={{backgroundColor:'#504fe1',height:180,padding:20,justifyContent:'space-between',borderRadius:15}}>
         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
           <View style={{flexDirection:'row'}}>
           <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
@@ -156,9 +155,9 @@ _renderItem = ({item, index}) => {
       </View>
   );
 }
-getItems = (item) => {
+getItems = ({item}) => {
     return (
-        <View style={{backgroundColor:'#504fe1',height:160,padding:20,justifyContent:'space-between',borderRadius:15}}>
+        <View style={{backgroundColor:'#504fe1',height:240,padding:20,justifyContent:'space-between',borderRadius:15,marginLeft:20}}>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             <View style={{flexDirection:'row'}}>
             <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
@@ -184,12 +183,15 @@ getItems = (item) => {
             
             </View>
             </View>
+            <TouchableOpacity onPress={()=>this.RBSheet.open()}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
             <Image 
             source={require('../Assets/moredots.png')}
             style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
           />
             </View>
+            </TouchableOpacity>
+        
           
           </View>
            <View style={{flexDirection:'row',justifyContent:'space-between'}}>
@@ -255,11 +257,27 @@ getItems = (item) => {
               </View>
               </TouchableOpacity>
               <LinearGradient colors={['#fffdff', '#ebebf8', '#f7f7f7']} style={{flex:1}}>
-                <View style={{justifyContent:'center',alignItems:'center'}}>
+                
+               <View style={{flex:1,marginTop:10}}>
+               <View style={{paddingHorizontal:20}}>
+            <View style={styles.SectionStyle}>
+          <Image 
+            source={require('../Assets/search.png')}
+            style={styles.ImageStyle}
+          />
+
+          <TextInput
+            style={{ flex: 1 }}
+            placeholder="Search Enquiries/contact name/Email"
+            underlineColorAndroid="transparent"
+          />
+        </View>
+            </View>
+            <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
                 <Text style={{color:'#d3d1d7',fontWeight:'bold',fontSize:14,textAlign:'center'}}>Recent Enquiry List</Text>
                 </View>
-               <View style={{flex:1,marginTop:10}}>
-               <Carousel
+                <View> 
+                <Carousel
               ref={(c) => { this._carousel = c; }}
               data={item}
               renderItem={this._renderItem}
@@ -269,17 +287,38 @@ getItems = (item) => {
                 hasParallaxImages={true}
                 itemWidth={screenWidth - 60}
             />
-             
-               </View>
-               <View>
+                </View>
+              
+             <View>
+             <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
+                <Text style={{color:'#d3d1d7',fontWeight:'bold',fontSize:14,textAlign:'center'}}>Total Enquiry List</Text>
+                </View>
                  {item.length>0?
-                 item.map((items,index)=>{
-                   return(
-                    this.getItems(items)
-                   )
-                  
-                 }):null}
+                  <FlatList
+                  data={item}
+                  extraData={this.state}
+                  horizontal={true}
+                  keyExtractor={(item, index) => '' + index}
+                  renderItem={(item, index) => this.getItems(item, index)}
+                  showsHorizontalScrollIndicator={true}
+                />:null}
                </View>
+               </View>
+               <RBSheet
+          ref={ref => {
+            this.RBSheet = ref;
+          }}
+          height={200}
+          duration={250}
+          customStyles={{
+            container: {
+            borderTopLeftRadius:30,
+            borderTopRightRadius:30
+            }
+          }}
+        >
+          <Leadsheet onShut={()=>this.close()} props={this.props} />
+        </RBSheet> 
 </LinearGradient>
            
 
@@ -292,4 +331,52 @@ getItems = (item) => {
     );
   }
 }
+const styles = StyleSheet.create({
+  MainContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  searchIcon: {
+    padding: 10,
+    width:30,
+    height:30,
+},
+ImageStyle: {
+    padding: 10,
+    margin: 5,
+    height: 10,
+    tintColor:'#858585',
+    width: 10,
+    resizeMode: 'stretch',
+    alignItems: 'center',
+  },
+SectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f3f3f3',
+    borderWidth: 0.1,
+    borderColor: '#000',
+    borderRadius:30,
+    height: 40,
+    
+    margin: 10,
+  },
+  itemTitle: {   
+    color: '#4e649f',
+    padding: 5,marginLeft:20
+  },
+  itemContainer: {
+    width: WIDTH,
+    flex: 1,
+    flexDirection: 'column',
+    height: ITEM_HEIGHT
+  },
+  TextStyle: {
+    color: '#0250a3',
+    textAlign: 'center',
+    fontSize: 30,
+    marginTop: 10,
+  },
+});
 
