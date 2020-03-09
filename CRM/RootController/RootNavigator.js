@@ -14,6 +14,7 @@ import AddContacts from '../Container/AppContainer/AddContacts'
 import Calender from '../Container/AppContainer/Calender'
 import SearchUser from '../Container/AppContainer/SearchUser'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
+import Lead from '../Container/AppContainer/Lead'
 import {createStackNavigator} from 'react-navigation-stack'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
 const TransitionConfiguration = () => {
@@ -99,6 +100,19 @@ const CalenderStack = createStackNavigator(
     },
   }
 );
+const LeadStack = createStackNavigator(
+  {
+    Lead: Lead,
+  },
+  {
+    transitionConfig: TransitionConfiguration,
+    defaultNavigationOptions: {
+      headerTintColor: '#fff',
+      title: null,
+
+    },
+  }
+);
 const BottomTab = createBottomTabNavigator(
   {
     Contacts: {
@@ -116,7 +130,7 @@ const BottomTab = createBottomTabNavigator(
       }
     },
     Enquires: {
-      screen: Contacts,
+      screen: LeadStack,
       navigationOptions: {
         title: 'Enquires',
         tabBarLabel: 'Enquires',

@@ -157,7 +157,7 @@ export default class Contact extends React.Component {
             
             </View>
             <View style={{flex:0.8}}>
-                <View style={{height:40,backgroundColor:'#f3f3f3',justifyContent:'center'}}>
+                <View style={{height:40,backgroundColor:'#f3f3f3',justifyContent:'center',marginTop:10}}>
                 <TouchableOpacity onPress={()=>this.navigate()}>
                     <View style={{paddingHorizontal:40,flexDirection:'row'}}>
                      

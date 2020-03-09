@@ -42,7 +42,8 @@ export default class Calender extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.08}}>
-            <View style={{padding:20,flexDirection:'row'}}>
+          <TouchableOpacity onPress={()=>this.props.navigation.goBack(null)}>
+          <View style={{padding:20,flexDirection:'row'}}>
                 <View style={{justifyContent:'center',alignItems:'center'}}>
                 <Image source={require('../Assets/back.png')} style={{width:20,height:20,resizeMode:'contain'}}></Image>
                 </View>
@@ -50,6 +51,8 @@ export default class Calender extends React.Component {
                 <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Schedule</Text>
                 </View>
             </View>
+          </TouchableOpacity>
+         
             
             
             </View>

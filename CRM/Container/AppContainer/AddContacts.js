@@ -1,10 +1,9 @@
 //This is an example code to set Backgroud image///
 import React from 'react';
 //import react in our code. 
-import { View, Text,Dimensions,TextInput, ImageBackground, StyleSheet, Image } from 'react-native';
+import { View, Text,Dimensions,TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
@@ -32,7 +31,8 @@ export default class Contact extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.08}}>
-            <View style={{padding:20,flexDirection:'row'}}>
+          <TouchableOpacity onPress={()=>this.props.navigation.goBack(null)}>
+          <View style={{padding:20,flexDirection:'row'}}>
                 <View style={{justifyContent:'center',alignItems:'center'}}>
                 <Image source={require('../Assets/back.png')} style={{width:20,height:20,resizeMode:'contain'}}></Image>
                 </View>
@@ -40,6 +40,8 @@ export default class Contact extends React.Component {
                 <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Add Contacts</Text>
                 </View>
             </View>
+          </TouchableOpacity>
+            
             
             
             </View>
