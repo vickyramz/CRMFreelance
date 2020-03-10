@@ -73,8 +73,8 @@ export default class Leadsheet extends React.Component {
     return (
       <View style={{ flex: 1 ,padding:20}}>
         <View style={{marginLeft:20}}>
-        <Text style={{ fontSize: 14, color: '#000',fontWeight:'bold'  }}>Convert To Lead</Text>
-        <Text style={{ fontSize: 14, color: '#000', fontWeight:'bold' ,marginTop:20}}>Drop Enquiry</Text>
+        <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Convert To Lead</Text>
+        <Text style={{ fontSize: 16, color: '#000', fontWeight:'bold' ,marginTop:20}}>Drop Enquiry</Text>
         </View>
    
       </View>

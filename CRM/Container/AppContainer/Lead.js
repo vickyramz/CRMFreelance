@@ -6,6 +6,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
+import MaterialTabs from 'react-native-material-tabs';
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
 import Leadsheet from '../Components/Leadsheet'
@@ -98,66 +99,74 @@ export default class Lead extends React.Component {
         />
     );
 }
-_renderItem = ({item, index}) => {
-  return (
-      <View style={{backgroundColor:'#504fe1',height:180,padding:20,justifyContent:'space-between',borderRadius:15}}>
-        <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-          <View style={{flexDirection:'row'}}>
-          <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-          <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name.charAt(0)}</Text>
-           <View style={{position:'absolute',bottom:-10,alignSelf:'center',justifyContent:'center',width:20,height:20,borderRadius:10,backgroundColor:'#f4a640',alignItems:'center'}}>
-           <Image 
-          source={require('../Assets/star.png')}
-          style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-        />
-           </View>
-          </View>
-          <View style={{marginLeft:10}}>
-          <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name}</Text>
-          <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
-          <View style={{flexDirection:'row'}}>
-          <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
-          <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
-          </View>
-          <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
-          <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>Received</Text>
-          </View>
-          </View>
+// _renderItem = ({item, index}) => {
+//   return (
+//       <View style={{backgroundColor:'#504fe1',height:180,padding:20,justifyContent:'space-between',borderRadius:15}}>
+//         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+//           <View style={{flexDirection:'row'}}>
+//           <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
+//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name.charAt(0)}</Text>
+//            <View style={{position:'absolute',bottom:-10,alignSelf:'center',justifyContent:'center',width:20,height:20,borderRadius:10,backgroundColor:'#f4a640',alignItems:'center'}}>
+//            <Image 
+//           source={require('../Assets/star.png')}
+//           style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+//         />
+//            </View>
+//           </View>
+//           <View style={{marginLeft:10}}>
+//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name}</Text>
+//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
+//           <View style={{flexDirection:'row'}}>
+//           <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
+//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
+//           </View>
+//           <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
+//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>Received</Text>
+//           </View>
+//           </View>
           
-          </View>
-          </View>
-          <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-          <Image 
-          source={require('../Assets/moredots.png')}
-          style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-        />
-          </View>
+//           </View>
+//           </View>
+//           <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
+//           <Image 
+//           source={require('../Assets/moredots.png')}
+//           style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+//         />
+//           </View>
         
-        </View>
-         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-         <View style={{marginLeft:10}}>
-          <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Last follow up</Text>
-          <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
-          </View>
-          <View style={{marginLeft:10}}>
-          <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Next follow up</Text>
-          <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
-          </View>
-          <View style={{marginLeft:10}}>
-          <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-          <Image 
-          source={require('../Assets/phone.png')}
-          style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-        />
-          </View>
-          </View>
-         </View>
-      </View>
-  );
-}
+//         </View>
+//          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+//          <View style={{marginLeft:10}}>
+//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Last follow up</Text>
+//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
+//           </View>
+//           <View style={{marginLeft:10}}>
+//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Next follow up</Text>
+//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
+//           </View>
+//           <View style={{marginLeft:10}}>
+//           <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
+//           <Image 
+//           source={require('../Assets/phone.png')}
+//           style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+//         />
+//           </View>
+//           </View>
+//          </View>
+//       </View>
+//   );
+// }
 getItems = ({item}) => {
     return (
-        <View style={{backgroundColor:'#504fe1',height:240,padding:20,justifyContent:'space-between',borderRadius:15,marginLeft:20}}>
+        <View style={{backgroundColor:'#504fe1',height:180,padding:20,justifyContent:'space-between',borderRadius:15,
+        shadowColor: '#504fe1',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 4,
+    marginLeft: 5,
+    marginRight: 5,
+    marginTop: 10,}}>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             <View style={{flexDirection:'row'}}>
             <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
@@ -169,9 +178,31 @@ getItems = ({item}) => {
           />
              </View>
             </View>
-            <View style={{marginLeft:10}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name}</Text>
+            <View style={{marginLeft:30}}>
+            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12,}}>{item.contact_name}</Text>
+            <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>ABC private Limited</Text>
+            <View style={{flexDirection:'row',marginTop:10}}>
+            <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
+            <Image 
+            source={require('../Assets/phone.png')}
+            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+          />
+            </View>
+            <View style={{paddingLeft:5,justifyContent:'center',alignItems:'center'}}>
+            <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.Phone}</Text>
+            </View>
+            </View>
+            <View style={{flexDirection:'row',marginTop:10}}>
+            <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
+            <Image 
+            source={require('../Assets/mail.png')}
+            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+          />
+            </View>
+            <View style={{paddingLeft:5,justifyContent:'center',alignItems:'center'}}>
             <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
+            </View>
+            </View>
             <View style={{flexDirection:'row'}}>
             <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
             <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
@@ -194,7 +225,7 @@ getItems = ({item}) => {
         
           
           </View>
-           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
+           {/* <View style={{flexDirection:'row',justifyContent:'space-between'}}>
            <View style={{marginLeft:10}}>
             <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Last follow up</Text>
             <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
@@ -203,15 +234,8 @@ getItems = ({item}) => {
             <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Next follow up</Text>
             <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
             </View>
-            <View style={{marginLeft:10}}>
-            <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-            <Image 
-            source={require('../Assets/phone.png')}
-            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-          />
-            </View>
-            </View>
-           </View>
+            
+           </View> */}
         </View>
     );
 }
@@ -224,6 +248,9 @@ getItems = ({item}) => {
   }
   close=()=>{
     this.RBSheet.close();
+  }
+  setTab(tab) {
+    this.setState({selectedTab: tab});
   }
 
   render() {
@@ -245,21 +272,7 @@ getItems = ({item}) => {
             
             </View>
             <View style={{flex:0.92}}>
-              <TouchableOpacity onPress={()=>this.openSheet()}>
-              <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',marginRight:20,flexDirection:'row'}}>
-              <View style={{justifyContent:'center',alignItems:'center'}}>
-                        <Image 
-            source={require('../Assets/more.png')}
-            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-          />
-                        </View>
-<Text style={{color:'#fff',fontWeight:'bold',fontSize:14,paddingLeft:10}}>Add Enquiry</Text>
-              </View>
-              </TouchableOpacity>
-              <LinearGradient colors={['#fffdff', '#ebebf8', '#f7f7f7']} style={{flex:1}}>
-                
-               <View style={{flex:1,marginTop:10}}>
-               <View style={{paddingHorizontal:20}}>
+            <View style={{paddingHorizontal:20}}>
             <View style={styles.SectionStyle}>
           <Image 
             source={require('../Assets/search.png')}
@@ -273,10 +286,40 @@ getItems = ({item}) => {
           />
         </View>
             </View>
-            <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
-                <Text style={{color:'#d3d1d7',fontWeight:'bold',fontSize:14,textAlign:'center'}}>Recent Enquiry List</Text>
-                </View>
-                <View> 
+              <TouchableOpacity onPress={()=>this.openSheet()}>
+              <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',marginRight:20,flexDirection:'row',borderRadius:6}}>
+              <View style={{justifyContent:'center',alignItems:'center'}}>
+                        <Image 
+            source={require('../Assets/more.png')}
+            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+          />
+                        </View>
+<Text style={{color:'#fff',fontWeight:'bold',fontSize:14,paddingLeft:10}}>Add Enquiry</Text>
+              </View>
+              </TouchableOpacity>
+              <LinearGradient colors={['#fffdff', '#ebebf8', '#f7f7f7']} style={{flex:1}}>
+                
+               <View style={{flex:1,marginTop:10}}>
+            
+            <View style={{borderBottomColor: '#CACED0', borderBottomWidth: 1}}>
+            <View style={{width: '100%'}}>
+              <MaterialTabs
+                items={['Enquiry', 'Lead', 'Propspect','Deal','Dropped']}
+                selectedIndex={this.state.selectedTab}
+                onChange={this.setTab.bind(this)}
+                barColor="#ffff"
+                indicatorColor="#00A3E0"
+                activeTextColor="#00A3E0"
+                inactiveTextColor="#606B71"
+                textStyle={{
+                  fontFamily: 'Papyrus',
+                  fontSize: 10,
+                  fontWeight: 'bold',
+                }}
+              />
+            </View>
+          </View>
+                {/* <View> 
                 <Carousel
               ref={(c) => { this._carousel = c; }}
               data={item}
@@ -287,33 +330,36 @@ getItems = ({item}) => {
                 hasParallaxImages={true}
                 itemWidth={screenWidth - 60}
             />
-                </View>
+                </View> */}
               
              <View>
-             <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
+             {/* <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
                 <Text style={{color:'#d3d1d7',fontWeight:'bold',fontSize:14,textAlign:'center'}}>Total Enquiry List</Text>
-                </View>
+                </View> */}
                  {item.length>0?
+                 <View>
                   <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}
+    
                   data={item}
                   extraData={this.state}
-                  horizontal={true}
+               
                   keyExtractor={(item, index) => '' + index}
                   renderItem={(item, index) => this.getItems(item, index)}
-                  showsHorizontalScrollIndicator={true}
-                />:null}
+                  
+                /></View>:null}
                </View>
                </View>
                <RBSheet
           ref={ref => {
             this.RBSheet = ref;
           }}
-          height={200}
+          height={120}
           duration={250}
           customStyles={{
             container: {
-            borderTopLeftRadius:30,
-            borderTopRightRadius:30
+            borderTopLeftRadius:25,
+            borderTopRightRadius:25
             }
           }}
         >
