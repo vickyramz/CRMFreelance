@@ -9,7 +9,6 @@ const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 import MaterialTabs from 'react-native-material-tabs';
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
-import AddEnquiry from '../Components/AddEnquiry'
 import Leadsheet from '../Components/Leadsheet'
 import LinearGradient from 'react-native-linear-gradient';
 import Carousel, {Pagination}from 'react-native-snap-carousel';
@@ -89,7 +88,7 @@ const item=[
      }
   }
 ]
-export default class Lead extends React.Component {
+export default class Followups extends React.Component {
     static navigationOptions = () => {
         return {
           header: null,
@@ -228,16 +227,11 @@ getItems = ({item}) => {
             <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
             </View>
             </View>
-            <View style={{flexDirection:'row'}}>
-            <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
-            </View>
-            <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
-            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Received</Text>
-            </View>
-            </View>
+        
+        
             
             </View>
+            
             </View>
             <TouchableOpacity onPress={()=>this.RBSheet.open()}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#f39a3e',position:'relative'}}>
@@ -261,6 +255,22 @@ getItems = ({item}) => {
             </View>
             
            </View> */}
+               <View style={{ flexDirection:'row',justifyContent:'space-between'}}>
+            <View style={{flexDirection:'row'}}>
+            <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
+            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
+            </View>
+            <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
+            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Received</Text>
+            </View>
+            </View>
+            <View style={{justifyContent:'center',alignItems:"center",marginTop:10,}}>
+            <View style={{flexDirection:'row'}}>
+            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Last Followups</Text>
+            <Text style={{color:'#000',fontWeight:'bold',fontSize:12,paddingLeft:10}}>02-1-2020</Text>
+            </View>
+            </View>
+            </View>
         </View>
     );
 }
@@ -271,14 +281,8 @@ getItems = ({item}) => {
   openSheet=()=>{
     this.RBSheet.open();
   }
-  AddContacts=()=>{
-    this.RBSheets.open();
-  }
   close=()=>{
-    this.RBSheets.close();
-  }
-  closes=()=>{
-    this.RBSheets.close();
+    this.RBSheet.close();
   }
   setTab(tab) {
     this.setState({selectedTab: tab});
@@ -296,10 +300,10 @@ getItems = ({item}) => {
                 </View>
                 </TouchableOpacity>
                 <View style={{paddingLeft:10,justifyContent:'center',alignItems:'center'}}>
-                <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Leads Management</Text>
+                <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Followups</Text>
                 </View>
                 <TouchableOpacity onPress={()=>this.searchBar.show()}>
-                <View style={{justifyContent:'center',alignItems:'center',marginTop:5}}>
+                <View style={{justifyContent:'center',alignItems:'center'}}>
           <Image 
             source={require('../Assets/search.png')}
             style={styles.ImageStyle}
@@ -307,17 +311,7 @@ getItems = ({item}) => {
           </View>
                 </TouchableOpacity>
               
-          <TouchableOpacity onPress={()=>this.AddContacts()}>
-              <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',marginRight:10,flexDirection:'row',borderRadius:6}}>
-              <View style={{justifyContent:'center',alignItems:'center'}}>
-                        <Image 
-            source={require('../Assets/more.png')}
-            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-          />
-                        </View>
-<Text style={{color:'#fff',fontWeight:'bold',fontSize:14,paddingLeft:10}}>Add Enquiry</Text>
-              </View>
-              </TouchableOpacity>
+       
             </View>
       
          
@@ -333,9 +327,9 @@ getItems = ({item}) => {
                <View style={{flex:1,marginTop:10}}>
             
             <View style={{borderBottomColor: '#CACED0', borderBottomWidth: 1}}>
-            <View style={{width: '100%'}}>
+            <View style={{width: '60%'}}>
               <MaterialTabs
-                items={['Enquiry', 'Lead', 'Prospects','Deals','Dropped']}
+                items={['Status', 'Bills', 'Receipts']}
                 selectedIndex={this.state.selectedTab}
                 onChange={this.setTab.bind(this)}
                 barColor="#ffff"
@@ -344,7 +338,7 @@ getItems = ({item}) => {
                 inactiveTextColor="#606B71"
                 textStyle={{
                   fontFamily: 'Papyrus',
-                  fontSize: 9,
+                  fontSize: 10,
                   fontWeight: 'bold',
                 }}
               />
@@ -394,23 +388,9 @@ getItems = ({item}) => {
             }
           }}
         >
-          <Leadsheet onShut={()=>this.closes()} props={this.props} />
+          <Leadsheet onShut={()=>this.close()} props={this.props} />
         </RBSheet> 
-        <RBSheet
-          ref={ref => {
-            this.RBSheets = ref;
-          }}
-          height={700}
-          duration={250}
-          customStyles={{
-            container: {
-            borderTopLeftRadius:25,
-            borderTopRightRadius:25
-            }
-          }}
-        >
-          <AddEnquiry onShut={()=>this.close()} props={this.props} />
-        </RBSheet> 
+    
 </LinearGradient>
            
 

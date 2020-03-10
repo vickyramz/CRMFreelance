@@ -13,6 +13,7 @@ import Contact from '../Container/AppContainer/Contact'
 import AddContacts from '../Container/AppContainer/AddContacts'
 import Calender from '../Container/AppContainer/Calender'
 import SearchUser from '../Container/AppContainer/SearchUser'
+import follow from '../Container/AppContainer/Followups'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Lead from '../Container/AppContainer/Lead'
 import {createStackNavigator} from 'react-navigation-stack'
@@ -100,6 +101,20 @@ const CalenderStack = createStackNavigator(
     },
   }
 );
+const FollowStack = createStackNavigator(
+  {
+    Follow: follow,
+    
+  },
+  {
+    transitionConfig: TransitionConfiguration,
+    defaultNavigationOptions: {
+      headerTintColor: '#fff',
+      title: null,
+
+    },
+  }
+);
 const LeadStack = createStackNavigator(
   {
     Lead: Lead,
@@ -137,6 +152,20 @@ const BottomTab = createBottomTabNavigator(
 
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
+        ),
+        activeColor: '#f39a3e',  
+        inactiveColor: '#000',  
+        barStyle: { backgroundColor: '#fff' },  
+      }
+    },
+    Followups: {
+      screen: FollowStack,
+      navigationOptions: {
+        title: 'Followups',
+        tabBarLabel: 'Followups',
+
+        tabBarIcon: ({ tintColor, focused }) => (
+          <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/follow-icon-black.png')}></Image>
         ),
         activeColor: '#f39a3e',  
         inactiveColor: '#000',  
