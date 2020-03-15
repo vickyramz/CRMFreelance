@@ -8,7 +8,7 @@ const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
-import AddContacts from '../Components/AddSchedule'
+import AddSchedule from '../Components/AddSchedule'
 
 import { TouchableOpacity } from 'react-native-gesture-handler';
 const workout = {key:'workout', color: 'green'};
@@ -91,7 +91,7 @@ markingType={'period'}
             }
           }}
         >
-          <AddContacts onShut={()=>this.close()} props={this.props} />
+          <AddSchedule onShut={()=>this.close()} props={this.props} />
         </RBSheet>
                 
             </View>

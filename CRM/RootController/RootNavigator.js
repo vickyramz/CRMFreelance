@@ -17,6 +17,7 @@ import follow from '../Container/AppContainer/Followups'
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Lead from '../Container/AppContainer/Lead'
 import {createStackNavigator} from 'react-navigation-stack'
+import signUp from '../Container/LoginContainer/signUp'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
 const TransitionConfiguration = () => {
   return {
@@ -196,6 +197,7 @@ const BottomTab = createBottomTabNavigator(
 );
 const AuthStack=createStackNavigator({
   Signin: SignIn,
+  signUp:signUp
 },
 {
   headerMode: 'none',

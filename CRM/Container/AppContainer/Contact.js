@@ -125,18 +125,30 @@ export default class Contact extends React.Component {
           <View style={{padding:20}}>
                 <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Contacts</Text>
             </View>
-            <TouchableOpacity onPress={()=>this.openFilter()}>
-            <View style={{padding:20,
-            backgroundColor:'#366af1',
-            borderBottomLeftRadius:30, 
+            <View style={{padding:20,flexDirection:'row'}}>
+            <TouchableOpacity  onPress={()=>this.openFilter()}>
+            <View style={{
             justifyContent:'center',
             alignItems:'center'}}>
             <Image 
             source={require('../Assets/filter.png')}
-            style={{width:30,height:30,resizeMode:'contain',tintColor:'#fff'}}
+            style={{width:30,height:30,resizeMode:'contain',tintColor:'gray'}}
           />
             </View>
             </TouchableOpacity>
+            <TouchableOpacity  onPress={()=>this.props.navigation.navigate('Auth')}>
+            <View style={{
+              paddingLeft:20,
+            justifyContent:'center',
+            alignItems:'center'}}>
+            <Image 
+            source={require('../Assets/logout.png')}
+            style={{width:30,height:30,resizeMode:'contain',tintColor:'gray'}}
+          />
+            </View>
+            </TouchableOpacity>
+            </View>
+          
            
           </View>
             
