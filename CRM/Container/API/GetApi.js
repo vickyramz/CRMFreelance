@@ -1,47 +1,23 @@
-import CheckConnectivity from './CheckConnectivity'
+import {
+   springEndPoint
+ } from "../config";
+import auth from '../modules/auth';
+import isInternet from '../CheckInternet'
+const { host } = springEndPoint;
 
-export const GetApi = async ( Url,params,GetResponse,errors,Networkerror) => {
-
-   const isConnectivityAvailable = CheckConnectivity
-   if (isConnectivityAvailable) {
-      fetch(Url, {
-         method: 'GET',
-         headers: {
-            'Content-Type': 'application/json',
-            'Authorization':params.AuthorizationToken,
-            'loginId':params.userId
-
-        },
-      })
-         .then((response) => response.json())
-         .then((responseJson) => {
-           GetResponse(responseJson)
-         })
-         .catch((error) => {
-            errors(error);
-         });
-   } else {
-      //no connection available
-      Networkerror('No Network Available')
+export default class GetAPI {
+   static Get() {
+      if(isInternet){
+         return fetch(`${host}`, {
+            method: "GET",
+          })
+          .then(response => auth.verifyResponse(response))
+          .then(json => {console.log('mpd json', json); return json;})
+          .catch(err => {console.log('mpd error ',err); return err;});
+      }
+      else{
+         alert('check your network issue')
+      }
+  
    }
 }
-
-export const GetAPI = async (url, GetResponse) => {
-   const isConnectivityAvailable = CheckConnectivity
-   if (isConnectivityAvailable) {
-      fetch(url, {
-         method: 'GET'
-      })
-         .then((response) => response.json())
-         .then((responseJson) => {
-            GetResponse(responseJson)
-         })
-         .catch((error) => {
-            console.error(error);
-         });
-   } else {
-      //no connection available
-      Alert.alert('No Network Available')
-   }
-}
-

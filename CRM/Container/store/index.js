@@ -2,8 +2,8 @@
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-import reducers from "../reducers";
-import * as types from '../actions/actionTypes';
+import reducers from "../Redux/Reducer";
+import * as types from '../Redux/Actions/constant';
 import { persistStore, persistReducer } from 'redux-persist';
 import { AsyncStorage } from 'react-native'
 const sagaMiddleware = createSagaMiddleware();
@@ -15,10 +15,10 @@ const persistConfig = {
  };
 
  const rootReducer = (state, action) => {
-  if (action.type === types.LOGOUT_SUCCESS) {
+  // if (action.type === types.LOGOUT_SUCCESS) {
    
-      state = {}
-  }
+  //     state = {}
+  // }
   return appReducer(state, action);
 };
 
