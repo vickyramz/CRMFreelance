@@ -1,23 +1,28 @@
 import CheckConnectivity from './CheckConnectivity'
 
-export const GetRequestData = async (GetResponse, Url) => {
+export const GetApi = async ( Url,params,GetResponse,errors,Networkerror) => {
 
    const isConnectivityAvailable = CheckConnectivity
    if (isConnectivityAvailable) {
       fetch(Url, {
-         method: 'GET'
+         method: 'GET',
+         headers: {
+            'Content-Type': 'application/json',
+            'Authorization':params.AuthorizationToken,
+            'loginId':params.userId
+
+        },
       })
          .then((response) => response.json())
          .then((responseJson) => {
-           // console.log(responseJson);
-            GetResponse(responseJson)
+           GetResponse(responseJson)
          })
          .catch((error) => {
-            console.error(error);
+            errors(error);
          });
    } else {
       //no connection available
-      Alert.alert('No Network Available')
+      Networkerror('No Network Available')
    }
 }
 
@@ -29,7 +34,6 @@ export const GetAPI = async (url, GetResponse) => {
       })
          .then((response) => response.json())
          .then((responseJson) => {
-            //console.log(responseJson);
             GetResponse(responseJson)
          })
          .catch((error) => {

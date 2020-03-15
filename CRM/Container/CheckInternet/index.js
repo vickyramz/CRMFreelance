@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import { View, Text, Button, Alert, NetInfo, Platform } from "react-native";
+import { NetInfo, Platform } from "react-native";
 const CheckConnectivity = () => {
     // For Android devices
     if (Platform.OS === "android") {

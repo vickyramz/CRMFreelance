@@ -1,26 +1,25 @@
-import CheckConnectivity from './CheckConnectivity'
+import {
+  springEndPoint
+} from "../config";
+import auth from '../modules/auth';
+const { host } = springEndPoint;
 
-export const LoginAPI = (url, params, GetResponse,errors,NetError) => {
-    const isConnectivityAvailable = CheckConnectivity
-    if (isConnectivityAvailable) {
-        //let formdata = new FormData();
-       
-        fetch(url, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(params)
-        }).then((response) => response.json())
-            .then((responseJson) => {
-                console.log(responseJson);
-                GetResponse(responseJson)
-            })
-            .catch((error) => {
-                errors(error);
-            });
-    } else {
-        NetError('Unable to conect the server')
+export default class PostAPI {
+  static Post(Request,Headers) {
+    if(isInternet){
+      return fetch(`${host}`, {
+        method: 'POST',
+        headers: headers,
+        body: JSON.stringify(Request)
+      })
+      .then(response => auth.verifyResponse(response))
+      .then(json => {return json;})
+      .catch(err => err);
     }
+    else{
+      alert('check your network issues')
+    }
+   
+  }
 }
 
