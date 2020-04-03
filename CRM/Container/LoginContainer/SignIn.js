@@ -58,7 +58,7 @@ function  SignIn (props) {
     if (loginOperation.loginSuccess) {
       loginOperation.loginSuccess=false
       setLoading(false)
-      setAlerts(false);
+      //setAlerts(false);
       console.log('Login',loginOperation)
       props.navigation.navigate('App')
     
@@ -66,7 +66,7 @@ function  SignIn (props) {
     if (loginOperation.loginPending) {
         loginOperation.loginPending=false
         setLoading(true)
-        setAlerts(false);
+        //setAlerts(false);
       
     }
     if (loginOperation.loginError) {
@@ -166,7 +166,7 @@ function  SignIn (props) {
           visible={ShowAlert}
           textMessage={error}
           actionHandler={() => snackBarActions()}
-          actionText="DISMISS"
+          actionText=""
         />
       </View>
  

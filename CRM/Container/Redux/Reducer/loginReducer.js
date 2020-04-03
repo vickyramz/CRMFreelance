@@ -1,18 +1,20 @@
 import * as types from '../Actions/constant';
 const initialState = {
-    user: []
+    loginResponse: {},
+    error:''
 };
 export default function userLoginReducer(state = initialState, action) {
     switch (action.type) {
         case types.LOGIN_PENDING:
             return {
-                loginPending: true, 
-                error: null,
+                ...state,
+                loginPending: true,
                 loginError: false,
                 loginSuccess: false
             };
         case types.LOGIN_FAILURE:
             return {
+                ...state,
                 loginPending:false, 
                 error: action.error,
                 loginError: true,
@@ -20,10 +22,10 @@ export default function userLoginReducer(state = initialState, action) {
             };
         case types.LOGIN_SUCCESS:
             return {
+                ...state,
                 loginPending: false, 
-                error: null, 
                 loginSuccess: true,
-                loginresponse: action.user,
+                loginResponse: action.user,
                 loginError: false
             };
        
