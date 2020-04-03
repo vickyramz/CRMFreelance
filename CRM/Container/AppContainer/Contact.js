@@ -1,7 +1,7 @@
 //This is an example code to set Backgroud image///
 import React from 'react';
 //import react in our code. 
-import { View, Text,Dimensions,TextInput, ImageBackground, StyleSheet, Image } from 'react-native';
+import { View, Text,Dimensions,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -119,6 +119,7 @@ export default class Contact extends React.Component {
 
   render() {
     return (
+      <SafeAreaView style={{flex:1}}>
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.2 }}>
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
@@ -212,7 +213,7 @@ export default class Contact extends React.Component {
         </RBSheet>
          
       </View>
-
+      </SafeAreaView>
     );
   }
 }

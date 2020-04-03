@@ -1,25 +1,24 @@
-import {
-  springEndPoint
-} from "../config";
+import {springEndPoint} from '../config';
 import auth from '../modules/auth';
-const { host } = springEndPoint;
-
-export default class PostAPI {
-  static Post(Request,Headers) {
-    if(isInternet){
-      return fetch(`${host}`, {
-        method: 'POST',
-        headers: headers,
-        body: JSON.stringify(Request)
-      })
+import * as url from '../API/CongigUrl'
+const {host} = springEndPoint;
+export default class PostApi {
+  static getPost(InputRequest, token,url) {
+    console.log('host', host);
+    return fetch(`${host}`+`${url}`, {
+      method: 'POST',
+      headers: {
+        'Authorization': token,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(InputRequest),
+    })
       .then(response => auth.verifyResponse(response))
-      .then(json => {return json;})
-      .catch(err => err);
-    }
-    else{
-      alert('check your network issues')
-    }
-   
+      .then(json => {
+        return json;
+      })
+      .catch(err =>
+       alert('Something went wrong')
+      );
   }
 }
-

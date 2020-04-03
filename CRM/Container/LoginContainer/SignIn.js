@@ -1,24 +1,97 @@
 //This is an example code to set Backgroud image///
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import SnackBar from 'react-native-snackbar-component';
+import * as BindActions from '../Redux/Actions';
 //import react in our code. 
-import { View, Text,TouchableOpacity,TextInput, ImageBackground, StyleSheet, Image } from 'react-native';
+import { View, SafeAreaView,Text,TouchableOpacity,TextInput,KeyboardAvoidingView, ImageBackground,ActivityIndicator, StyleSheet, Image, ShadowPropTypesIOS } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
 
-function  SignIn () {
+function  SignIn (props) {
   useEffect(() => {
   SplashScreen.hide()
   }, [])
   const [inputs,setInputs]=useState({
-    userName:'',
-    password:''
+    userName:'gallie@banblog.com',
+    password:'Welcome123@#'
   })
+  const dispatch = useDispatch();
+  const [IsEmailEmpty,setEmailVisible]=useState(false)
+  const [IsPasswordEmpty,setPasswordVisible]=useState(false)
+  const [loader, setLoading] = useState(false);
+  const [ShowAlert, setAlerts] = useState(false);
+  const [error, setError] = useState('');
+  const loginOperation = useSelector(state => state.userReducer);
   const { userName, password } = inputs;
+
   function HandleChange(item,name){
     setInputs(inputs => ({ ...inputs, [name]: item }));
+    if(name==='userName'){
+      setEmailVisible(false)
+    }
+    if(name==='password'){
+      setPasswordVisible(false)
+    }
     console.log(inputs);
   }
+  function AuthSignIn(){
+     if(userName===null || userName===undefined || userName===''){
+       setEmailVisible(true)
+     }
+     else if(password===null || password===undefined || password===''){
+       setPasswordVisible(true)
+     }
+     else{
+       authenticationProcess();
+     }
+  }
+  function authenticationProcess(){
+    let params={
+      email:userName,
+      password:password
+    }
+    console.log('params',params)
+    dispatch(BindActions.login(params,''));
+  }
+   
+    if (loginOperation.loginSuccess) {
+      loginOperation.loginSuccess=false
+      setLoading(false)
+      setAlerts(false);
+      console.log('Login',loginOperation)
+      props.navigation.navigate('App')
+    
+    }
+    if (loginOperation.loginPending) {
+        loginOperation.loginPending=false
+        setLoading(true)
+        setAlerts(false);
+      
+    }
+    if (loginOperation.loginError) {
+      loginOperation.loginError=false
+      setLoading(false)
+      setAlerts(true);
+      setError(loginOperation.error.message)
+  
+    }
+    const snackBarActions = () => {
+      setAlerts(false);
+    };
+    if (loader) {
+      return (
+        <View style={styles.loader}>
+          <ActivityIndicator size="large" color="#0000ff" />
+        </View>
+      );
+    }
     return (
+      <SafeAreaView style={{flex:1}}>
+      <KeyboardAvoidingView
+   // adjust the value here if you need more padding
+  style = {{ flex: 1 }}
+  behavior = "padding" >
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.4 }}>
           <ImageBackground source={require('../Assets/signinbg.jpg')}
@@ -50,6 +123,10 @@ function  SignIn () {
       />
          
           </View>
+         {IsEmailEmpty?  <View style={{marginHorizontal: 20,paddingVertical:2 }}>
+          <Text style={{ fontSize: 16, color: 'red',  }}>Please enter email</Text>
+          </View>:null}
+        
          </View>
          <View>
          <View style={{ marginHorizontal: 20,paddingVertical:2 }}>
@@ -67,8 +144,12 @@ function  SignIn () {
       />
          
           </View>
+          {IsPasswordEmpty?<View style={{marginHorizontal: 20,paddingVertical:2 }}>
+          <Text style={{ fontSize: 16, color: 'red',  }}>Please enter password</Text>
+          </View>:null}
+          
          </View>
-         <TouchableOpacity >
+         <TouchableOpacity onPress={()=>AuthSignIn()}>
          <View style={{marginHorizontal:30,borderRadius:20,justifyContent:'center',alignItems:'center', backgroundColor:'#f39a3e',height:40,marginTop:20}}>
          <Text style={{ fontSize: 16, color: '#fff', fontWeight:'bold' }}>Sign In</Text>
          </View>
@@ -81,8 +162,49 @@ function  SignIn () {
          </TouchableOpacity>
           </View>
         </View>
+        <SnackBar
+          visible={ShowAlert}
+          textMessage={error}
+          actionHandler={() => snackBarActions()}
+          actionText="DISMISS"
+        />
       </View>
-
+ 
+      </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: '#ffff',
+    },
+    labelInput: {
+      color: '#96989a',
+      fontSize: 14,
+      fontFamily: 'AvenirNextLTPro-Regular',
+    },
+    formInput: {
+      borderBottomWidth: 0.5,
+      borderColor: '#999999',
+  
+    },
+    input: {
+      borderWidth: 0,
+      fontSize: 16,
+      fontFamily: 'AvenirNextLTPro-Regular',
+    },
+    loader: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    searchIcon: {
+      width: 25,
+      height: 25,
+      position: 'absolute',
+      alignSelf: 'flex-end',
+      top: 23,
+    },
+  });
 export default SignIn;

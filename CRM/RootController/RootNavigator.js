@@ -218,7 +218,11 @@ const Containers = createSwitchNavigator({
     Auth:AuthStack,
     App:AppStack
   //Signup: { screen: Signup },
-})
+},
+{
+  initialRouteName: 'Auth',
+}
+)
 const container = createAppContainer(Containers)
 
 export default container;
