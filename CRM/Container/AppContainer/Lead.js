@@ -53,26 +53,23 @@ import SearchBar from 'react-native-searchbar';
    console.log('token',token)
    dispatch(BindActions.LeadApi(params,token,"/leads/list/"+"all"));
  }
- console.log('LeadOperation',LeadOperation)
+ if (LeadOperation.leadPending) {
+  LeadOperation.leadPending=false
+    setLoading(true)
+    setAlerts(false);
+}
  if (LeadOperation.leadSuccess) {
+  console.log('LeadOperation',LeadOperation)
   LeadOperation.leadSuccess=false
   setLoading(false)
   setAlerts(false);
   setLeadList(LeadOperation.LeadResponse.records)
- 
-
-}
-if (LeadOperation.leadPending) {
-  LeadOperation.leadPending=false
-    setLoading(true)
-    setAlerts(false);
-  
 }
 if (LeadOperation.IsleadError) {
   LeadOperation.IsleadError=false
   setLoading(false)
   setAlerts(true);
-  //setError(LeadOperation.leaderror.message)
+  setError(LeadOperation.leaderror.message)
 
 }
 const snackBarActions = () => {
@@ -196,6 +193,23 @@ if (loader) {
             </View>           
             </View>
             <View style={{flex:0.9}}>
+            <View style={{borderBottomColor: '#CACED0', borderBottomWidth: 1}}>
+            <View style={{width: '100%'}}>
+              <MaterialTabs
+                items={['All','Enquiry', 'Lead', 'Prospects','Deals','Dropped']}
+                selectedIndex={selectedTab}
+                onChange={setTab.bind(this)}
+                barColor="#ffff"
+                indicatorColor="#00A3E0"
+                activeTextColor="#00A3E0"
+                inactiveTextColor="#000"
+                textStyle={{
+                  fontSize: 7,
+                  fontWeight: 'bold',
+                }}
+              />
+            </View>
+          </View>
             {LeadList.length>0?
                  <View>
                   <FlatList

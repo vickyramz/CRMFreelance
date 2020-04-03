@@ -6,11 +6,13 @@ export function LeadApi(userParams,token,url) {
         dispatch(requestLeads());
         return authApi.Get(userParams,token,url).then(userResponse => {
             console.log('userResponse',userResponse)
-            if (userResponse.rocords) {              
+            if (userResponse.records) {              
                 dispatch(successLeads(userResponse));
-            } else
-            console.log('failure',userResponse)
+            } else{
+                console.log('failure',userResponse)
                 dispatch(failureLeads(userResponse));
+            }
+           
         }).catch(error => {
             dispatch(failureLeads(error));
         });
