@@ -6,7 +6,7 @@ export function BillApi(userParams,token,url) {
         dispatch(requestBill());
         return authApi.Get(userParams,token,url).then(userResponse => {
             console.log('userResponse',userResponse)
-            if (userResponse.records) {              
+            if (userResponse) {              
                 dispatch(successBills(userResponse));
             } else{
                 console.log('failure',userResponse)

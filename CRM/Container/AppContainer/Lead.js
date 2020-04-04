@@ -18,6 +18,7 @@ import SearchBar from 'react-native-searchbar';
   const searchBar=useRef();
  const [selectedTab,setselectedTab]=useState(0) 
  const [LeadList,setLeadList]=useState([]) 
+ const [BillList,setBillList]=useState({});
  const [TabText,setTabText]=useState('all')
   const close=()=>{
   RBSheetsRef.current.close();
@@ -61,7 +62,7 @@ import SearchBar from 'react-native-searchbar';
  function getLeadsData(){
    let params={
     page:1,
-    count:5,
+    count:10000,
     contactId:'',
     assignee:'',
     stage:'',
@@ -75,7 +76,7 @@ import SearchBar from 'react-native-searchbar';
    let token=loginOperation.loginResponse.token;
    console.log('token',token)
    dispatch(BindActions.LeadApi(params,token,"/leads/list/"+`${TabText}`)).then(response=>{
-     console.log('hello')
+    getBillItems(1);
    })
  }
  if (LeadOperation.leadPending) {
@@ -97,23 +98,23 @@ if (LeadOperation.IsleadError) {
   setError(LeadOperation.leaderror.message)
 
 }
-if (LeadOperation.leadPending) {
-  LeadOperation.leadPending=false
+if (billOperation.BillPending) {
+  billOperation.BillPending=false
     setLoading(true)
     setAlerts(false);
 }
- if (LeadOperation.leadSuccess) {
-  console.log('LeadOperation',LeadOperation)
-  LeadOperation.leadSuccess=false
+ if (billOperation.BillSuccess) {
+  billOperation.BillSuccess=false
   setLoading(false)
   setAlerts(false);
-  setLeadList(LeadOperation.LeadResponse.records)
+ // console.log('BillOperation',billOperation)
+ // setBillList(billOperation.BillResponse)
 }
-if (LeadOperation.IsleadError) {
-  LeadOperation.IsleadError=false
+if (billOperation.IsBillError) {
+  billOperation.IsBillError=false
   setLoading(false)
   setAlerts(true);
-  setError(LeadOperation.leaderror.message)
+  setError(billOperation.Billerror.message)
 
 }
 const snackBarActions = () => {
@@ -125,9 +126,9 @@ const _handleResults =()=>{
 const getBillItems=(item)=>{
   let token=loginOperation.loginResponse.token;
   let params={
-    ids:item.lead_id
+    ids:81
   }
-  dispatch(BindActions.BillApi(params,token,"/leads/list/"+`${TabText}`));
+  dispatch(BindActions.BillApi(params,token,"/leads/list/bills"));
 }
 const getItems = ({item}) => {
     //getBillItems(item);
@@ -285,7 +286,7 @@ if (loader) {
             }
           }}
         >
-          <AddEnquiry onShut={()=>close()} props={props} />
+          <AddEnquiry LeadList={LeadList} onShut={()=>close()} props={props} />
         </RBSheet> 
                 </View>
                <View>

@@ -1,6 +1,6 @@
 //This is an example code to set Backgroud image///
-import React from 'react';
-//import react in our code. 
+import React, { useState ,useRef,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, Text,Dimensions,TextInput,Image, StyleSheet ,TouchableOpacity,ScrollView} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
@@ -13,67 +13,74 @@ const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RNPickerSelect from 'react-native-picker-select';
 const workout = {key:'workout', color: 'green'};
-const 
-items = [{
-  id: '92iijs7yta',
-  name: 'Ondo',
-}, {
-  id: 'a0s0a8ssbsd',
-  name: 'Ogun',
-}, {
-  id: '16hbajsabsd',
-  name: 'Calabar',
-}, {
-  id: 'nahs75a5sg',
-  name: 'Lagos',
-}, {
-  id: '667atsas',
-  name: 'Maiduguri',
-}, {
-  id: 'hsyasajs',
-  name: 'Anambra',
-}, {
-  id: 'djsjudksjd',
-  name: 'Benue',
-}, {
-  id: 'sdhyaysdj',
-  name: 'Kaduna',
-}, {
-  id: 'suudydjsjd',
-  name: 'Abuja',
-}];
-export default class AddEnquiry extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
-      }
-      
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',selectedItems : [],
-    dataSource:[],}
-  }
-  onSelectedItemsChange = selectedItems => {
-    this.setState({ selectedItems });
+
+const AddEnquiry =(props) =>  {
+  const placeholder = {
+    label: 'Select Contact',
+    value: null,
+    color: '#000',
   };
-  navigate=()=>{
-    this.props.onShut()
-    const {props}= this.props
-    props.navigation.navigate('SearchUser')
+  const navigate=()=>{
+     props.onShut()
+    props.props.navigation.navigate('SearchUser')
   }
-  render() {
-    const placeholder = {
-      label: 'Select Contact',
-      value: null,
-      color: '#000',
-    };
-    const { selectedItems } = this.state;
+  const[firstName,setFirstName]=useState()
+  const[lastName,setlastName]=useState()
+  const[companyName,setcompanyName]=useState()
+  const[contactPerson,setContactperson]=useState()
+  const[Phone,setPhone]=useState()
+  const[AlternatePhone,setalternatePhone]=useState()
+  const[email,setMail]=useState()
+  const[Alternateemail,setAlternateMail]=useState()
+  const[country,setCountry]=useState()
+  const[city,setCity]=useState()
+  const[state,setState]=useState()
+  const [postalCode,setPostalCode]=useState()
+  const [Followdate,setFollowDate]=useState()
+  const [assignTo,setAssignTo]=useState()
+
+  const [AddressLine1,setAddressLine1]=useState()
+  const [AddressLine2,setAddressLine2]=useState()
+  
+  const getOtherData = (data) =>{
+  
+    if(data!=null){
+    let arrayObject=  props.LeadList.find(x => x.contact_id === data);
+    console.log('data',arrayObject)
+    setFirstName(arrayObject.contact_first_name)
+    setlastName(arrayObject.contact_last_name)
+    setcompanyName(arrayObject.company_name)
+    setPhone(arrayObject.phone)
+    setalternatePhone(arrayObject.alternate_phone)
+    setMail(arrayObject.email)
+    setAlternateMail(arrayObject.alternate_email)
+    setAddressLine1(arrayObject.address_line_1)
+    setAddressLine2(arrayObject.address_line_2)
+    setCountry(arrayObject.country)
+    setCity(arrayObject.city)
+    setPostalCode(arrayObject.pincode)
+    setAssignTo(arrayObject.assigned_to)
+    setState(arrayObject.state)
+
+    }
+
+  }
+
+  const getData = () =>{
+    let pickerrray=[]
+      props.LeadList.map((item,index)=>{
+            let pickObject={
+              label:item.contact_first_name+" "+item.contact_last_name,
+              value:item.contact_id
+            }
+            pickerrray.push(pickObject)
+      })
+      return pickerrray
+  }
     return (
         <ScrollView contentContainerStyle={{paddingBottom:30}} style={{flex:1}}>
       <View style={{ flex: 1 ,padding:20}}>
-          <TouchableOpacity onPress={()=>this.props.onShut()}>
+          <TouchableOpacity onPress={()=>props.onShut()}>
           <View style={{alignSelf:'flex-end'}}>
               <Image style={{width:30,height:30,resizeMode:'contain'}} source={require('../Assets/close.png')}></Image>
           </View>
@@ -98,16 +105,8 @@ export default class AddEnquiry extends React.Component {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => console.log(value)}
-            items={[
-               
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            onValueChange={(value) =>getOtherData(value)}
+            items={getData()}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}
@@ -124,14 +123,15 @@ export default class AddEnquiry extends React.Component {
           </View>
           <View style={styles.textAreaContainer} >
           <TextInput
+          editable={false}
             placeholder='First Name'
            
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+      
+        value={firstName}
       />
   </View>
         
@@ -144,14 +144,15 @@ export default class AddEnquiry extends React.Component {
           </View>
           <View style={styles.textAreaContainer} >
           <TextInput
+          editable={false}
             placeholder='Last Name'
            
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        
+        value={lastName}
       />
   </View>
         
@@ -164,14 +165,15 @@ export default class AddEnquiry extends React.Component {
           </View>
           <View style={styles.textAreaContainer} >
           <TextInput
+          editable={false}
             placeholder='Company Name'
            
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+       
+        value={companyName}
       />
   </View>
         
@@ -190,8 +192,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setContactperson(text)}
+        value={contactPerson}
       />
   </View>
         
@@ -210,8 +212,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) =>setPhone(text)}
+        value={Phone}
       />
          
           </View>
@@ -232,8 +234,8 @@ export default class AddEnquiry extends React.Component {
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
         keyboardType={'name-phone-pad'}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setalternatePhone(text)}
+        value={AlternatePhone}
       />
   </View>
         
@@ -252,8 +254,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setMail(text)}
+        value={email}
       />
   </View>
         
@@ -272,8 +274,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setAlternateMail(text)}
+        value={Alternateemail}
       />
   </View>
         
@@ -292,8 +294,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setAddressLine1(text)}
+        value={AddressLine1}
       />
   </View>
         
@@ -312,8 +314,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setAddressLine2(text)}
+        value={AddressLine2}
       />
   </View>
         
@@ -326,7 +328,7 @@ export default class AddEnquiry extends React.Component {
           </View>
             <View style={{}}>
             <RNPickerSelect
-             
+             value={country}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -364,7 +366,7 @@ export default class AddEnquiry extends React.Component {
           </View>
             <View style={{}}>
             <RNPickerSelect
-             
+             value={state}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -408,8 +410,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setCity(text)}
+        value={city}
       />
   </View>
         
@@ -428,8 +430,8 @@ export default class AddEnquiry extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setPostalCode(text)}
+        value={postalCode}
       />
   </View>
         
@@ -492,6 +494,7 @@ export default class AddEnquiry extends React.Component {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
+                value={assignTo}
             onValueChange={(value) => console.log(value)}
             items={[
                
@@ -517,7 +520,7 @@ export default class AddEnquiry extends React.Component {
           </View>
           <DatePicker
         style={{width: 350}}
-        date={this.state.date}
+        date={Followdate}
         mode="date"
         placeholder="Choose date"
         format="YYYY-MM-DD"
@@ -538,12 +541,12 @@ export default class AddEnquiry extends React.Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => setFollowDate(date)}
       />
         
          
       </View>
-      <TouchableOpacity onPress={()=>this.props.onShut()}>
+      <TouchableOpacity onPress={()=>props.onShut()}>
       <View style={{backgroundColor:'#f39a3e',height:40,justifyContent:'center',alignItems:'center',marginTop:20,flexDirection:'row'
       
     }}>
@@ -557,7 +560,7 @@ export default class AddEnquiry extends React.Component {
 
     </View>
       </TouchableOpacity>
-   <TouchableOpacity onPress={()=>this.props.onShut()}>
+   <TouchableOpacity onPress={()=>props.onShut()}>
    <View style={{backgroundColor:'#6c757d',height:40,justifyContent:'center',alignItems:'center',marginTop:20,flexDirection:'row'
       
     }}>
@@ -576,7 +579,6 @@ export default class AddEnquiry extends React.Component {
       </ScrollView>
     );
   }
-}
 const styles = StyleSheet.create({
     textAreaContainer: {
         borderColor:'grey',
@@ -633,4 +635,5 @@ const styles = StyleSheet.create({
       paddingRight: 30, // to ensure the text is never behind the icon
     },
   });
+  export default AddEnquiry;
 
