@@ -121,6 +121,12 @@ const LeadStack = createStackNavigator(
     Lead: Lead,
   },
   {
+    headerMode: 'none',
+    navigationOptions: {
+      headerVisible: false,
+    }
+   },
+  {
     transitionConfig: TransitionConfiguration,
     defaultNavigationOptions: {
       headerTintColor: '#fff',
@@ -221,7 +227,8 @@ const Containers = createSwitchNavigator({
 },
 {
   initialRouteName: 'Auth',
-}
+},
+
 )
 const container = createAppContainer(Containers)
 

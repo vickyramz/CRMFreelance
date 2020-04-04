@@ -7,3 +7,8 @@ export const LOGIN_PENDING ='login_pending'
 export const LEADS_SUCCESS ='lead_success'
 export const LEADS_FAILURE ='lead_failure'
 export const LEADS_PENDING ='lead_pending'
+
+//Bills Api
+export const BILLS_SUCCESS ='bills_success'
+export const BILLS_FAILURE ='bills_failure'
+export const BILLS_PENDING ='bills_pending'

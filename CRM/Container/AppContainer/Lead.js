@@ -2,6 +2,7 @@
 import React, { useState ,useRef,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SnackBar from 'react-native-snackbar-component';
+import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
 import { View, Text,Dimensions,FlatList, Image,StyleSheet,SafeAreaView,TouchableOpacity ,ActivityIndicator} from 'react-native';
 const WIDTH = Dimensions.get('window').width;
@@ -12,29 +13,51 @@ import Leadsheet from '../Components/Leadsheet'
 import SearchBar from 'react-native-searchbar';
 
  const  Lead  = (props) => {
-  const RBSheet = useRef();
-  const RBSheets = useRef();
+  const RBSheetRef = useRef();
+  const RBSheetsRef = useRef();
   const searchBar=useRef();
  const [selectedTab,setselectedTab]=useState(0) 
  const [LeadList,setLeadList]=useState([]) 
+ const [TabText,setTabText]=useState('all')
   const close=()=>{
-  RBSheets.current.close();
+  RBSheetsRef.current.close();
   }
  const closes=()=>{
-   RBSheets.current.close();
+   RBSheetsRef.current.close();
   }
   const setTab=(tab)=> {
    setselectedTab(tab)
+   let status='';
+   if(tab===0){
+     status='all'
+   }
+   if(tab===1){
+     status='enquiry'
+   }
+   if(tab===2){
+    status='lead'
+  }
+  if(tab===3){
+    status='prospect'
+  }
+  if(tab===4){
+    status='deal'
+  }
+  if(tab===5){
+    status='dropped'
+  }
+   setTabText(status)
   }
   useEffect(()=>{
     getLeadsData()
-  },[])
+  },[TabText])
   const dispatch = useDispatch();
   const [loader, setLoading] = useState(false);
   const [ShowAlert, setAlerts] = useState(false);
   const [error, setError] = useState('');
   const LeadOperation = useSelector(state => state.LeadReducer);
   const loginOperation = useSelector(state => state.userReducer);
+  const billOperation = useSelector(state => state.BillReducer);
  function getLeadsData(){
    let params={
     page:1,
@@ -51,9 +74,30 @@ import SearchBar from 'react-native-searchbar';
    }
    let token=loginOperation.loginResponse.token;
    console.log('token',token)
-   dispatch(BindActions.LeadApi(params,token,"/leads/list/"+"all"));
+   dispatch(BindActions.LeadApi(params,token,"/leads/list/"+`${TabText}`)).then(response=>{
+     console.log('hello')
+   })
  }
  if (LeadOperation.leadPending) {
+  LeadOperation.leadPending=false
+    setLoading(true)
+    setAlerts(false);
+}
+ if (LeadOperation.leadSuccess) {
+  console.log('LeadOperation',LeadOperation)
+  LeadOperation.leadSuccess=false
+  setLoading(false)
+  setAlerts(false);
+  setLeadList(LeadOperation.LeadResponse.records)
+}
+if (LeadOperation.IsleadError) {
+  LeadOperation.IsleadError=false
+  setLoading(false)
+  setAlerts(true);
+  setError(LeadOperation.leaderror.message)
+
+}
+if (LeadOperation.leadPending) {
   LeadOperation.leadPending=false
     setLoading(true)
     setAlerts(false);
@@ -78,7 +122,15 @@ const snackBarActions = () => {
 const _handleResults =()=>{
 
 }
+const getBillItems=(item)=>{
+  let token=loginOperation.loginResponse.token;
+  let params={
+    ids:item.lead_id
+  }
+  dispatch(BindActions.BillApi(params,token,"/leads/list/"+`${TabText}`));
+}
 const getItems = ({item}) => {
+    //getBillItems(item);
     return (
         <View style={{backgroundColor:'#fff',height:180,padding:20,justifyContent:'space-between',borderRadius:15,
         shadowColor: '#000',
@@ -92,7 +144,7 @@ const getItems = ({item}) => {
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             <View style={{flexDirection:'row'}}>
             <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#00A3E0',position:'relative'}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_person.charAt(0)}</Text>
+            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_first_name.charAt(0)}</Text>
              <View style={{position:'absolute',bottom:-10,alignSelf:'center',justifyContent:'center',width:20,height:20,borderRadius:10,backgroundColor:'#f4a640',alignItems:'center'}}>
              <Image 
             source={require('../Assets/star.png')}
@@ -101,7 +153,7 @@ const getItems = ({item}) => {
              </View>
             </View>
             <View style={{marginLeft:30}}>
-            <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>{item.contact_person}</Text>
+            <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>{item.contact_first_name+" "+item.contact_last_name}</Text>
             <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>{item.company_name}</Text>
             <View style={{flexDirection:'row',marginTop:10}}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'gray',position:'relative'}}>
@@ -125,18 +177,21 @@ const getItems = ({item}) => {
             <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
             </View>
             </View>
-            <View style={{flexDirection:'row'}}>
+            <View style={{flexDirection:'row',}}>
             <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
             <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
             </View>
             <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
             <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Received</Text>
             </View>
+            <View style={{width:80,height:25,borderRadius:30,backgroundColor:'gray',justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:10}}>
+    <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.lead_status}</Text>
             </View>
-            
+            </View>
+           
             </View>
             </View>
-            <TouchableOpacity onPress={()=>RBSheet.current.open()}>
+            <TouchableOpacity onPress={()=>RBSheetRef.current.open()}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#f39a3e',position:'relative'}}>
             <Image 
             source={require('../Assets/moredots.png')}
@@ -170,7 +225,7 @@ if (loader) {
                 <View style={{paddingLeft:10,justifyContent:'center',alignItems:'center'}}>
                 <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Leads Management</Text>
                 </View>
-                <TouchableOpacity onPress={()=>searchBar.show()}>
+                <TouchableOpacity onPress={()=>searchBar.current.show()}>
                 <View style={{justifyContent:'center',alignItems:'center',marginTop:5}}>
           <Image 
             source={require('../Assets/search.png')}
@@ -179,7 +234,7 @@ if (loader) {
           </View>
                 </TouchableOpacity>
               
-          <TouchableOpacity >
+          <TouchableOpacity onPress={()=>RBSheetsRef.current.open()}>
               <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',marginRight:10,flexDirection:'row',borderRadius:6}}>
               <View style={{justifyContent:'center',alignItems:'center'}}>
                         <Image 
@@ -218,6 +273,36 @@ if (loader) {
                   renderItem={(item, index) =>getItems(item, index)}
                   
                 /></View>:null}
+                <View>
+                <RBSheet
+          ref={RBSheetsRef}
+          height={700}
+          duration={250}
+          customStyles={{
+            container: {
+            borderTopLeftRadius:25,
+            borderTopRightRadius:25
+            }
+          }}
+        >
+          <AddEnquiry onShut={()=>close()} props={props} />
+        </RBSheet> 
+                </View>
+               <View>
+               <RBSheet
+       ref={RBSheetRef}
+          height={120}
+          duration={250}
+          customStyles={{
+            container: {
+            borderTopLeftRadius:25,
+            borderTopRightRadius:25
+            }
+          }}
+        >
+          <Leadsheet onShut={()=>closes()} props={props} />
+        </RBSheet> 
+                 </View> 
             </View>
             {/* <View style={{flex:0.9}}>
                <View style={{flex:1,marginTop:10}}>          
@@ -313,6 +398,11 @@ ImageStyle: {
     tintColor:'#858585',
     width: 10,
     resizeMode: 'stretch',
+    alignItems: 'center',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 SectionStyle: {
