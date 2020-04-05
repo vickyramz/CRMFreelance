@@ -51,11 +51,14 @@ import SearchBar from 'react-native-searchbar';
   }
   useEffect(()=>{
     getLeadsData()
-  },[TabText])
+  },[TabText,AddResponse])
   const dispatch = useDispatch();
   const [loader, setLoading] = useState(false);
+  const [success,AddResponses]=useState()
   const [ShowAlert, setAlerts] = useState(false);
+  const AddResponse = useSelector(state => state.AddLeadReducer);
   const [error, setError] = useState('');
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
   const LeadOperation = useSelector(state => state.LeadReducer);
   const loginOperation = useSelector(state => state.userReducer);
   const billOperation = useSelector(state => state.BillReducer);
@@ -84,6 +87,7 @@ import SearchBar from 'react-native-searchbar';
     setLoading(true)
     setAlerts(false);
 }
+
  if (LeadOperation.leadSuccess) {
   console.log('LeadOperation',LeadOperation)
   LeadOperation.leadSuccess=false
@@ -122,6 +126,12 @@ const snackBarActions = () => {
 };
 const _handleResults =()=>{
 
+}
+Success=(text)=>{
+
+  setAlertsSuccess(true);
+  AddResponses(text)
+  
 }
 const getBillItems=(item)=>{
   let token=loginOperation.loginResponse.token;
@@ -286,7 +296,7 @@ if (loader) {
             }
           }}
         >
-          <AddEnquiry LeadList={LeadList} onShut={()=>close()} props={props} />
+          <AddEnquiry Success={(text)=>Success(text)} LeadList={LeadList} onShut={()=>close()} props={props} />
         </RBSheet> 
                 </View>
                <View>
@@ -301,71 +311,11 @@ if (loader) {
             }
           }}
         >
-          <Leadsheet onShut={()=>closes()} props={props} />
+          <Leadsheet  onShut={()=>closes()} props={props} />
         </RBSheet> 
                  </View> 
             </View>
-            {/* <View style={{flex:0.9}}>
-               <View style={{flex:1,marginTop:10}}>          
-            <View style={{borderBottomColor: '#CACED0', borderBottomWidth: 1}}>
-            <View style={{width: '100%'}}>
-              <MaterialTabs
-                items={['All','Enquiry', 'Lead', 'Prospects','Deals','Dropped']}
-                selectedIndex={selectedTab}
-                onChange={setTab.bind(this)}
-                barColor="#ffff"
-                indicatorColor="#00A3E0"
-                activeTextColor="#00A3E0"
-                inactiveTextColor="#000"
-                textStyle={{
-                  fontSize: 7,
-                  fontWeight: 'bold',
-                }}
-              />
-            </View>
-          </View>
-            
-             <View>
-                 {LeadList.length>0?
-                 <View>
-                  <FlatList
-                  style={{ flexGrow: 1, paddingBottom: 20}}   
-                  data={LeadList}              
-                  renderItem={(item, index) =>getItems(item, index)}
-                  
-                /></View>:null}
-               </View>
-               </View>
-               <RBSheet
-       ref={RBSheet}
-          height={120}
-          duration={250}
-          customStyles={{
-            container: {
-            borderTopLeftRadius:25,
-            borderTopRightRadius:25
-            }
-          }}
-        >
-          <Leadsheet onShut={()=>closes()} props={props} />
-        </RBSheet> 
-        <RBSheet
-          ref={RBSheets}
-          height={700}
-          duration={250}
-          customStyles={{
-            container: {
-            borderTopLeftRadius:25,
-            borderTopRightRadius:25
-            }
-          }}
-        >
-          <AddEnquiry onShut={()=>close()} props={props} />
-        </RBSheet> 
-           
-
-                
-            </View> */}
+          
             <SearchBar
   ref={searchBar}
   data={LeadList}
@@ -377,6 +327,14 @@ if (loader) {
           textMessage={error}
           actionHandler={() => snackBarActions()}
           actionText="DISMISS"
+        />
+         <SnackBar
+         backgroundColor='green'
+          visible={ShowAlertSuccess}
+          textMessage={success}
+          
+          actionHandler={() => snackBarActions()}
+          actionText=""
         />
       </View>
       </SafeAreaView>

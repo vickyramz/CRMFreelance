@@ -12,3 +12,8 @@ export const LEADS_PENDING ='lead_pending'
 export const BILLS_SUCCESS ='bills_success'
 export const BILLS_FAILURE ='bills_failure'
 export const BILLS_PENDING ='bills_pending'
+
+//Add Lead Api
+export const ADD_SUCCESS ='add_success'
+export const ADD_FAILURE ='add_failure'
+export const ADD_PENDING ='add_pending'

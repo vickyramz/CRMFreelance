@@ -1,6 +1,8 @@
 //This is an example code to set Backgroud image///
-import React, { useState ,useRef,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import SnackBar from 'react-native-snackbar-component';
+import * as BindActions from '../Redux/Actions';
 import { View, Text,Dimensions,TextInput,Image, StyleSheet ,TouchableOpacity,ScrollView} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
@@ -20,10 +22,13 @@ const AddEnquiry =(props) =>  {
     value: null,
     color: '#000',
   };
+  const loginOperation = useSelector(state => state.userReducer);
+  const AddResponse = useSelector(state => state.AddLeadReducer);
   const navigate=()=>{
      props.onShut()
     props.props.navigation.navigate('SearchUser')
   }
+  const dispatch = useDispatch();
   const[firstName,setFirstName]=useState()
   const[lastName,setlastName]=useState()
   const[companyName,setcompanyName]=useState()
@@ -34,19 +39,25 @@ const AddEnquiry =(props) =>  {
   const[Alternateemail,setAlternateMail]=useState()
   const[country,setCountry]=useState()
   const[city,setCity]=useState()
+  const[contactId,setContactid]=useState();
   const[state,setState]=useState()
+  const [success,AddResponses]=useState()
   const [postalCode,setPostalCode]=useState()
   const [Followdate,setFollowDate]=useState()
   const [assignTo,setAssignTo]=useState()
-
+  const [loader, setLoading] = useState(false);
+  const [ShowAlert, setAlerts] = useState(false);
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const [error, setError] = useState('');
   const [AddressLine1,setAddressLine1]=useState()
   const [AddressLine2,setAddressLine2]=useState()
-  
+  let token=loginOperation.loginResponse.token;
   const getOtherData = (data) =>{
   
     if(data!=null){
     let arrayObject=  props.LeadList.find(x => x.contact_id === data);
     console.log('data',arrayObject)
+    setContactid(data)
     setFirstName(arrayObject.contact_first_name)
     setlastName(arrayObject.contact_last_name)
     setcompanyName(arrayObject.company_name)
@@ -65,7 +76,63 @@ const AddEnquiry =(props) =>  {
     }
 
   }
-
+  function AddEnquiryAction(){
+    if(contactId==null || contactId===''){
+      alert('please select contact')
+    }
+    else if(contactPerson==null || contactPerson===''){
+      alert('please enter contact person')
+    }
+    else if (email ==null || email ===''){
+      alert('please enter email')
+    }
+    else if (Phone ==null || Phone ===''){
+      alert('please enter phone')
+    }
+    else{
+      let params={
+        contact_id:contactId,
+        lead_source_id :'',
+      contact_person :contactPerson,
+      email :email,
+  alternate_email:Alternateemail,
+  phone:Phone,
+  alternate_phone :AlternatePhone,
+  address_line_1 :AddressLine1,
+  address_line_2:AddressLine2,
+  city :city,
+  state :state,
+  country :country,
+  pincode :postalCode,
+  notes:'',
+  assigned_to:assignTo,
+      }
+      console.log('params',JSON.stringify(params))
+      dispatch(BindActions.AddLead(params,token,'/leads'));
+    }
+    
+  }
+  if (AddResponse.AddPending) {
+    AddResponse.AddPending=false
+      setLoading(true)
+      setAlerts(false);
+  }
+   if (AddResponse.AddSuccess) {
+    console.log('AddResponse',AddResponse)
+    AddResponse.AddSuccess=false
+    setLoading(false)
+    setAlerts(false);
+    props.onShut()
+    props.Success(AddResponse.AddResponse.message)
+    AddResponses(AddResponse.AddResponse.message)
+  }
+  if (AddResponse.IsAddError) {
+    AddResponse.IsAddError=false
+    setLoading(false)
+    setAlerts(true);
+    setError(AddResponse.Adderror.message)
+  
+  }
   const getData = () =>{
     let pickerrray=[]
       props.LeadList.map((item,index)=>{
@@ -546,7 +613,7 @@ const AddEnquiry =(props) =>  {
         
          
       </View>
-      <TouchableOpacity onPress={()=>props.onShut()}>
+      <TouchableOpacity onPress={()=>AddEnquiryAction()}>
       <View style={{backgroundColor:'#f39a3e',height:40,justifyContent:'center',alignItems:'center',marginTop:20,flexDirection:'row'
       
     }}>
@@ -574,7 +641,13 @@ const AddEnquiry =(props) =>  {
 
     </View>
    </TouchableOpacity>
-   
+   <SnackBar
+          visible={ShowAlert}
+          textMessage={error}
+          actionHandler={() => snackBarActions()}
+          actionText=""
+        />
+       
       </View>
       </ScrollView>
     );
