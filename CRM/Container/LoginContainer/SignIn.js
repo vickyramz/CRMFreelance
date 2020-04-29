@@ -73,7 +73,7 @@ function  SignIn (props) {
       loginOperation.loginError=false
       setLoading(false)
       setAlerts(true);
-      setError(loginOperation.error.message)
+      setError(loginOperation.error)
   
     }
     const snackBarActions = () => {

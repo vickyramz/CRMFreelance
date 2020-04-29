@@ -5,7 +5,8 @@ export function login(userParams, headers) {
     return function(dispatch) {
       dispatch(userLoginPending());
       return authApi.getPost(userParams,headers,loginUrl.LOGIN).then(userResponse => {
-          if (userResponse.status!='success') {
+        console.log('User response,',userResponse)
+          if (userResponse.status && userResponse.status!='success') {
             dispatch(userLoginError(userResponse));
           } else {
             console.log('userResponse', userResponse);
@@ -13,7 +14,8 @@ export function login(userParams, headers) {
           }
         })
         .catch(error => {
-          alert(error);
+          console.log('alert',error)
+          dispatch(userLoginError('something went wrong'));
         });
     };
   }
