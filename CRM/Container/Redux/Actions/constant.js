@@ -17,3 +17,8 @@ export const BILLS_PENDING ='bills_pending'
 export const ADD_SUCCESS ='add_success'
 export const ADD_FAILURE ='add_failure'
 export const ADD_PENDING ='add_pending'
+
+// Country Api
+export const COUNTRY_SUCCESS ='country_add_success'
+export const COUNTRY_FAILURE ='country_add_failure'
+export const COUNTRY_PENDING ='country_add_pending'

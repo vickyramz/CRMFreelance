@@ -8,7 +8,7 @@ import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
 import { Chevron, Heart, Triangle } from 'react-native-shapes'
-
+let contryDetails=[]
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
@@ -24,10 +24,14 @@ const AddEnquiry =(props) =>  {
   };
   const loginOperation = useSelector(state => state.userReducer);
   const AddResponse = useSelector(state => state.AddLeadReducer);
+  const CountryReducer= useSelector(state=>state.CountryReducer)
   const navigate=()=>{
      props.onShut()
     props.props.navigation.navigate('SearchUser')
   }
+  useEffect(()=>{
+    CountryData()
+ },[])
   const dispatch = useDispatch();
   const[firstName,setFirstName]=useState()
   const[lastName,setlastName]=useState()
@@ -37,7 +41,7 @@ const AddEnquiry =(props) =>  {
   const[AlternatePhone,setalternatePhone]=useState()
   const[email,setMail]=useState()
   const[Alternateemail,setAlternateMail]=useState()
-  const[country,setCountry]=useState()
+  const[country,setCountry]=useState([])
   const[city,setCity]=useState()
   const[contactId,setContactid]=useState();
   const[state,setState]=useState()
@@ -67,7 +71,7 @@ const AddEnquiry =(props) =>  {
     setAlternateMail(arrayObject.alternate_email)
     setAddressLine1(arrayObject.address_line_1)
     setAddressLine2(arrayObject.address_line_2)
-    setCountry(arrayObject.country)
+   // setCountry(arrayObject.country)
     setCity(arrayObject.city)
     setPostalCode(arrayObject.pincode)
     setAssignTo(arrayObject.assigned_to)
@@ -75,6 +79,40 @@ const AddEnquiry =(props) =>  {
 
     }
 
+  }
+  console.log('CountryReduce',CountryReducer)
+  if(CountryReducer.IsCountryListResponsePending){
+    CountryReducer.IsCountryListResponsePending=false
+    setLoading(true)
+  }
+  if(CountryReducer.IsCountryListResponseSuccess){
+    CountryReducer.IsCountryListResponseSuccess=true
+    setLoading(false)
+     contryDetails=Object.keys(CountryReducer.CountryListResponse)
+    console.log('CountryReducer.CountryListResponse',contryDetails)
+    //setCountry(contryDetailss=>[...contryDetails])
+  }
+  if(CountryReducer.IsCountryListResponseError){
+    CountryReducer.IsCountryListResponseError=true
+    setLoading(false)
+   // let contryDetails=Object.keys(CountryReducer.IsCountryListResponseSuccess)
+   setAlerts(true)
+   setError(CountryReducer.Countryerror)
+  }
+
+  const getCountry=(data)=>{
+    console.log('data',data)
+    let arrayData=[]
+    data.map((item,index)=>{
+      let arrayObject={label:item,value:item}
+      arrayData.push(arrayObject);
+    })
+    return arrayData;
+  }
+  function CountryData(){
+    let token=loginOperation.loginResponse.token;
+    let url = '/settings/cities_list'
+    dispatch(BindActions.GetCountryList(token,url))
   }
   function AddEnquiryAction(){
     if(contactId==null || contactId===''){
@@ -395,7 +433,7 @@ const AddEnquiry =(props) =>  {
           </View>
             <View style={{}}>
             <RNPickerSelect
-             value={country}
+             //value={country}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -408,15 +446,7 @@ const AddEnquiry =(props) =>  {
                   fontWeight: 'bold',
                 },}}
             onValueChange={(value) => console.log(value)}
-            items={[
-               
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            items={getCountry(contryDetails)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}

@@ -127,8 +127,8 @@ if (billOperation.IsBillError) {
 const snackBarActions = () => {
   setAlerts(false);
 };
-const _handleResults =()=>{
-
+const _handleResults =(text)=>{
+  //const result = words.filter(word => word.contact_person == text);
 }
 Success=(text)=>{
 
