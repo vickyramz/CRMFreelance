@@ -358,6 +358,7 @@ getItems = ({item}) => {
                 </View> */}
               
              <View>
+               
              {/* <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
                 <Text style={{color:'#d3d1d7',fontWeight:'bold',fontSize:14,textAlign:'center'}}>Total Enquiry List</Text>
                 </View> */}

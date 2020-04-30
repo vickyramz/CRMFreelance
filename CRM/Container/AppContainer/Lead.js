@@ -7,6 +7,7 @@ import * as BindActions from '../Redux/Actions';
 import { View, Text,Dimensions,FlatList, Image,StyleSheet,SafeAreaView,TouchableOpacity ,ActivityIndicator} from 'react-native';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
+import {Container, Tab, Tabs, StyleProvider} from 'native-base';
 import MaterialTabs from 'react-native-material-tabs';
 import AddEnquiry from '../Components/AddEnquiry'
 import Leadsheet from '../Components/Leadsheet'
@@ -26,7 +27,9 @@ import SearchBar from 'react-native-searchbar';
  const closes=()=>{
    RBSheetsRef.current.close();
   }
-  const setTab=(tab)=> {
+  const setTab=(s)=> {
+    let tab=s.i;
+    console.log('Tab',tab)
    setselectedTab(tab)
    let status='';
    if(tab===0){
@@ -118,7 +121,7 @@ if (billOperation.IsBillError) {
   billOperation.IsBillError=false
   setLoading(false)
   setAlerts(true);
-  setError(billOperation.Billerror.message)
+  setError(billOperation.Billerror.message) 
 
 }
 const snackBarActions = () => {
@@ -216,17 +219,12 @@ const getItems = ({item}) => {
         </View>
     );
 }
-if (loader) {
-  return (
-    <View style={styles.loader}>
-      <ActivityIndicator size="large" color="#0000ff" />
-    </View>
-  );
-}
+
     return (
-      <SafeAreaView style={{flex:1}}>
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.1}}>       
+      <Container style={{backgroundColor: '#fff',flex:1}}>
+      <SafeAreaView>
+        <View >
+        <View style={{ height:80}}>       
           <View style={{padding:20,flexDirection:'row',justifyContent:'space-between'}}>
           <TouchableOpacity style={{justifyContent:'center',alignItems:'center'}} onPress={()=>props.navigation.goBack(null)}>
                 <View >
@@ -258,25 +256,26 @@ if (loader) {
               </TouchableOpacity>
             </View>           
             </View>
-            <View style={{flex:0.9}}>
-            <View style={{borderBottomColor: '#CACED0', borderBottomWidth: 1}}>
-            <View style={{width: '100%'}}>
-              <MaterialTabs
-                items={['All','Enquiry', 'Lead', 'Prospects','Deals','Dropped']}
-                selectedIndex={selectedTab}
-                onChange={setTab.bind(this)}
-                barColor="#ffff"
-                indicatorColor="#00A3E0"
-                activeTextColor="#00A3E0"
-                inactiveTextColor="#000"
-                textStyle={{
-                  fontSize: 7,
-                  fontWeight: 'bold',
-                }}
-              />
-            </View>
-          </View>
-            {LeadList.length>0?
+        </View>
+      </SafeAreaView>
+      <Tabs onChangeTab={(tab)=>setTab(tab)} tabBarUnderlineStyle={{backgroundColor: '#00A3E0'}}>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`All `}>
+          <View style={{flex:1}}>
+            {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
                  <View>
                   <FlatList
                   style={{ flexGrow: 1, paddingBottom: 20}}   
@@ -284,8 +283,142 @@ if (loader) {
                   renderItem={(item, index) =>getItems(item, index)}
                   
                 /></View>:null}
-                <View>
-                <RBSheet
+       
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Enquiry `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:null}
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Lead `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:null}
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Prospects `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:null}
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Deals `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:null}
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+            fontFamily: 'AvenirNextLTPro-Regular',
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Dropped `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:null}
+          </View>
+        </Tab>
+</Tabs>
+<View>
+<RBSheet
           ref={RBSheetsRef}
           height={700}
           duration={250}
@@ -314,7 +447,6 @@ if (loader) {
           <Leadsheet  onShut={()=>closes()} props={props} />
         </RBSheet> 
                  </View> 
-            </View>
           
             <SearchBar
   ref={searchBar}
@@ -336,8 +468,11 @@ if (loader) {
           actionHandler={() => snackBarActions()}
           actionText=""
         />
-      </View>
-      </SafeAreaView>
+</Container>
+
+              
+    
+  
     );
         }
 const styles = StyleSheet.create({
