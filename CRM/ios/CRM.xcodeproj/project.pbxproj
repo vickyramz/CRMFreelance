@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00446CA64E1C49CEAAF269E4 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21135AC5E52043BE9769E40B /* FontAwesome5_Solid.ttf */; };
 		00E356F31AD99517003FC87E /* CRMTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* CRMTests.m */; };

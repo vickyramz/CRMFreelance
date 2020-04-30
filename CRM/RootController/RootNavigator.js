@@ -222,11 +222,11 @@ const AppStack=createStackNavigator({
  }  )
 const Containers = createSwitchNavigator({
     Auth:AuthStack,
-    App:AppStack
-  //Signup: { screen: Signup },
+    App:AppStack,
+  Signup: { screen: Signup },
 },
 {
-  initialRouteName: 'Auth',
+  initialRouteName: 'Signup',
 },
 
 )
