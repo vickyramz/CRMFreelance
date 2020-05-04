@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1016162784235:android:5be961ba5354d1e62c3fae",
         "android_client_info": {
-          "package_name": "com.crm"
+          "package_name": "com.crm.gotsoft"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1016162784235-8t2hu16o8fiih78o8jok2abp529tm2pk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.crm",
+            "package_name": "com.crm.gotsoft",
             "certificate_hash": "d0f62b7bc2df7557b0b74b37c439e0efae2b3443"
           }
         },

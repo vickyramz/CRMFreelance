@@ -1,4 +1,4 @@
-package com.crm;
+package com.crm.gotsoft;
 
 import android.app.Application;
 import android.content.Context;

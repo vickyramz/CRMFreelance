@@ -30,7 +30,7 @@ const AddEnquiry =(props) =>  {
     props.props.navigation.navigate('SearchUser')
   }
   useEffect(()=>{
-    CountryData()
+   // CountryData()
  },[])
   const dispatch = useDispatch();
   const[firstName,setFirstName]=useState()

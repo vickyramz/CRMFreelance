@@ -1,4 +1,4 @@
-package com.crm;
+package com.crm.gotsoft;
 
 import com.facebook.react.ReactActivity;
 import org.devio.rn.splashscreen.SplashScreen; // here
