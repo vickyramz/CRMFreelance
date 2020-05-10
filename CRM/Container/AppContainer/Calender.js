@@ -1,63 +1,59 @@
-//This is an example code to set Backgroud image///
-import React from 'react';
-//import react in our code. 
-import { View, Text,Dimensions,StyleSheet, Image } from 'react-native';
+import React, { useState ,useRef,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { View, Text,Dimensions,StyleSheet,SafeAreaView, Image,TouchableOpacity } from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
+import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
 import AddSchedule from '../Components/AddSchedule'
 
-import { TouchableOpacity } from 'react-native-gesture-handler';
 const workout = {key:'workout', color: 'green'};
-export default class Calender extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
-      }
-      
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',
-    dataSource:[],}
-  }
-
-
-
-  keyExtractor (item) {
+const Calender=(props)=> {
+  function keyExtractor (item) {
     return item.id;
   }
-  openSheet=()=>{
-    this.RBSheet.open();
+  const RBSheets=useRef()
+ const openSheet=()=>{
+    RBSheets.current.open();
   }
-  close=()=>{
-    this.RBSheet.close();
+  const close=()=>{
+    RBSheets.current.close();
   }
-
-  render() {
+  const goback=()=>{
+    props.navigation.goBack(null);
+  }
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.08}}>
-          <TouchableOpacity onPress={()=>this.props.navigation.goBack(null)}>
-          <View style={{padding:20,flexDirection:'row'}}>
-                <View style={{justifyContent:'center',alignItems:'center'}}>
-                <Image source={require('../Assets/back.png')} style={{width:20,height:20,resizeMode:'contain'}}></Image>
-                </View>
-                <View style={{paddingLeft:10}}>
-                <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Schedule</Text>
-                </View>
-            </View>
+      <SafeAreaView style={{ flex: 1 }}>
+               <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+           <Left style={{ flexDirection: 'row' }} >
+           <TouchableOpacity onPress={()=>goback()}>
+             <Image 
+            
+            source={require('../Assets/back.png')}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+          />
           </TouchableOpacity>
-         
-            
-            
-            </View>
+              </Left>
+             <Body >
+                <Text style={{fontWeight:'bold',fontSize:18}} >Schedule</Text>
+            </Body>
+            <Right style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={()=>searchBar.current.show()}>
+              
+          <Image 
+            source={require('../Assets/search.png')}
+            style={styles.ImageStyle}
+          />
+        
+                </TouchableOpacity>
+              </Right>
+        </Header>
+  
             <View style={{flex:0.92}}>
-              <TouchableOpacity onPress={()=>this.openSheet()}>
+              <TouchableOpacity onPress={()=>openSheet()}>
               <View style={{alignSelf:'flex-end',width:100,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',marginRight:20,flexDirection:'row'}}>
               <View style={{justifyContent:'center',alignItems:'center'}}>
                         <Image 
@@ -80,9 +76,7 @@ export default class Calender extends React.Component {
 markingType={'period'}
 />
 <RBSheet
-          ref={ref => {
-            this.RBSheet = ref;
-          }}
+          ref={RBSheets}
           height={600}
           duration={250}
           customStyles={{
@@ -91,15 +85,68 @@ markingType={'period'}
             }
           }}
         >
-          <AddSchedule onShut={()=>this.close()} props={this.props} />
+          <AddSchedule onShut={()=>close()} props={props} />
         </RBSheet>
                 
             </View>
            
          
-      </View>
+      </SafeAreaView>
 
-    );
-  }
+    ); 
 }
+const styles = StyleSheet.create({
+  MainContainer: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  searchIcon: {
+    padding: 10,
+    width:30,
+    height:30,
+},
+ImageStyle: {
+    padding: 10,
+    margin: 5,
+    height: 10,
+    tintColor:'#858585',
+    width: 10,
+    resizeMode: 'stretch',
+    alignItems: 'center',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+SectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f3f3f3',
+    borderWidth: 0.1,
+    borderColor: '#000',
+    borderRadius:30,
+    height: 40,
+    
+    margin: 10,
+  },
+  itemTitle: {   
+    color: '#4e649f',
+    padding: 5,marginLeft:20
+  },
+  itemContainer: {
+    width: WIDTH,
+    flex: 1,
+    flexDirection: 'column',
+    height: ITEM_HEIGHT
+  },
+  TextStyle: {
+    color: '#0250a3',
+    textAlign: 'center',
+    fontSize: 30,
+    marginTop: 10,
+  },
+});
+export default Calender;
 

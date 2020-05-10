@@ -42,3 +42,8 @@ export const ADD_CONTACT_FAILURE ='contact__add_pending'
 export const  LEAD_CONTACT_PENDING ='leadcontact__add_pending'
 export const LEAD_CONTACT_SUCCESS ='leadcontact__add_success'
 export const LEAD_CONTACT_FAILURE ='leadcontact__add_failure'
+
+// Fllow Api
+export const  FOLLOW_PENDING ='FOLLOWcontact__add_pending'
+export const FOLLOW_SUCCESS ='FOLLOWcontact__add_success'
+export const FOLLOW_FAILURE ='FOLLOWcontact__add_failure'

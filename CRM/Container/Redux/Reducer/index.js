@@ -6,6 +6,7 @@ import CountryReducer from'./CountryReducer'
 import ContactReducer from'./ContactReducer'
 import ContactGroupReducer from'./ContactGroupReducer'
 import LeadConvertReducer from'./LeadCoverterReducer'
+import FollowsReducer from './FollowReducer'
 export default {
     userReducer,
     LeadReducer,
@@ -13,5 +14,6 @@ export default {
     AddLeadReducer,
     CountryReducer,
     ContactReducer,ContactGroupReducer,
-    LeadConvertReducer
+    LeadConvertReducer,
+    FollowsReducer
 }

@@ -140,7 +140,7 @@ const selectedLead=(item)=>{
  
 }
 const goback=()=>{
-  props.navigation.goBack();
+  props.navigation.goBack(null);
 }
  const Success=(text)=>{
   setAlertsSuccess(true);

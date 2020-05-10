@@ -1,188 +1,152 @@
 //This is an example code to set Backgroud image///
-import React from 'react';
-//import react in our code. 
-import { View, Text,Dimensions,FlatList, Image,StyleSheet,TextInput,TouchableOpacity } from 'react-native';
-import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import React, { useState ,useRef,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import SnackBar from 'react-native-snackbar-component';
+import RBSheet from "react-native-raw-bottom-sheet";
+import * as BindActions from '../Redux/Actions';
+import { View, Text,Dimensions,FlatList, Image,StyleSheet,SafeAreaView,TouchableOpacity ,ActivityIndicator} from 'react-native';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
-const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
+import { Header,Left, Right, Body, Thumbnail } from 'native-base';
+import {Container, Tab, Tabs, StyleProvider} from 'native-base';
 import MaterialTabs from 'react-native-material-tabs';
-const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
-import RBSheet from "react-native-raw-bottom-sheet";
+import AddEnquiry from '../Components/AddEnquiry'
 import Leadsheet from '../Components/Leadsheet'
-import LinearGradient from 'react-native-linear-gradient';
-import Carousel, {Pagination}from 'react-native-snap-carousel';
 import SearchBar from 'react-native-searchbar';
-const { width: screenWidth } = Dimensions.get('window')
-const workout = {key:'workout', color: 'green'};
-const items = [
-  1337,
-  'janeway',
-  {
-    lots: 'of',
-    different: {
-      types: 0,
-      data: false,
-      that: {
-        can: {
-          be: {
-            quite: {
-              complex: {
-                hidden: [ 'gold!' ],
-              },
-            },
-          },
-        },
-      },
-    },
-  },
-  [ 4, 2, 'tree' ],
-];
-const item=[
-  {
-    'contact_name':'Manju Raj',
-    'email':'gfjgfkhfsh@gmail.com',
-    'Phone':135463656,
-    'Assignee':'Manju Raj',
-    'last_follow':'21-feb-2020',
-    'next_follow':'21-feb-2020',
-     'bills':{
-       'received':62535353,
-      
-     }
-  },
-  {
-    'contact_name':'Manju Raj',
-    'email':'gfjgfkhfsh@gmail.com',
-    'Phone':135463656,
-    'Assignee':'Manju Raj',
-    'last_follow':'21-feb-2020',
-    'next_follow':'21-feb-2020',
-     'bills':{
-       'received':62535353,
-       
-     }
-  },
-  {
-    'contact_name':'Manju Raj',
-    'email':'gfjgfkhfsh@gmail.com',
-    'Phone':135463656,
-    'Assignee':'Manju Raj',
-    'last_follow':'21-feb-2020',
-    'next_follow':'21-feb-2020',
-     'bills':{
-       'received':62535353,
-      
-     }
-  },
-  {
-    'contact_name':'Manju Raj',
-    'email':'gfjgfkhfsh@gmail.com',
-    'Phone':135463656,
-    'Assignee':'Manju Raj',
-    'last_follow':'21-feb-2020',
-    'next_follow':'21-feb-2020',
-     'bills':{
-       'received':62535353,
-       
-     }
+
+ const  Followups  = (props) => {
+  const RBSheetRef = useRef();
+  const RBSheetsRef = useRef();
+  const searchBar=useRef();
+ const [selectedTab,setselectedTab]=useState(0) 
+ const [LeadList,setLeadList]=useState([]) 
+ const [BillList,setBillList]=useState({});
+ const [TabText,setTabText]=useState('status')
+ 
+ const closes=()=>{
+   console.log('onShut')
+   RBSheetsRef.current.close();
   }
-]
-export default class Followups extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
-      }
-      
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',
-    dataSource:[],}
+  const setTab=(s)=> {
+    let tab=s.i;
+    console.log('Tab',tab)
+   setselectedTab(tab)
+   let status='';
+   if(tab===0){
+     status='status'
+   }
+   if(tab===1){
+     status='bills'
+   }
+   if(tab===2){
+    status='receipts'
   }
-  get pagination () {
-    const { entries, activeSlide } = this.state;
-    return (
-        <Pagination
-          dotsLength={item.length}
-          activeDotIndex={activeSlide}
-          containerStyle={{ backgroundColor: '#fff' }}
-          dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 5,
-              backgroundColor: '#000'
-          }}
-          inactiveDotStyle={{
-              // Define styles for inactive dots here
-          }}
-          inactiveDotOpacity={0.4}
-          inactiveDotScale={0.6}
-        />
-    );
+   setTabText(status)
+  }
+ 
+  const dispatch = useDispatch();
+  const [loader, setLoading] = useState(false);
+  const [id,setId]=useState('');
+  const [success,AddResponses]=useState()
+  const [ShowAlert, setAlerts] = useState(false);
+  const AddResponse = useSelector(state => state.AddLeadReducer);
+  const [error, setError] = useState('');
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const FollowsReducer = useSelector(state => state.FollowsReducer);
+  const LeadConverterOperation=useSelector(state=>state.LeadConvertReducer)
+  const loginOperation = useSelector(state => state.userReducer);
+  const billOperation = useSelector(state => state.BillReducer);
+  useEffect(()=>{
+    getLeadsData()
+  },[TabText,AddResponse,LeadConverterOperation])
+ function getLeadsData(){
+   let params={
+    page:1,
+    count:10000,
+    contactId:'',
+    assignee:'',
+    stage:'',
+    contact_person:'',
+    phone:'',
+    email :'',
+    created_date:'',
+    from_date:'',
+    to_date:''
+   }
+   let token=loginOperation.loginResponse.token;
+   console.log('token',token)
+   dispatch(BindActions.FollowApi(params,token,"/leads/followup/"+`${TabText}`))
+ }
+ if (FollowsReducer.FollowPending) {
+  FollowsReducer.FollowPending=false
+    setLoading(true)
+    setAlerts(false);
 }
-// _renderItem = ({item, index}) => {
-//   return (
-//       <View style={{backgroundColor:'#504fe1',height:180,padding:20,justifyContent:'space-between',borderRadius:15}}>
-//         <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-//           <View style={{flexDirection:'row'}}>
-//           <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name.charAt(0)}</Text>
-//            <View style={{position:'absolute',bottom:-10,alignSelf:'center',justifyContent:'center',width:20,height:20,borderRadius:10,backgroundColor:'#f4a640',alignItems:'center'}}>
-//            <Image 
-//           source={require('../Assets/star.png')}
-//           style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-//         />
-//            </View>
-//           </View>
-//           <View style={{marginLeft:10}}>
-//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name}</Text>
-//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
-//           <View style={{flexDirection:'row'}}>
-//           <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
-//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
-//           </View>
-//           <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
-//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>Received</Text>
-//           </View>
-//           </View>
-          
-//           </View>
-//           </View>
-//           <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-//           <Image 
-//           source={require('../Assets/moredots.png')}
-//           style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-//         />
-//           </View>
-        
-//         </View>
-//          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-//          <View style={{marginLeft:10}}>
-//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Last follow up</Text>
-//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
-//           </View>
-//           <View style={{marginLeft:10}}>
-//           <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Next follow up</Text>
-//           <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
-//           </View>
-//           <View style={{marginLeft:10}}>
-//           <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#6869e4',position:'relative'}}>
-//           <Image 
-//           source={require('../Assets/phone.png')}
-//           style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-//         />
-//           </View>
-//           </View>
-//          </View>
-//       </View>
-//   );
-// }
-getItems = ({item}) => {
+
+ if (FollowsReducer.FollowSuccess) {
+  console.log('FollowsReducer',FollowsReducer)
+  FollowsReducer.FollowSuccess=false
+  setLoading(false)
+  setAlerts(false);
+  setLeadList(FollowsReducer.FollowResponse.records)
+}
+if (FollowsReducer.IsFollowError) {
+  FollowsReducer.IsFollowError=false
+  setLoading(false)
+  setAlerts(true);
+  setError(FollowsReducer.Followerror.message)
+
+}
+if (billOperation.BillPending) {
+  billOperation.BillPending=false
+    setLoading(true)
+    setAlerts(false);
+}
+ if (billOperation.BillSuccess) {
+  billOperation.BillSuccess=false
+  setLoading(false)
+  setAlerts(false);
+ // console.log('BillOperation',billOperation)
+ // setBillList(billOperation.BillResponse)
+}
+if (billOperation.IsBillError) {
+  billOperation.IsBillError=false
+  setLoading(false)
+  setAlerts(true);
+  setError(billOperation.Billerror.message) 
+
+}
+const snackBarActions = () => {
+  setAlerts(false);
+};
+const _handleResults =(text)=>{
+  //const result = words.filter(word => word.contact_person == text);
+}
+const selectedLead=(item)=>{
+  console.log('item.lead_id',item.lead_id)
+  setId(item.lead_id)
+  setTimeout(()=>RBSheetRef.current.open(),100)
+ 
+}
+const goback=()=>{
+  props.navigation.goBack(null);
+}
+ const Success=(text)=>{
+  setAlertsSuccess(true);
+  AddResponses(text)
+  
+}
+const getBillItems=(item)=>{
+  let token=loginOperation.loginResponse.token;
+  let params={
+    ids:81
+  }
+  dispatch(BindActions.BillApi(params,token,"/leads/list/bills"));
+}
+const getItems = ({item}) => {
+    //getBillItems(item);
     return (
-        <View style={{backgroundColor:'#fff',height:180,padding:20,justifyContent:'space-between',borderRadius:15,
+        <View style={{backgroundColor:'#fff',height:220,padding:20,justifyContent:'space-between',borderRadius:15,
         shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -194,7 +158,7 @@ getItems = ({item}) => {
           <View style={{flexDirection:'row',justifyContent:'space-between'}}>
             <View style={{flexDirection:'row'}}>
             <View style={{width:50,height:50,borderRadius:10,justifyContent:'center',alignItems:'center',backgroundColor:'#00A3E0',position:'relative'}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_name.charAt(0)}</Text>
+            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.contact_first_name.charAt(0)}</Text>
              <View style={{position:'absolute',bottom:-10,alignSelf:'center',justifyContent:'center',width:20,height:20,borderRadius:10,backgroundColor:'#f4a640',alignItems:'center'}}>
              <Image 
             source={require('../Assets/star.png')}
@@ -203,8 +167,8 @@ getItems = ({item}) => {
              </View>
             </View>
             <View style={{marginLeft:30}}>
-            <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>{item.contact_name}</Text>
-            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>ABC private Limited</Text>
+            <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>{item.contact_first_name+" "+item.contact_last_name}</Text>
+            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>{item.company_name}</Text>
             <View style={{flexDirection:'row',marginTop:10}}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'gray',position:'relative'}}>
             <Image 
@@ -213,7 +177,7 @@ getItems = ({item}) => {
           />
             </View>
             <View style={{paddingLeft:5,justifyContent:'center',alignItems:'center'}}>
-            <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.Phone}</Text>
+            <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.phone}</Text>
             </View>
             </View>
             <View style={{flexDirection:'row',marginTop:10}}>
@@ -227,188 +191,182 @@ getItems = ({item}) => {
             <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
             </View>
             </View>
-        
+            <View style={{flexDirection:'row',}}>        
+            <View style={{width:80,height:25,borderRadius:30,backgroundColor:'gray',justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:10}}>
+    <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.lead_status}</Text>
+            </View>
+            </View>
+           
+            </View>
+            </View>
         
             
-            </View>
-            
-            </View>
-            <TouchableOpacity onPress={()=>this.RBSheet.open()}>
-            <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#f39a3e',position:'relative'}}>
-            <Image 
-            source={require('../Assets/moredots.png')}
-            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
-          />
-            </View>
-            </TouchableOpacity>
         
           
           </View>
-           {/* <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-           <View style={{marginLeft:10}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Last follow up</Text>
-            <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
+          <View style={{flexDirection:'row'}}>
+          <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
+            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Followup date</Text>
             </View>
-            <View style={{marginLeft:10}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>Next follow up</Text>
-            <Text style={{color:'#9b9aed',fontWeight:'bold',fontSize:12}}>{item.last_follow}</Text>
+            <View style={{justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:10}}>
+            <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.next_followup_date}</Text>
             </View>
-            
-           </View> */}
-               <View style={{ flexDirection:'row',justifyContent:'space-between'}}>
-            <View style={{flexDirection:'row'}}>
-            <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
-            <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
-            </View>
-            <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
-            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Received</Text>
-            </View>
-            </View>
-            <View style={{justifyContent:'center',alignItems:"center",marginTop:10,}}>
-            <View style={{flexDirection:'row'}}>
-            <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Last Followups</Text>
-            <Text style={{color:'#000',fontWeight:'bold',fontSize:12,paddingLeft:10}}>02-1-2020</Text>
-            </View>
-            </View>
-            </View>
+          </View>
         </View>
     );
 }
 
-  keyExtractor (item) {
-    return item.id;
-  }
-  openSheet=()=>{
-    this.RBSheet.open();
-  }
-  close=()=>{
-    this.RBSheet.close();
-  }
-  setTab(tab) {
-    this.setState({selectedTab: tab});
-  }
-
-  render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.1}}>
-          
-          <View style={{padding:20,flexDirection:'row',justifyContent:'space-between'}}>
-          <TouchableOpacity style={{justifyContent:'center',alignItems:'center'}} onPress={()=>this.props.navigation.goBack(null)}>
-                <View >
-                <Image source={require('../Assets/back.png')} style={{width:20,height:20,resizeMode:'contain'}}></Image>
-                </View>
-                </TouchableOpacity>
-                <View style={{paddingLeft:10,justifyContent:'center',alignItems:'center'}}>
-                <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Followups</Text>
-                </View>
-                <TouchableOpacity onPress={()=>this.searchBar.show()}>
-                <View style={{justifyContent:'center',alignItems:'center'}}>
+      <Container style={{backgroundColor: '#fff',flex:1}}>
+          <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+           <Left style={{ flexDirection: 'row' }} >
+           <TouchableOpacity onPress={()=>goback()}>
+             <Image 
+            
+            source={require('../Assets/back.png')}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+          />
+          </TouchableOpacity>
+              </Left>
+             <Body >
+                <Text style={{fontWeight:'bold',fontSize:18}} >Followups</Text>
+            </Body>
+            <Right style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={()=>searchBar.current.show()}>
+              
           <Image 
             source={require('../Assets/search.png')}
             style={styles.ImageStyle}
           />
-          </View>
+        
                 </TouchableOpacity>
-              
-       
-            </View>
-      
-         
-            
-            
-            </View>
-            <View style={{flex:0.9}}>
-            <View style={{paddingHorizontal:20}}>
-            </View>
-             
-              <LinearGradient colors={['#fffdff', '#ebebf8', '#f7f7f7']} style={{flex:1}}>
-                
-               <View style={{flex:1,marginTop:10}}>
-            
-            <View style={{borderBottomColor: '#CACED0', borderBottomWidth: 1}}>
-            <View style={{width: '60%'}}>
-              <MaterialTabs
-                items={['Status', 'Bills', 'Receipts']}
-                selectedIndex={this.state.selectedTab}
-                onChange={this.setTab.bind(this)}
-                barColor="#ffff"
-                indicatorColor="#00A3E0"
-                activeTextColor="#00A3E0"
-                inactiveTextColor="#606B71"
-                textStyle={{
-                  fontFamily: 'Papyrus',
-                  fontSize: 10,
-                  fontWeight: 'bold',
-                }}
-              />
-            </View>
-          </View>
-                {/* <View> 
-                <Carousel
-              ref={(c) => { this._carousel = c; }}
-              data={item}
-              renderItem={this._renderItem}
-              onSnapToItem={(index) => this.setState({ activeSlide: index }) }
-              sliderWidth={screenWidth}
-                sliderHeight={screenWidth}
-                hasParallaxImages={true}
-                itemWidth={screenWidth - 60}
-            />
-                </View> */}
-              
-             <View>
-               
-             {/* <View style={{justifyContent:'center',alignItems:'center',paddingVertical:20}}>
-                <Text style={{color:'#d3d1d7',fontWeight:'bold',fontSize:14,textAlign:'center'}}>Total Enquiry List</Text>
-                </View> */}
-                 {item.length>0?
+              </Right>
+        </Header>
+      <SafeAreaView>
+        <View >
+ 
+        </View>
+      </SafeAreaView>
+      <Tabs onChangeTab={(tab)=>setTab(tab)} tabBarUnderlineStyle={{backgroundColor: '#00A3E0'}}>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+           
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+           
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Status `}>
+          <View style={{flex:1}}>
+            {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
                  <View>
                   <FlatList
-                  style={{ flexGrow: 1, paddingBottom: 20}}
-    
-                  data={item}
-                  extraData={this.state}
-               
-                  keyExtractor={(item, index) => '' + index}
-                  renderItem={(item, index) => this.getItems(item, index)}
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
                   
-                /></View>:null}
-               </View>
-               </View>
-               <RBSheet
-          ref={ref => {
-            this.RBSheet = ref;
-          }}
-          height={120}
-          duration={250}
-          customStyles={{
-            container: {
-            borderTopLeftRadius:25,
-            borderTopRightRadius:25
-            }
-          }}
-        >
-          <Leadsheet onShut={()=>this.close()} props={this.props} />
-        </RBSheet> 
-    
-</LinearGradient>
+                /></View>:<View><Text style={{textAlign:'center',color:'gray'}}>No records found.
+                Please change the filter parameters and try again.</Text></View>}
+       
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
            
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+           
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Bills `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:<View><Text style={{textAlign:'center',color:'gray'}}>No records found.
+                Please change the filter parameters and try again.</Text></View>}
+          </View>
+        </Tab>
+        <Tab
+          textStyle={{
+            color: '#000',
+            fontSize: 10,
+           
+          }}
+          activeTextStyle={{
+            color: '#00A3E0',
+            fontWeight: '500',
+            fontSize: 10,
+           
+          }}
+          activeTabStyle={{backgroundColor: '#fff'}}
+          tabStyle={{backgroundColor: '#fff'}}
+          heading={`Receipts `}>
+          <View style={{flex:1}}>
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+                 <View>
+                  <FlatList
+                  style={{ flexGrow: 1, paddingBottom: 20}}   
+                  data={LeadList}              
+                  renderItem={(item, index) =>getItems(item, index)}
+                  
+                /></View>:<View><Text style={{textAlign:'center',color:'gray'}}>No records found.
+                Please change the filter parameters and try again.</Text></View>}
+          </View>
+        </Tab>
+       
+</Tabs>
+<View>
 
-                
-            </View>
+                </View>
+               <View>
+        
+                 </View> 
+           
             <SearchBar
-  ref={(ref) => this.searchBar = ref}
-  data={items}
-  handleResults={this._handleResults}
+  ref={searchBar}
+  data={LeadList}
+  handleResults={_handleResults}
   showOnLoad={false}
 />
-         
-      </View>
+<SnackBar
+          visible={ShowAlert}
+          textMessage={error}
+          actionHandler={() => snackBarActions()}
+          actionText="DISMISS"
+        />
+      <SnackBar
+            autoHidingTime={2000}
+         backgroundColor='green'
+          visible={ShowAlertSuccess}
+          textMessage={success}
+          
+          actionHandler={() => snackBarActions()}
+          actionText=""
+        />
+</Container>
 
+              
+    
+  
     );
-  }
-}
+        }
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
@@ -426,6 +384,11 @@ ImageStyle: {
     tintColor:'#858585',
     width: 10,
     resizeMode: 'stretch',
+    alignItems: 'center',
+  },
+  loader: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
 SectionStyle: {
@@ -457,4 +420,4 @@ SectionStyle: {
     marginTop: 10,
   },
 });
-
+export default Followups;

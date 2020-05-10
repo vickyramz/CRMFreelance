@@ -13,8 +13,8 @@ function  SignIn (props) {
   SplashScreen.hide()
   }, [])
   const [inputs,setInputs]=useState({
-    userName:'gallie@banblog.com',
-    password:'Welcome123@#'
+    userName:'',
+    password:''
   })
   const dispatch = useDispatch();
   const [IsEmailEmpty,setEmailVisible]=useState(false)
@@ -116,7 +116,7 @@ function  SignIn (props) {
             placeholder={'Abinaya@got-softwarescom'}
         style=
         {{
-          height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
+          height: 40, borderColor: 'gray', borderWidth: 0.1, color : "#000",backgroundColor:'#f3f3f3'
         }}
         onChangeText={(text) => HandleChange(text,'userName')}
         value={userName}
@@ -137,7 +137,7 @@ function  SignIn (props) {
              placeholder={'**************'}
         style=
         {{
-          height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
+          height: 40, borderColor: 'gray', borderWidth: 0.1, color : "#000",backgroundColor:'#f3f3f3'
         }}
         onChangeText={(text) =>HandleChange(text,'password')}
         value={password}
