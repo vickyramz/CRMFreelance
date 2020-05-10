@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import SnackBar from 'react-native-snackbar-component';
 import * as BindActions from '../Redux/Actions';
-import { View, Text,Dimensions,TextInput,Image, StyleSheet ,TouchableOpacity,ScrollView} from 'react-native';
+import { View, Text,Dimensions,TextInput,Image,ActivityIndicator, StyleSheet ,TouchableOpacity,ScrollView} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
@@ -30,7 +30,7 @@ const AddEnquiry =(props) =>  {
     props.props.navigation.navigate('SearchUser')
   }
   useEffect(()=>{
-   // CountryData()
+   CountryData()
  },[])
   const dispatch = useDispatch();
   const[firstName,setFirstName]=useState()
@@ -86,14 +86,14 @@ const AddEnquiry =(props) =>  {
     setLoading(true)
   }
   if(CountryReducer.IsCountryListResponseSuccess){
-    CountryReducer.IsCountryListResponseSuccess=true
+    CountryReducer.IsCountryListResponseSuccess=false
     setLoading(false)
      contryDetails=Object.keys(CountryReducer.CountryListResponse)
     console.log('CountryReducer.CountryListResponse',contryDetails)
-    //setCountry(contryDetailss=>[...contryDetails])
+    setCountry(old=>[...old,...contryDetails])
   }
   if(CountryReducer.IsCountryListResponseError){
-    CountryReducer.IsCountryListResponseError=true
+    CountryReducer.IsCountryListResponseError=false
     setLoading(false)
    // let contryDetails=Object.keys(CountryReducer.IsCountryListResponseSuccess)
    setAlerts(true)
@@ -181,6 +181,13 @@ const AddEnquiry =(props) =>  {
             pickerrray.push(pickObject)
       })
       return pickerrray
+  }
+  if (loader) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
     return (
         <ScrollView contentContainerStyle={{paddingBottom:30}} style={{flex:1}}>
@@ -725,6 +732,11 @@ const styles = StyleSheet.create({
       borderRadius: 4,
       color: 'black',
       paddingRight: 30, // to ensure the text is never behind the icon
+    },
+    loader: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     inputAndroid: {
       fontSize: 16,

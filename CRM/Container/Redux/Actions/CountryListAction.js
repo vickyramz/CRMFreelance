@@ -6,7 +6,7 @@ export function GetCountryList(token,url) {
         dispatch(requestLeads());
         return authApi.get(token,url).then(userResponse => {
             console.log('userResponse',userResponse)
-            if (userResponse.records) {              
+            if (userResponse) {              
                 dispatch(successLeads(userResponse));
             } else{
                 console.log('failure',userResponse)

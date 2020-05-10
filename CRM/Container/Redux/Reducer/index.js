@@ -9,5 +9,6 @@ export default {
     LeadReducer,
     BillReducer,
     AddLeadReducer,
+    CountryReducer,
     ContactReducer
 }

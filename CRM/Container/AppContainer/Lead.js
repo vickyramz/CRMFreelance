@@ -192,12 +192,12 @@ const getItems = ({item}) => {
             </View>
             </View>
             <View style={{flexDirection:'row',}}>
-            <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
+            {/* <View style={{width:80,height:25,borderRadius:30,backgroundColor:'#f4a640',justifyContent:'center',alignItems:'center',marginTop:10}}>
             <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>$ 15,0000</Text>
             </View>
             <View style={{justifyContent:'center',alignItems:"center",marginTop:10,paddingLeft:5}}>
             <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>Received</Text>
-            </View>
+            </View> */}
             <View style={{width:80,height:25,borderRadius:30,backgroundColor:'gray',justifyContent:'center',alignItems:'center',marginTop:10,marginLeft:10}}>
     <Text style={{color:'#fff',fontWeight:'bold',fontSize:12}}>{item.lead_status}</Text>
             </View>
@@ -263,13 +263,13 @@ const getItems = ({item}) => {
           textStyle={{
             color: '#000',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTextStyle={{
             color: '#00A3E0',
             fontWeight: '500',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTabStyle={{backgroundColor: '#fff'}}
           tabStyle={{backgroundColor: '#fff'}}
@@ -290,13 +290,13 @@ const getItems = ({item}) => {
           textStyle={{
             color: '#000',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTextStyle={{
             color: '#00A3E0',
             fontWeight: '500',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTabStyle={{backgroundColor: '#fff'}}
           tabStyle={{backgroundColor: '#fff'}}
@@ -316,13 +316,13 @@ const getItems = ({item}) => {
           textStyle={{
             color: '#000',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTextStyle={{
             color: '#00A3E0',
             fontWeight: '500',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTabStyle={{backgroundColor: '#fff'}}
           tabStyle={{backgroundColor: '#fff'}}
@@ -342,13 +342,13 @@ const getItems = ({item}) => {
           textStyle={{
             color: '#000',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTextStyle={{
             color: '#00A3E0',
             fontWeight: '500',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTabStyle={{backgroundColor: '#fff'}}
           tabStyle={{backgroundColor: '#fff'}}
@@ -368,13 +368,13 @@ const getItems = ({item}) => {
           textStyle={{
             color: '#000',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTextStyle={{
             color: '#00A3E0',
             fontWeight: '500',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTabStyle={{backgroundColor: '#fff'}}
           tabStyle={{backgroundColor: '#fff'}}
@@ -394,13 +394,13 @@ const getItems = ({item}) => {
           textStyle={{
             color: '#000',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTextStyle={{
             color: '#00A3E0',
             fontWeight: '500',
             fontSize: 10,
-            fontFamily: 'AvenirNextLTPro-Regular',
+           
           }}
           activeTabStyle={{backgroundColor: '#fff'}}
           tabStyle={{backgroundColor: '#fff'}}
