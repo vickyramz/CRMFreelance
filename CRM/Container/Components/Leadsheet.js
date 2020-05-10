@@ -1,7 +1,7 @@
-//This is an example code to set Backgroud image///
-import React from 'react';
-//import react in our code. 
+
 import { View, Text,Dimensions,TextInput,Image, StyleSheet ,TouchableOpacity} from 'react-native';
+import React, { useState ,useRef,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
@@ -13,74 +13,55 @@ const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RNPickerSelect from 'react-native-picker-select';
 const workout = {key:'workout', color: 'green'};
-const 
-items = [{
-  id: '92iijs7yta',
-  name: 'Ondo',
-}, {
-  id: 'a0s0a8ssbsd',
-  name: 'Ogun',
-}, {
-  id: '16hbajsabsd',
-  name: 'Calabar',
-}, {
-  id: 'nahs75a5sg',
-  name: 'Lagos',
-}, {
-  id: '667atsas',
-  name: 'Maiduguri',
-}, {
-  id: 'hsyasajs',
-  name: 'Anambra',
-}, {
-  id: 'djsjudksjd',
-  name: 'Benue',
-}, {
-  id: 'sdhyaysdj',
-  name: 'Kaduna',
-}, {
-  id: 'suudydjsjd',
-  name: 'Abuja',
-}];
-export default class Leadsheet extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
-      }
-      
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',selectedItems : [],
-    dataSource:[],}
-  }
-  onSelectedItemsChange = selectedItems => {
-    this.setState({ selectedItems });
+
+const  Leadsheet =(props)=>  {
+   
+   const [selectedItems,setItems]=useState('')
+const  onSelectedItemsChange = selectedItems => {
+  setItems(selectedItems)
   };
-  navigate=()=>{
-    this.props.onShut()
-    const {props}= this.props
+const  navigate=()=>{
+    props.onShut()
+    const {props}= props
     props.navigation.navigate('SearchUser')
   }
-  render() {
+  
     const placeholder = {
       label: 'All',
       value: null,
       color: '#000',
     };
-    const { selectedItems } = this.state;
+
     return (
       <View style={{ flex: 1 ,padding:20}}>
-        <View style={{marginLeft:20}}>
+
+        {props.tabText==='enquiry'? <View style={{marginLeft:20}}>
         <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Convert To Lead</Text>
         <Text style={{ fontSize: 16, color: '#000', fontWeight:'bold' ,marginTop:20}}>Drop Enquiry</Text>
-        </View>
+        </View>:null}
+
+        {props.tabText==='lead'? <View style={{marginLeft:20}}>
+        <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Convert To Prospect</Text>
+        <Text style={{ fontSize: 16, color: '#000', fontWeight:'bold' ,marginTop:20}}>Drop Lead</Text>
+        </View>:null}
+       
+        {props.tabText==='prospect'? <View style={{marginLeft:20}}>
+        <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Convert To Deal</Text>
+        <Text style={{ fontSize: 16, color: '#000', fontWeight:'bold' ,marginTop:20}}>Drop Prospect</Text>
+        </View>:null}
+
+        {props.tabText==='deal'? <View style={{marginLeft:20}}>
+        <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Drop Prospect</Text>
+        </View>:null}
    
+        {props.tabText==='dropped'? <View style={{marginLeft:20}}>
+        <Text style={{ fontSize: 16, color: 'red',fontWeight:'bold'  }}>Delete</Text>
+        <Text style={{ fontSize: 16, color: '#000', fontWeight:'bold' ,marginTop:20}}>Reopen</Text>
+        </View>:null}
       </View>
 
     );
-  }
+  
 }
 const styles = StyleSheet.create({
     textAreaContainer: {
@@ -138,4 +119,5 @@ const styles = StyleSheet.create({
       paddingRight: 30, // to ensure the text is never behind the icon
     },
   });
+  export default Leadsheet;
 

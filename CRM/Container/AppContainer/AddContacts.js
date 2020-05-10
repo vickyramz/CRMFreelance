@@ -224,6 +224,9 @@ const AddContact =(props) =>  {
     setError(AddResponse.AddContacterror.message)
   
   }
+  const goback=()=>{
+    props.navigation.goBack();
+  }
   const getData = () =>{
     let pickerrray=[]
       props.LeadList.map((item,index)=>{
@@ -246,11 +249,13 @@ const AddContact =(props) =>  {
       <SafeAreaView style={{flex:1}}>
            <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
            <Left style={{ flexDirection: 'row' }} >
+           <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
             style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
           />
+          </TouchableOpacity>
               </Left>
              <Body >
                 <Text style={{fontWeight:'bold',fontSize:18}} >Add Contacts</Text>

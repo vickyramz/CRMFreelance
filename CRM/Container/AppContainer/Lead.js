@@ -7,6 +7,7 @@ import * as BindActions from '../Redux/Actions';
 import { View, Text,Dimensions,FlatList, Image,StyleSheet,SafeAreaView,TouchableOpacity ,ActivityIndicator} from 'react-native';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
+import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import {Container, Tab, Tabs, StyleProvider} from 'native-base';
 import MaterialTabs from 'react-native-material-tabs';
 import AddEnquiry from '../Components/AddEnquiry'
@@ -130,6 +131,9 @@ const snackBarActions = () => {
 const _handleResults =(text)=>{
   //const result = words.filter(word => word.contact_person == text);
 }
+const goback=()=>{
+  props.navigation.goBack();
+}
 Success=(text)=>{
 
   setAlertsSuccess(true);
@@ -205,14 +209,15 @@ const getItems = ({item}) => {
            
             </View>
             </View>
-            <TouchableOpacity onPress={()=>RBSheetRef.current.open()}>
+            {TabText==='all'?null:<TouchableOpacity onPress={()=>RBSheetRef.current.open()}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#f39a3e',position:'relative'}}>
             <Image 
             source={require('../Assets/moredots.png')}
             style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
           />
             </View>
-            </TouchableOpacity>
+            </TouchableOpacity>}
+            
         
           
           </View>
@@ -222,29 +227,34 @@ const getItems = ({item}) => {
 
     return (
       <Container style={{backgroundColor: '#fff',flex:1}}>
-      <SafeAreaView>
-        <View >
-        <View style={{ height:80}}>       
-          <View style={{padding:20,flexDirection:'row',justifyContent:'space-between'}}>
-          <TouchableOpacity style={{justifyContent:'center',alignItems:'center'}} onPress={()=>props.navigation.goBack(null)}>
-                <View >
-                <Image source={require('../Assets/back.png')} style={{width:20,height:20,resizeMode:'contain'}}></Image>
-                </View>
-                </TouchableOpacity>
-                <View style={{paddingLeft:10,justifyContent:'center',alignItems:'center'}}>
-                <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Leads Management</Text>
-                </View>
-                <TouchableOpacity onPress={()=>searchBar.current.show()}>
-                <View style={{justifyContent:'center',alignItems:'center',marginTop:5}}>
+          <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+           <Left style={{ flexDirection: 'row' }} >
+           <TouchableOpacity onPress={()=>goback()}>
+             <Image 
+            
+            source={require('../Assets/back.png')}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+          />
+          </TouchableOpacity>
+              </Left>
+             <Body >
+                <Text style={{fontWeight:'bold',fontSize:18}} >Leads</Text>
+            </Body>
+            <Right style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={()=>searchBar.current.show()}>
+              
           <Image 
             source={require('../Assets/search.png')}
             style={styles.ImageStyle}
           />
-          </View>
+        
                 </TouchableOpacity>
-              
-          <TouchableOpacity onPress={()=>RBSheetsRef.current.open()}>
-              <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',marginRight:10,flexDirection:'row',borderRadius:6}}>
+              </Right>
+        </Header>
+      <SafeAreaView>
+        <View >
+        <TouchableOpacity onPress={()=>RBSheetsRef.current.open()}>
+              <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',flexDirection:'row',borderRadius:6}}>
               <View style={{justifyContent:'center',alignItems:'center'}}>
                         <Image 
             source={require('../Assets/more.png')}
@@ -254,8 +264,6 @@ const getItems = ({item}) => {
 <Text style={{color:'#fff',fontWeight:'bold',fontSize:14,paddingLeft:10}}>Add Enquiry</Text>
               </View>
               </TouchableOpacity>
-            </View>           
-            </View>
         </View>
       </SafeAreaView>
       <Tabs onChangeTab={(tab)=>setTab(tab)} tabBarUnderlineStyle={{backgroundColor: '#00A3E0'}}>
@@ -435,6 +443,7 @@ const getItems = ({item}) => {
                <View>
                <RBSheet
        ref={RBSheetRef}
+      
           height={120}
           duration={250}
           customStyles={{
@@ -444,7 +453,7 @@ const getItems = ({item}) => {
             }
           }}
         >
-          <Leadsheet  onShut={()=>closes()} props={props} />
+          <Leadsheet  tabText={TabText}  onShut={()=>closes()} props={props} />
         </RBSheet> 
                  </View> 
           

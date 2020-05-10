@@ -112,6 +112,9 @@ const RBSheets= useRef()
   const close=()=>{
     RBSheets.current.close();
   }
+  const Logout=()=>{
+    props.navigation.navigate('Auth')
+  }
   const onChangeText=(e)=>{
     let text = e.toLowerCase()
     let trucks = ContactList
@@ -133,19 +136,24 @@ const RBSheets= useRef()
       <SafeAreaView style={{flex:1}}>
         <Header style={{ backgroundColor: '#f8f8f8', alignItems: 'center', justifyContent: 'center' }}>
              <Left style={{ flexDirection: 'row' }}>
-             <Image 
+               <TouchableOpacity onPress={()=>openFilter()}>
+               <Image 
             source={require('../Assets/filter.png')}
             style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
           />
+               </TouchableOpacity>
+            
               </Left>
              <Body >
                 <Text style={{fontWeight:'bold',fontSize:18}} >Contacts</Text>
             </Body>
            <Right>
+           <TouchableOpacity onPress={()=>Logout()}>
            <Image 
             source={require('../Assets/logout.png')}
             style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
           />
+          </TouchableOpacity>
            </Right>
         </Header>
       <View style={{ flex: 1 }}>
