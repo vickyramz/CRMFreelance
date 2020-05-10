@@ -1,7 +1,7 @@
 import * as types from '../Actions/constant';
 const initialState = {
     ContactListResponse: {},
-    Contacterror:''
+    Contacterror:'',
 };
 export default function GetContactReducer(state = initialState, action) {
     switch (action.type) {
@@ -29,7 +29,7 @@ export default function GetContactReducer(state = initialState, action) {
                 IsContactListResponseError: false,
                 Contacterror:null
             };
-       
+    
         default:
             return state;
     }

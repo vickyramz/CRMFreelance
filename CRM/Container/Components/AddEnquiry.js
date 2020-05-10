@@ -11,6 +11,8 @@ import { Chevron, Heart, Triangle } from 'react-native-shapes'
 let contryDetails=[]
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
+let countryList={};
+let StateList=[]
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RNPickerSelect from 'react-native-picker-select';
@@ -37,6 +39,7 @@ const AddEnquiry =(props) =>  {
   const[lastName,setlastName]=useState()
   const[companyName,setcompanyName]=useState()
   const[contactPerson,setContactperson]=useState()
+  const[States,SetStates]=useState([])
   const[Phone,setPhone]=useState()
   const[AlternatePhone,setalternatePhone]=useState()
   const[email,setMail]=useState()
@@ -89,6 +92,7 @@ const AddEnquiry =(props) =>  {
     CountryReducer.IsCountryListResponseSuccess=false
     setLoading(false)
      contryDetails=Object.keys(CountryReducer.CountryListResponse)
+     countryList=CountryReducer.CountryListResponse
     console.log('CountryReducer.CountryListResponse',contryDetails)
     setCountry(old=>[...old,...contryDetails])
   }
@@ -108,6 +112,25 @@ const AddEnquiry =(props) =>  {
       arrayData.push(arrayObject);
     })
     return arrayData;
+  }
+  const getStates=()=>{
+    console.log('data',)
+    let arrayData=[]
+    if(StateList.length>0){
+      StateList.map((item,index)=>{
+        let arrayObject={label:item,value:item}
+        arrayData.push(arrayObject);
+      })
+      return arrayData;
+    }
+    return [];
+    
+   
+  }
+  const CountrySelection =(item)=>{
+        StateList=Object.keys(countryList[item])
+        SetStates(StateList)
+
   }
   function CountryData(){
     let token=loginOperation.loginResponse.token;
@@ -452,7 +475,7 @@ const AddEnquiry =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => CountrySelection(value)}
             items={getCountry(contryDetails)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -483,15 +506,7 @@ const AddEnquiry =(props) =>  {
                   fontWeight: 'bold',
                 },}}
             onValueChange={(value) => console.log(value)}
-            items={[
-               
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            items={getStates()}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}

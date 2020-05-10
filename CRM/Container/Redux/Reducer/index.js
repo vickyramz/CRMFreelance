@@ -4,11 +4,12 @@ import BillReducer from'./BillsReducer'
 import AddLeadReducer from'./AddLeadReducer'
 import CountryReducer from'./CountryReducer'
 import ContactReducer from'./ContactReducer'
+import ContactGroupReducer from'./ContactGroupReducer'
 export default {
     userReducer,
     LeadReducer,
     BillReducer,
     AddLeadReducer,
     CountryReducer,
-    ContactReducer
+    ContactReducer,ContactGroupReducer
 }

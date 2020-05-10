@@ -30,9 +30,10 @@ const RBSheets= useRef()
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
   const ContactOperation = useSelector(state => state.ContactReducer);
   const loginOperation = useSelector(state => state.userReducer);
+  const AddResponse = useSelector(state => state.AddLeadReducer);
   useEffect(()=>{
     getContactData()
-  },[])
+  },[AddResponse])
   if (ContactOperation.IsContactListResponsePending) {
     ContactOperation.IsContactListResponsePending=false
       setLoading(true)
