@@ -22,3 +22,8 @@ export const ADD_PENDING ='add_pending'
 export const COUNTRY_SUCCESS ='country_add_success'
 export const COUNTRY_FAILURE ='country_add_failure'
 export const COUNTRY_PENDING ='country_add_pending'
+
+// contact Api
+export const CONTACT_SUCCESS ='contact_add_success'
+export const CONTACT_FAILURE ='contact_add_failure'
+export const CONTACT_PENDING ='contact_add_pending'

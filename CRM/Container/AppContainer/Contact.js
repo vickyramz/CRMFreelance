@@ -1,99 +1,95 @@
 //This is an example code to set Backgroud image///
-import React from 'react';
+import React, { useState, useEffect ,useRef} from 'react';
 //import react in our code. 
 import { View, Text,Dimensions,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { useDispatch, useSelector } from 'react-redux';
+import SnackBar from 'react-native-snackbar-component';
 import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import RBSheet from "react-native-raw-bottom-sheet";
+import * as BindActions from '../Redux/Actions';
 import Filter from '../Components/Filter'
+let InitialData=[]
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
-export default class Contact extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
+
+const Contact =(props)=> {
+
+const RBSheets= useRef()
+ const navigate=()=>{
+    props.navigation.navigate('AddContacts')
+  }
+  const dispatch = useDispatch();
+  const [loader, setLoading] = useState(false);
+  const [success,AddResponses]=useState()
+  const [ShowAlert, setAlerts] = useState(false);
+  const [error, setError] = useState('');
+  const [ContactList,setContactList]=useState([]);
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const ContactOperation = useSelector(state => state.ContactReducer);
+  const loginOperation = useSelector(state => state.userReducer);
+  useEffect(()=>{
+    getContactData()
+  },[])
+  if (ContactOperation.IsContactListResponsePending) {
+    ContactOperation.IsContactListResponsePending=false
+      setLoading(true)
+      setAlerts(false);
+  }
+
+   if (ContactOperation.IsContactListResponseSuccess) {
+    console.log('LeadOperation',ContactOperation)
+    ContactOperation.IsContactListResponseSuccess=false
+    setLoading(false)
+    setAlerts(false);
+    let contactArray=[]
+
+    ContactOperation.ContactListResponse.records.map((item,index)=>{
+      let contactObj={
+        id:item.contact_id,
+        name:item.contact_first_name+" "+item.contact_middle_name+item.contact_last_name,
+        company:item.company_name
       }
+      contactArray.push(contactObj);
       
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',
-    dataSource:[],
-    data: [
-        {
-          "id": "0",
-          "name": "Iris Maddox",
-          "company": "COLAIRE"
-        },
-        {
-          "id": "1",
-          "name": "Jane Small",
-          "company": "DUOFLEX"
-        },
-        {
-          "id": "2",
-          "name": "Dotson Ortiz",
-          "company": "CYTREX"
-        },
-        {
-          "id": "3",
-          "name": "Hall Nguyen",
-          "company": "ENTROFLEX"
-        },
-        {
-          "id": "4",
-          "name": "Estrada Armstrong",
-          "company": "BOILICON"
-        },
-        {
-          "id": "5",
-          "name": "Josie Harmon",
-          "company": "RODEMCO"
-        },
-        {
-          "id": "6",
-          "name": "Sondra Stevenson",
-          "company": "OHMNET"
-        },
-        {
-          "id": "7",
-          "name": "Booker Trevino",
-          "company": "OCEANICA"
-        },
-        {
-          "id": "8",
-          "name": "Lilly Luna",
-          "company": "INCUBUS"
-        },
-        {
-          "id": "9",
-          "name": "Bird Landry",
-          "company": "ELECTONIC"
-        },
-        {
-          "id": "10",
-          "name": "Iris Maddox",
-          "company": "COLAIRE"
-        },
-        {
-          "id": "11",
-          "name": "Jane Small",
-          "company": "DUOFLEX"
-        },
-      
-       
-      ],}
+    })
+    InitialData=contactArray;
+    setContactList(contactArray)
   }
-  navigate=()=>{
-    this.props.navigation.navigate('AddContacts')
+  if (ContactOperation.IsContactListResponseError) {
+    ContactOperation.IsContactListResponseError=false
+    setLoading(false)
+    setAlerts(true);
+    setError(ContactOperation.Contacterror.message)
+  
   }
-  renderItem ({item}) {
+  function getContactData(){
+    let params={
+     page:1,
+     count:10000,
+     contactId:'',
+     assignee:'',
+     stage:'',
+     contact_person:'',
+     phone:'',
+     email :'',
+     created_date:'',
+     from_date:'',
+     to_date:''
+    }
+    let token=loginOperation.loginResponse.token;
+    console.log('token',token)
+    dispatch(BindActions.ContactApi(params,token,"/settings/contacts"));
+  }
+ const keyExtractor =(item)=> {
+    return item.id;
+  }
+ const renderItem =({item})=> {
 
     return (
-      //onPress={(item)=>this.setState({CountryId:item.countryCode})
+      //onPress={(item)=>setState({CountryId:item.countryCode})
       <TouchableOpacity style={{flexDirection:'row',padding:5}}>
         <View style={{width:30,height:30,borderRadius:15,backgroundColor:'#cdcdcd',justifyContent:'center',alignItems:'center'}}>
         <Text style={{color:'blue',fontSize:12,fontWeight:'bold'}}>{item.name.charAt(0)}</Text>
@@ -107,17 +103,30 @@ export default class Contact extends React.Component {
     );
   }
 
-  keyExtractor (item) {
-    return item.id;
+
+  const openFilter=()=>{
+    RBSheets.current.open();
   }
-  openFilter=()=>{
-    this.RBSheet.open();
+  const close=()=>{
+    RBSheets.current.close();
   }
-  close=()=>{
-    this.RBSheet.close();
+  const onChangeText=(e)=>{
+    let text = e.toLowerCase()
+    let trucks = ContactList
+    let filteredName = trucks.filter((item) => {
+      return item.name.toLowerCase().match(text)
+    })
+    if (!text || text === '') {
+      setContactList(InitialData);
+    } else if (!Array.isArray(filteredName) && !filteredName.length) {
+      //setContactList([]);
+    } else if (Array.isArray(filteredName)) {
+      setContactList(filteredName);
+    }
+   
+   
   }
 
-  render() {
     return (
       <SafeAreaView style={{flex:1}}>
       <View style={{ flex: 1 }}>
@@ -127,7 +136,7 @@ export default class Contact extends React.Component {
                 <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Contacts</Text>
             </View>
             <View style={{padding:20,flexDirection:'row'}}>
-            <TouchableOpacity  onPress={()=>this.openFilter()}>
+            <TouchableOpacity  onPress={()=>openFilter()}>
             <View style={{
             justifyContent:'center',
             alignItems:'center'}}>
@@ -137,7 +146,7 @@ export default class Contact extends React.Component {
           />
             </View>
             </TouchableOpacity>
-            <TouchableOpacity  onPress={()=>this.props.navigation.navigate('Auth')}>
+            <TouchableOpacity  onPress={()=>props.navigation.navigate('Auth')}>
             <View style={{
               paddingLeft:20,
             justifyContent:'center',
@@ -163,6 +172,7 @@ export default class Contact extends React.Component {
           <TextInput
             style={{ flex: 1 }}
             placeholder="Search Contacts"
+            onChangeText={text => onChangeText(text)}
             underlineColorAndroid="transparent"
           />
         </View>
@@ -171,7 +181,7 @@ export default class Contact extends React.Component {
             </View>
             <View style={{flex:0.8}}>
                 <View style={{height:40,backgroundColor:'#f3f3f3',justifyContent:'center',marginTop:10}}>
-                <TouchableOpacity onPress={()=>this.navigate()}>
+                <TouchableOpacity onPress={()=>navigate()}>
                     <View style={{paddingHorizontal:40,flexDirection:'row'}}>
                      
                       <View style={{justifyContent:'center',alignItems:'center'}}>
@@ -187,20 +197,20 @@ export default class Contact extends React.Component {
                     </View>
                     </TouchableOpacity>
                 </View>
-                <AlphaScrollFlatList
-          keyExtractor={this.keyExtractor.bind(this)}
-          data={this.state.data}
-          //data={this.state.dataSource}
-          renderItem={this.renderItem.bind(this)}
-          scrollKey={'id'}
-          reverse={false}
-          itemHeight={ITEM_HEIGHT}
-        />  
+                {ContactList && ContactList.length>0? <AlphaScrollFlatList
+         
+         data={ContactList}
+         keyExtractor={(item)=>keyExtractor(item)}
+         //data={state.dataSource}
+         renderItem={(item)=>renderItem(item)}
+         scrollKey={'name'}
+         reverse={false}
+         itemHeight={ITEM_HEIGHT}
+       />  :null}
+               
             </View>
            <RBSheet
-          ref={ref => {
-            this.RBSheet = ref;
-          }}
+          ref={RBSheets}
           height={600}
           duration={250}
           customStyles={{
@@ -209,13 +219,17 @@ export default class Contact extends React.Component {
             }
           }}
         >
-          <Filter onShut={()=>this.close()} props={this.props} />
+          <Filter onShut={()=>close()} props={props} />
         </RBSheet>
-         
+        <SnackBar
+          visible={ShowAlert}
+          textMessage={error}
+          actionHandler={() => snackBarActions()}
+          actionText=""
+        />
       </View>
       </SafeAreaView>
     );
-  }
 }
 const styles = StyleSheet.create({
   MainContainer: {
@@ -265,3 +279,4 @@ SectionStyle: {
     marginTop: 10,
   },
 });
+export default Contact
