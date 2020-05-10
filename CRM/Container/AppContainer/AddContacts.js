@@ -9,6 +9,7 @@ const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
 import { Chevron, Heart, Triangle } from 'react-native-shapes'
 let contryDetails=[]
+import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
 let countryList={};
@@ -16,6 +17,7 @@ let StateList=[]
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RNPickerSelect from 'react-native-picker-select';
+import { SafeAreaView } from 'react-navigation';
 const workout = {key:'workout', color: 'green'};
 
 const AddContact =(props) =>  {
@@ -241,7 +243,22 @@ const AddContact =(props) =>  {
     );
   }
     return (
-      <View style={{flex:1}}>
+      <SafeAreaView style={{flex:1}}>
+           <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+           <Left style={{ flexDirection: 'row' }} >
+             <Image 
+            
+            source={require('../Assets/back.png')}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+          />
+              </Left>
+             <Body >
+                <Text style={{fontWeight:'bold',fontSize:18}} >Add Contacts</Text>
+            </Body>
+            <Right style={{ flexDirection: 'row' }}>
+            
+              </Right>
+        </Header>
         <ScrollView contentContainerStyle={{paddingBottom:30}} style={{flex:1}}>
         <KeyboardAvoidingView
     behavior={Platform.OS === "ios" ? "padding" : null}
@@ -686,7 +703,7 @@ const AddContact =(props) =>  {
           actionHandler={() => snackBarActions()}
           actionText=""
         />
-      </View>
+      </SafeAreaView>
     );
   }
 const styles = StyleSheet.create({
@@ -717,6 +734,11 @@ const styles = StyleSheet.create({
         
         margin: 10,
       },
+      loader: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
       textArea: {
         height: 100,
         justifyContent: "flex-start"
@@ -733,11 +755,7 @@ const styles = StyleSheet.create({
       color: 'black',
       paddingRight: 30, // to ensure the text is never behind the icon
     },
-    loader: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    },
+  
     inputAndroid: {
       fontSize: 16,
       paddingHorizontal: 10,

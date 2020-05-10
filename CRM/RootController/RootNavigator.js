@@ -79,12 +79,7 @@ const Contacts = createStackNavigator(
   {
     transitionConfig: TransitionConfiguration,
     defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: '#0091EA',
-      },
-      headerTintColor: '#fff',
-      title: null,
-
+      header: null,
     },
   }
 );
@@ -96,9 +91,7 @@ const CalenderStack = createStackNavigator(
   {
     transitionConfig: TransitionConfiguration,
     defaultNavigationOptions: {
-      headerTintColor: '#fff',
-      title: null,
-
+      header: null,
     },
   }
 );
@@ -110,8 +103,7 @@ const FollowStack = createStackNavigator(
   {
     transitionConfig: TransitionConfiguration,
     defaultNavigationOptions: {
-      headerTintColor: '#fff',
-      title: null,
+      header: null,
 
     },
   }
@@ -217,7 +209,7 @@ const AppStack=createStackNavigator({
 {
   headerMode: 'none',
   navigationOptions: {
-    headerVisible: false,
+    header: null,
   }
  }  )
 const Containers = createSwitchNavigator({
@@ -227,6 +219,7 @@ const Containers = createSwitchNavigator({
 },
 {
   initialRouteName: 'Auth',
+  
 },
 
 )

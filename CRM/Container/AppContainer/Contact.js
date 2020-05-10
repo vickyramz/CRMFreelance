@@ -5,6 +5,7 @@ import { View, Text,Dimensions,TextInput, SafeAreaView, StyleSheet, Image } from
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
 import SnackBar from 'react-native-snackbar-component';
 import AlphaScrollFlatList from 'alpha-scroll-flat-list';
@@ -16,7 +17,7 @@ const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
 
 const Contact =(props)=> {
-
+  
 const RBSheets= useRef()
  const navigate=()=>{
     props.navigation.navigate('AddContacts')
@@ -130,39 +131,25 @@ const RBSheets= useRef()
 
     return (
       <SafeAreaView style={{flex:1}}>
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.2 }}>
-          <View style={{flexDirection:'row',justifyContent:'space-between'}}>
-          <View style={{padding:20}}>
-                <Text style={{color:'#000',fontWeight:'bold',fontSize:18}}>Contacts</Text>
-            </View>
-            <View style={{padding:20,flexDirection:'row'}}>
-            <TouchableOpacity  onPress={()=>openFilter()}>
-            <View style={{
-            justifyContent:'center',
-            alignItems:'center'}}>
-            <Image 
+        <Header style={{ backgroundColor: '#f8f8f8', alignItems: 'center', justifyContent: 'center' }}>
+             <Left style={{ flexDirection: 'row' }}>
+             <Image 
             source={require('../Assets/filter.png')}
-            style={{width:30,height:30,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
           />
-            </View>
-            </TouchableOpacity>
-            <TouchableOpacity  onPress={()=>props.navigation.navigate('Auth')}>
-            <View style={{
-              paddingLeft:20,
-            justifyContent:'center',
-            alignItems:'center'}}>
-            <Image 
+              </Left>
+             <Body >
+                <Text style={{fontWeight:'bold',fontSize:18}} >Contacts</Text>
+            </Body>
+           <Right>
+           <Image 
             source={require('../Assets/logout.png')}
-            style={{width:30,height:30,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
           />
-            </View>
-            </TouchableOpacity>
-            </View>
-          
-           
-          </View>
-            
+           </Right>
+        </Header>
+      <View style={{ flex: 1 }}>
+            <View style={{flex:1}}>
             <View style={{paddingHorizontal:20}}>
             <View style={styles.SectionStyle}>
           <Image 
@@ -178,9 +165,6 @@ const RBSheets= useRef()
           />
         </View>
             </View>
-            
-            </View>
-            <View style={{flex:0.8}}>
                 <View style={{height:40,backgroundColor:'#f3f3f3',justifyContent:'center',marginTop:10}}>
                 <TouchableOpacity onPress={()=>navigate()}>
                     <View style={{paddingHorizontal:40,flexDirection:'row'}}>
