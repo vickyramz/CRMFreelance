@@ -694,13 +694,15 @@ const AddContact =(props) =>  {
    
        </View>
       </TouchableOpacity>
-      <SnackBar
+   <SnackBar
+            autoHidingTime={2000}
           visible={ShowAlert}
           textMessage={error}
           actionHandler={() => snackBarActions()}
           actionText=""
         />
-      <SnackBar
+   <SnackBar
+            autoHidingTime={2000}
          backgroundColor='green'
           visible={ShowAlertSuccess}
           textMessage={success}

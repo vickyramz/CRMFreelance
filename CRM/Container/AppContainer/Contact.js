@@ -214,7 +214,8 @@ const RBSheets= useRef()
         >
           <Filter onShut={()=>close()} props={props} />
         </RBSheet>
-        <SnackBar
+     <SnackBar
+            autoHidingTime={2000}
           visible={ShowAlert}
           textMessage={error}
           actionHandler={() => snackBarActions()}

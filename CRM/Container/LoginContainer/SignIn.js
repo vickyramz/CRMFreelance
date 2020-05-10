@@ -162,7 +162,8 @@ function  SignIn (props) {
          </TouchableOpacity>
           </View>
         </View>
-        <SnackBar
+     <SnackBar
+            autoHidingTime={2000}
           visible={ShowAlert}
           textMessage={error}
           actionHandler={() => snackBarActions()}

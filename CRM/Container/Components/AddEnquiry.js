@@ -693,7 +693,8 @@ const AddEnquiry =(props) =>  {
 
     </View>
    </TouchableOpacity>
-   <SnackBar
+<SnackBar
+            autoHidingTime={2000}
           visible={ShowAlert}
           textMessage={error}
           actionHandler={() => snackBarActions()}

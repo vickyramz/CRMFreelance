@@ -37,3 +37,8 @@ export const CONTACT_GROUP_PENDING ='contact_g_add_pending'
 export const ADD_CONTACT_PENDING ='contact__add_success'
 export const ADD_CONTACT_SUCCESS ='contact__add_failure'
 export const ADD_CONTACT_FAILURE ='contact__add_pending'
+
+// Lead Api
+export const  LEAD_CONTACT_PENDING ='leadcontact__add_pending'
+export const LEAD_CONTACT_SUCCESS ='leadcontact__add_success'
+export const LEAD_CONTACT_FAILURE ='leadcontact__add_failure'

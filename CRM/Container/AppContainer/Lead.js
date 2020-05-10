@@ -22,10 +22,9 @@ import SearchBar from 'react-native-searchbar';
  const [LeadList,setLeadList]=useState([]) 
  const [BillList,setBillList]=useState({});
  const [TabText,setTabText]=useState('all')
-  const close=()=>{
-  RBSheetsRef.current.close();
-  }
+ 
  const closes=()=>{
+   console.log('onShut')
    RBSheetsRef.current.close();
   }
   const setTab=(s)=> {
@@ -53,19 +52,22 @@ import SearchBar from 'react-native-searchbar';
   }
    setTabText(status)
   }
-  useEffect(()=>{
-    getLeadsData()
-  },[TabText,AddResponse])
+ 
   const dispatch = useDispatch();
   const [loader, setLoading] = useState(false);
+  const [id,setId]=useState('');
   const [success,AddResponses]=useState()
   const [ShowAlert, setAlerts] = useState(false);
   const AddResponse = useSelector(state => state.AddLeadReducer);
   const [error, setError] = useState('');
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
   const LeadOperation = useSelector(state => state.LeadReducer);
+  const LeadConverterOperation=useSelector(state=>state.LeadConvertReducer)
   const loginOperation = useSelector(state => state.userReducer);
   const billOperation = useSelector(state => state.BillReducer);
+  useEffect(()=>{
+    getLeadsData()
+  },[TabText,AddResponse,LeadConverterOperation])
  function getLeadsData(){
    let params={
     page:1,
@@ -131,11 +133,16 @@ const snackBarActions = () => {
 const _handleResults =(text)=>{
   //const result = words.filter(word => word.contact_person == text);
 }
+const selectedLead=(item)=>{
+  console.log('item.lead_id',item.lead_id)
+  setId(item.lead_id)
+  setTimeout(()=>RBSheetRef.current.open(),100)
+ 
+}
 const goback=()=>{
   props.navigation.goBack();
 }
-Success=(text)=>{
-
+ const Success=(text)=>{
   setAlertsSuccess(true);
   AddResponses(text)
   
@@ -209,7 +216,7 @@ const getItems = ({item}) => {
            
             </View>
             </View>
-            {TabText==='all'?null:<TouchableOpacity onPress={()=>RBSheetRef.current.open()}>
+            {TabText==='all'?null:<TouchableOpacity onPress={()=>selectedLead(item)}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'#f39a3e',position:'relative'}}>
             <Image 
             source={require('../Assets/moredots.png')}
@@ -437,7 +444,7 @@ const getItems = ({item}) => {
             }
           }}
         >
-          <AddEnquiry Success={(text)=>Success(text)} LeadList={LeadList} onShut={()=>close()} props={props} />
+          <AddEnquiry Success={(text)=>Success(text)} LeadList={LeadList} onShut={()=>closes()} props={props} />
         </RBSheet> 
                 </View>
                <View>
@@ -453,10 +460,10 @@ const getItems = ({item}) => {
             }
           }}
         >
-          <Leadsheet  tabText={TabText}  onShut={()=>closes()} props={props} />
+          <Leadsheet Successs={(text)=>Success(text)} leadId={id}  tabText={TabText}  onShut={()=>RBSheetRef.current.close()}  />
         </RBSheet> 
                  </View> 
-          
+           
             <SearchBar
   ref={searchBar}
   data={LeadList}
@@ -469,7 +476,8 @@ const getItems = ({item}) => {
           actionHandler={() => snackBarActions()}
           actionText="DISMISS"
         />
-         <SnackBar
+      <SnackBar
+            autoHidingTime={2000}
          backgroundColor='green'
           visible={ShowAlertSuccess}
           textMessage={success}
