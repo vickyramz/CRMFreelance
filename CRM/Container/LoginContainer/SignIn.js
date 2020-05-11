@@ -88,10 +88,11 @@ function  SignIn (props) {
     }
     return (
       <SafeAreaView style={{flex:1}}>
-      <KeyboardAvoidingView
-   // adjust the value here if you need more padding
-  style = {{ flex: 1 }}
-  behavior = "padding" >
+    <KeyboardAvoidingView
+    style={{flex:1}}
+      behavior={Platform.OS === "ios" ? "padding" : "padding"}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 50}>
+      
       <View style={{ flex: 1 }}>
         <View style={{ flex: 0.4 }}>
           <ImageBackground source={require('../Assets/signinbg.jpg')}

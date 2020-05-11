@@ -1,10 +1,9 @@
 //This is an example code to set Backgroud image///
 import React, { useState, useEffect ,useRef} from 'react';
 //import react in our code. 
-import { View, Text,Dimensions,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
+import { View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import { useDispatch, useSelector } from 'react-redux';
 import SnackBar from 'react-native-snackbar-component';

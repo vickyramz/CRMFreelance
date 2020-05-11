@@ -8,6 +8,7 @@ const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
+import SearchBar from 'react-native-searchbar';
 import AddSchedule from '../Components/AddSchedule'
 
 const workout = {key:'workout', color: 'green'};
@@ -16,14 +17,19 @@ const Calender=(props)=> {
     return item.id;
   }
   const RBSheets=useRef()
+  const searchBar =useRef()
  const openSheet=()=>{
     RBSheets.current.open();
   }
   const close=()=>{
     RBSheets.current.close();
   }
+  const [LeadList,setLeadList]=useState([]) 
   const goback=()=>{
     props.navigation.goBack(null);
+  }
+  const _handleResults =(text)=>{
+    //const result = words.filter(word => word.contact_person == text);
   }
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -89,7 +95,12 @@ markingType={'period'}
         </RBSheet>
                 
             </View>
-           
+            <SearchBar
+  ref={searchBar}
+  data={LeadList}
+  handleResults={_handleResults}
+  showOnLoad={false}
+/>
          
       </SafeAreaView>
 
