@@ -13,8 +13,8 @@ function  SignIn (props) {
   SplashScreen.hide()
   }, [])
   const [inputs,setInputs]=useState({
-    userName:'',
-    password:''
+    userName:'gallie@banblog.com',
+    password:'Welcome123@#'
   })
   const dispatch = useDispatch();
   const [IsEmailEmpty,setEmailVisible]=useState(false)

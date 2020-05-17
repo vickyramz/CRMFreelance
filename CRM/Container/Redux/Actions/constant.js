@@ -47,3 +47,9 @@ export const LEAD_CONTACT_FAILURE ='leadcontact__add_failure'
 export const  FOLLOW_PENDING ='FOLLOWcontact__add_pending'
 export const FOLLOW_SUCCESS ='FOLLOWcontact__add_success'
 export const FOLLOW_FAILURE ='FOLLOWcontact__add_failure'
+
+
+// Industries  Api
+export const  INDUSTRIES_PENDING ='INDUSTRIES_PENDING'
+export const INDUSTRIES_SUCCESS ='INDUSTRIES_SUCCESS'
+export const INDUSTRIES_FAILURE ='INDUSTRIES_FAILURE'

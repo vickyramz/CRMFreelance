@@ -36,7 +36,7 @@ const  onSelectedItemsChange = selectedItems => {
     }
     let token=loginOperation.loginResponse.token;
 
-    console.log('url format',url)
+    console.log('url format',params)
     dispatch(BindActions.LeadConvert(params,token,url))
   }
   console.log('LeadConverterOperation',LeadConverterOperation)
@@ -83,7 +83,7 @@ const  onSelectedItemsChange = selectedItems => {
         </View>:null}
 
         {props.tabText==='lead'? <View style={{marginLeft:20}}>
-        <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('Deal')}>
+        <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('prospect')}>
         <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Convert To Prospect</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('dropped')}>
@@ -91,7 +91,7 @@ const  onSelectedItemsChange = selectedItems => {
         </View>:null}
        
         {props.tabText==='prospect'? <View style={{marginLeft:20}}>
-        <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('Prospect')}>
+        <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('deal')}>
         <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Convert To Deal</Text>
         </TouchableOpacity>
         <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('dropped')}>
@@ -100,7 +100,7 @@ const  onSelectedItemsChange = selectedItems => {
 
         {props.tabText==='deal'? <View style={{marginLeft:20}}>
         <TouchableOpacity style={{padding:10}} onPress={()=>LeadConvert('dropped')}>
-        <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Drop Prospect</Text>
+        <Text style={{ fontSize: 16, color: '#000',fontWeight:'bold'  }}>Drop deals</Text>
         </TouchableOpacity>
         </View>:null}
    

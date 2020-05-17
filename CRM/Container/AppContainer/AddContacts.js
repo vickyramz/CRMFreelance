@@ -9,6 +9,7 @@ const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
 import { Chevron, Heart, Triangle } from 'react-native-shapes'
 let contryDetails=[]
+let IndustriesDetails=[]
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
@@ -30,13 +31,16 @@ const AddContact =(props) =>  {
   const AddResponse = useSelector(state => state.AddLeadReducer);
   const CountryReducer= useSelector(state=>state.CountryReducer)
   const ContactReducer= useSelector(state=>state.ContactGroupReducer)
+  const IndustriesReducer= useSelector(state=>state.IndustriesReducer)
+
   const navigate=()=>{
      props.onShut()
     props.props.navigation.navigate('SearchUser')
   }
   useEffect(()=>{
    CountryData();
-   ContactGroup();
+   getIndus();
+  
  },[])
   const dispatch = useDispatch();
   const[firstName,setFirstName]=useState()
@@ -63,6 +67,7 @@ const AddContact =(props) =>  {
   const [error, setError] = useState('');
   const [AddressLine1,setAddressLine1]=useState()
   const [AddressLine2,setAddressLine2]=useState()
+  const [IndustriList,setIndustries]=useState([])
   let token=loginOperation.loginResponse.token;
 
   console.log('CountryReduce',CountryReducer)
@@ -76,7 +81,7 @@ const AddContact =(props) =>  {
      contryDetails=Object.keys(CountryReducer.CountryListResponse)
      countryList=CountryReducer.CountryListResponse
     console.log('CountryReducer.CountryListResponse',contryDetails)
-    setCountry(old=>[...old,...contryDetails])
+    setCountry(contryDetails)
   }
   if(CountryReducer.IsCountryListResponseError){
     CountryReducer.IsCountryListResponseError=false
@@ -100,12 +105,44 @@ const AddContact =(props) =>  {
   if(ContactReducer.IsContactGroupListResponseError){
     ContactReducer.IsContactGroupListResponseError=false
     setLoading(false)
-   // let contryDetails=Object.keys(CountryReducer.IsCountryListResponseSuccess)
    setAlerts(true)
    setError(ContactReducer.ContactGrouperror)
   }
+  console.log('IndustriesReducer',IndustriesReducer)
+  //Industries
+  if(IndustriesReducer.IndustriesPending){
+    IndustriesReducer.IndustriesPending=false
+    setLoading(true)
+  }
+  if(IndustriesReducer.Industriesuccess){
+    IndustriesReducer.Industriesuccess=false
+    setLoading(false)
+    IndustriesDetails=Object.keys(IndustriesReducer.IndustriesResponse)  
+    setIndustries(IndustriesDetails)
+  }
+  if(IndustriesReducer.IsIndustriesError){
+    IndustriesReducer.IsIndustriesError=false
+    setLoading(false)
+
+   setAlerts(true)
+   setError(IndustriesReducer.Industrieserror)
+  }
 
   const getCountry=(data)=>{
+    console.log('data',data)
+    let arrayData=[]
+    if(data.length>0){
+      data.map((item,index)=>{
+        let arrayObject={label:item,value:item}
+        arrayData.push(arrayObject);
+      })
+      return arrayData;
+    }
+    return [];
+   
+  }
+
+  const getIndustries=(data)=>{
     console.log('data',data)
     let arrayData=[]
     if(data.length>0){
@@ -136,6 +173,11 @@ const AddContact =(props) =>  {
   let url = '/settings/contacts/group'
   dispatch(BindActions.ContactGroupApi(token,url))
   }
+  const getIndus=()=>{
+    let token=loginOperation.loginResponse.token;
+    let url = '/settings/industries_list'
+    dispatch(BindActions.IndustriesList(token,url))
+    }
   const getStates=()=>{
     console.log('data',)
     let arrayData=[]
@@ -158,7 +200,9 @@ const AddContact =(props) =>  {
   function CountryData(){
     let token=loginOperation.loginResponse.token;
     let url = '/settings/cities_list'
-    dispatch(BindActions.GetCountryList(token,url))
+    dispatch(BindActions.GetCountryList(token,url)).then(value=>{
+      ContactGroup();
+    })
   }
   function AddContact(){
  
@@ -386,15 +430,7 @@ const AddContact =(props) =>  {
                 },}}
                 value={assignTo}
             onValueChange={(value) => console.log(value)}
-            items={[
-               
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            items={getIndustries(IndustriList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}

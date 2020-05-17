@@ -156,7 +156,7 @@ const RBSheets= useRef()
            </Right>
         </Header>
       <View style={{ flex: 1 }}>
-            <View style={{flex:1}}>
+         
             <View style={{paddingHorizontal:20}}>
             <View style={styles.SectionStyle}>
           <Image 
@@ -189,8 +189,8 @@ const RBSheets= useRef()
                     </View>
                     </TouchableOpacity>
                 </View>
-                {ContactList && ContactList.length>0? <AlphaScrollFlatList
-         
+                {ContactList && ContactList.length>0? <View style={{flex:1}}><AlphaScrollFlatList
+         scrollBarContainerStyle={{flex:1}}
          data={ContactList}
          keyExtractor={(item)=>keyExtractor(item)}
          //data={state.dataSource}
@@ -198,9 +198,9 @@ const RBSheets= useRef()
          scrollKey={'name'}
          reverse={false}
          itemHeight={ITEM_HEIGHT}
-       />  :null}
+       /></View> :null}
                
-            </View>
+          
            <RBSheet
           ref={RBSheets}
           height={600}
