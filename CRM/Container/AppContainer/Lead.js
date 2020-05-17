@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import SnackBar from 'react-native-snackbar-component';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
-import { View, Text,Dimensions,FlatList, Image,StyleSheet,SafeAreaView,TouchableOpacity ,ActivityIndicator} from 'react-native';
+import { View, Linking,Text,Dimensions,FlatList, Image,StyleSheet,SafeAreaView,TouchableOpacity ,ActivityIndicator} from 'react-native';
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
@@ -181,23 +181,27 @@ const getItems = ({item}) => {
             <Text style={{color:'#000',fontWeight:'bold',fontSize:12,}}>{item.contact_first_name+" "+item.contact_last_name}</Text>
             <Text style={{color:'gray',fontWeight:'bold',fontSize:12}}>{item.company_name}</Text>
             <View style={{flexDirection:'row',marginTop:10}}>
+              <TouchableOpacity onPress={()=>Linking.openURL(`tel:${item.phone}`)}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'gray',position:'relative'}}>
             <Image 
             source={require('../Assets/phone.png')}
             style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
           />
             </View>
+            </TouchableOpacity>
             <View style={{paddingLeft:5,justifyContent:'center',alignItems:'center'}}>
             <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.phone}</Text>
             </View>
             </View>
             <View style={{flexDirection:'row',marginTop:10}}>
+              <TouchableOpacity onPress={()=>Linking.openURL(`mailto:${item.email}`)}>
             <View style={{width:30,height:30,borderRadius:15,justifyContent:'center',alignItems:'center',backgroundColor:'gray',position:'relative'}}>
             <Image 
             source={require('../Assets/mail.png')}
             style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
           />
             </View>
+            </TouchableOpacity>
             <View style={{paddingLeft:5,justifyContent:'center',alignItems:'center'}}>
             <Text style={{color:'#000',fontWeight:'bold',fontSize:12}}>{item.email}</Text>
             </View>

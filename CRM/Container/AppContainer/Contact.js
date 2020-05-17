@@ -33,10 +33,12 @@ const RBSheets= useRef()
   const loginOperation = useSelector(state => state.userReducer);
   const AddResponse = useSelector(state => state.AddLeadReducer);
   const ContactReducer= useSelector(state=>state.ContactGroupReducer)
+  const EditReducer= useSelector(state=>state.EditReducer)
+
   useEffect(()=>{
     getContactData();
     ContactGroup();
-  },[AddResponse])
+  },[AddResponse,EditReducer])
   const ContactGroup=()=>{
     let token=loginOperation.loginResponse.token;
     let url = '/settings/contacts/group'
