@@ -18,6 +18,8 @@ import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Lead from '../Container/AppContainer/Lead'
 import {createStackNavigator} from 'react-navigation-stack'
 import signUp from '../Container/LoginContainer/signUp'
+import ContactDetails from '../Container/AppContainer/ContactDetails'
+import EditContacts from '../Container/AppContainer/EditContacts'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
 const TransitionConfiguration = () => {
   return {
@@ -73,7 +75,9 @@ let CollapseExpand = (index, position) => {
 const Contacts = createStackNavigator(
   {
     contact: Contact,
-    AddContacts:AddContacts
+    AddContacts:AddContacts,
+    ContactDetails:ContactDetails,
+    EditContacts:EditContacts
      //Events:Events,
   },
   {

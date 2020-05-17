@@ -1,6 +1,6 @@
 //This is an example code to set Backgroud image///
-import React from 'react';
-//import react in our code. 
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, Text,Dimensions,TextInput,Image, StyleSheet ,TouchableOpacity} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
@@ -42,34 +42,40 @@ items = [{
   id: 'suudydjsjd',
   name: 'Abuja',
 }];
-export default class Filter extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
-      }
-      
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',selectedItems : [],
-    dataSource:[],}
-  }
-  onSelectedItemsChange = selectedItems => {
-    this.setState({ selectedItems });
+const Filter =(props)=> {
+
+  const [loader, setLoading] = useState(false);
+  const [ShowAlert, setAlerts] = useState(false);
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const ContactReducer= useSelector(state=>state.ContactGroupReducer)
+  const [ContactGroupList,setContactGroup]=useState(ContactReducer.ContactGroupListResponse)
+const  onSelectedItemsChange = selectedItems => {
+    setState({ selectedItems });
   };
-  navigate=()=>{
-    this.props.onShut()
-    const {props}= this.props
+ const navigate=()=>{
+    props.onShut()
+    const {props}= props
     props.navigation.navigate('SearchUser')
   }
-  render() {
+  const getContact=(data)=>{
+    console.log('data',data)
+    let arrayData=[]
+    if(data.length>0){
+      data.map((item,index)=>{
+        let arrayObject={label:item.group_name,value:item.contact_group_id}
+        arrayData.push(arrayObject);
+      })
+      return arrayData;
+    }
+    return [];
+   
+  }
     const placeholder = {
       label: 'All',
       value: null,
       color: '#000',
     };
-    const { selectedItems } = this.state;
+
     return (
       <View style={{ flex: 1 ,padding:20}}>
         <View >
@@ -106,15 +112,7 @@ export default class Filter extends React.Component {
                   fontWeight: 'bold',
                 },}}
             onValueChange={(value) => console.log(value)}
-            items={[
-                { label: 'All', value: 'All' },
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            items={getContact(ContactGroupList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}
@@ -137,8 +135,8 @@ export default class Filter extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setState({text})}
+       
       />
          
           </View>
@@ -157,8 +155,8 @@ export default class Filter extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setState({text})}
+       
       />
   </View>
         
@@ -170,7 +168,7 @@ export default class Filter extends React.Component {
           </View>
           <DatePicker
         style={{width: 350}}
-        date={this.state.date}
+      
         mode="date"
         placeholder="start date"
         format="YYYY-MM-DD"
@@ -191,12 +189,12 @@ export default class Filter extends React.Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => {setState({date: date})}}
       />
         
          
       </View>
-      <TouchableOpacity onPress={()=>this.props.onShut()}>
+      <TouchableOpacity onPress={()=>props.onShut()}>
       <View style={{backgroundColor:'#f39a3e',height:40,justifyContent:'center',alignItems:'center',marginTop:20,flexDirection:'row'
       
     }}>
@@ -213,7 +211,7 @@ export default class Filter extends React.Component {
 
     </View>
       </TouchableOpacity>
-   <TouchableOpacity onPress={()=>this.props.onShut()}>
+   <TouchableOpacity onPress={()=>props.onShut()}>
    <View style={{backgroundColor:'#6c757d',height:40,justifyContent:'center',alignItems:'center',marginTop:20,flexDirection:'row'
       
     }}>
@@ -234,7 +232,7 @@ export default class Filter extends React.Component {
       </View>
 
     );
-  }
+  
 }
 const styles = StyleSheet.create({
     textAreaContainer: {
@@ -292,4 +290,5 @@ const styles = StyleSheet.create({
       paddingRight: 30, // to ensure the text is never behind the icon
     },
   });
+  export default Filter
 

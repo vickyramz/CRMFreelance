@@ -53,3 +53,8 @@ export const FOLLOW_FAILURE ='FOLLOWcontact__add_failure'
 export const  INDUSTRIES_PENDING ='INDUSTRIES_PENDING'
 export const INDUSTRIES_SUCCESS ='INDUSTRIES_SUCCESS'
 export const INDUSTRIES_FAILURE ='INDUSTRIES_FAILURE'
+
+// Industries  Api
+export const  EDIT_PENDING ='EDIT_PENDING'
+export const EDIT_SUCCESS ='EDIT_SUCCESS'
+export const EDIT_FAILURE ='EDIT_FAILURE'

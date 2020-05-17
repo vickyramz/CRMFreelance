@@ -8,6 +8,7 @@ import ContactGroupReducer from'./ContactGroupReducer'
 import LeadConvertReducer from'./LeadCoverterReducer'
 import FollowsReducer from './FollowReducer'
 import IndustriesReducer from './IndustriesReducer'
+import EditReducer from './EditReducer'
 export default {
     userReducer,
     LeadReducer,
@@ -17,5 +18,6 @@ export default {
     ContactReducer,ContactGroupReducer,
     LeadConvertReducer,
     FollowsReducer,
-    IndustriesReducer
+    IndustriesReducer,
+    EditReducer
 }

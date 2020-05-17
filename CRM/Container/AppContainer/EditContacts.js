@@ -21,17 +21,18 @@ import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView } from 'react-navigation';
 const workout = {key:'workout', color: 'green'};
 
-const AddContact =(props) =>  {
+const EditContacts =(props) =>  {
   const placeholder = {
     label: 'Select Contact',
     value: null,
     color: '#000',
   };
   const loginOperation = useSelector(state => state.userReducer);
-  const AddResponse = useSelector(state => state.AddLeadReducer);
+
   const CountryReducer= useSelector(state=>state.CountryReducer)
   const ContactReducer= useSelector(state=>state.ContactGroupReducer)
   const IndustriesReducer= useSelector(state=>state.IndustriesReducer)
+  const EditReducer= useSelector(state=>state.EditReducer)
 
   const navigate=()=>{
      props.onShut()
@@ -43,31 +44,40 @@ const AddContact =(props) =>  {
   
  },[])
   const dispatch = useDispatch();
-  const[firstName,setFirstName]=useState()
-  const[lastName,setlastName]=useState()
-  const[companyName,setcompanyName]=useState()
+  const item=props.navigation.state.params.item
+  console.log('items',item)
+  const[firstName,setFirstName]=useState(item.contact_first_name?item.contact_first_name:'')
+  const[lastName,setlastName]=useState(item.contact_last_name?item.contact_last_name:'')
+  const[companyName,setcompanyName]=useState(item.company_name?item.company_name:'')
+  const[selectedIndustries,setSelectedIndustries]=useState()
   const[contactPerson,setContactperson]=useState()
   const [ContactGroupList,setContactGroup]=useState(ContactReducer.ContactGroupListResponse)
   const[States,SetStates]=useState([])
-  const[Phone,setPhone]=useState()
-  const[AlternatePhone,setalternatePhone]=useState()
-  const[email,setMail]=useState()
-  const[Alternateemail,setAlternateMail]=useState()
+  const[Phone,setPhone]=useState(item.phone?item.phone:'')
+  const[AlternatePhone,setalternatePhone]=useState(item.alternate_phone?item.alternate_phone:'')
+  const[email,setMail]=useState(item.email?item.email:'')
+  const[Alternateemail,setAlternateMail]=useState(item.alternate_email?item.alternate_email:'')
   const[country,setCountry]=useState([])
-  const[city,setCity]=useState()
+  const[selectedCountry,setSelectedCountry]=useState(item.country?item.country:'')
+  const[selectedState,setState]=useState(item.state?item.state:'')
+  const[city,setCity]=useState(item.city?item.city:'')
   const[contactId,setContactid]=useState();
-  const[state,setState]=useState()
-  const [success,AddResponses]=useState()
-  const [postalCode,setPostalCode]=useState()
+  const [success,EditReducers]=useState()
+  const [postalCode,setPostalCode]=useState(item.pincode?item.pincode:'')
   const [Followdate,setFollowDate]=useState()
   const [assignTo,setAssignTo]=useState()
   const [loader, setLoading] = useState(false);
   const [ShowAlert, setAlerts] = useState(false);
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
   const [error, setError] = useState('');
-  const [AddressLine1,setAddressLine1]=useState()
-  const [AddressLine2,setAddressLine2]=useState()
+  const [AddressLine1,setAddressLine1]=useState(item.address_line_1?item.address_line_1:'')
+  const [AddressLine2,setAddressLine2]=useState(item.address_line_2?item.address_line_2:'')
+
   const [IndustriList,setIndustries]=useState([])
+  let contactObject=ContactGroupList.find(element=>element.contact_group_id===item.contact_group_id)
+  console.log('contactObject--------------',contactObject && contactObject.group_name ?contactObject.group_name:'')
+  const [ContactGroup,setContactGroups]=useState(contactObject && contactObject.group_name ?contactObject.group_name:'')
+  console.log('ContactGroup-------',ContactGroup)
   let token=loginOperation.loginResponse.token;
 
   console.log('CountryReduce',CountryReducer)
@@ -182,7 +192,7 @@ const AddContact =(props) =>  {
     let url = '/settings/cities_list'
     dispatch(BindActions.GetCountryList(token,url))
   }
-  function AddContact(){
+  function EditContact(){
  
    if(firstName==null || firstName===''){
       alert('please enter First Name')
@@ -214,7 +224,7 @@ const AddContact =(props) =>  {
   address_line_1 :AddressLine1,
   address_line_2:AddressLine2,
   city :city,
-  state :state,
+  state :selectedState,
   country :country,
   pincode :postalCode,
   notes:'',
@@ -222,28 +232,28 @@ const AddContact =(props) =>  {
 
       }
       console.log('params',JSON.stringify(params))
-      dispatch(BindActions.AddContact(params,token,'/settings/contacts'));
+      dispatch(BindActions.EditApi(params,token,`/settings/contacts/${item.contact_id}`));
     }
     
   }
-  if (AddResponse.AddConatctPending) {
-    AddResponse.AddConatctPending=false
+  if (EditReducer.EditPending) {
+    EditReducer.EditPending=false
       setLoading(true)
       setAlerts(false);
   }
-   if (AddResponse.AddContactSuccess) {
-    console.log('AddResponse',AddResponse)
-    AddResponse.AddContactSuccess=false
+   if (EditReducer.EditSuccess) {
+    console.log('EditReducer',EditReducer)
+    EditReducer.EditSuccess=false
     setLoading(false)
     setAlertsSuccess(true);
-    AddResponses(AddResponse.AddContactResponse.message)
+    EditReducers(EditReducer.EditResponse.message)
     setTimeout(()=>props.navigation.goBack(),2000)
   }
-  if (AddResponse.IsAddContactError) {
-    AddResponse.IsAddContactError=false
+  if (EditReducer.IsEditError) {
+    EditReducer.IsEditError=false
     setLoading(false)
     setAlerts(true);
-    setError(AddResponse.AddContacterror.message)
+    setError(EditReducer.Editerror.message)
   
   }
   const goback=()=>{
@@ -280,7 +290,7 @@ const AddContact =(props) =>  {
           </TouchableOpacity>
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:18}} >Add Contacts</Text>
+                <Text style={{fontWeight:'bold',fontSize:18}} >Edit Contacts</Text>
             </Body>
             <Right style={{ flexDirection: 'row' }}>
             
@@ -306,13 +316,19 @@ const AddContact =(props) =>  {
                 top: 20,
                 right: 15,
               },
+            
                 placeholder: {
-                  color: 'gray',
+                
+                  color: '#000',
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-                value={assignTo}
-            onValueChange={(value) => console.log(value)}
+                placeholder={{
+                  label: contactObject && contactObject.group_name ?contactObject.group_name:'',
+                  value: null,
+              }}
+                value={ContactGroup}
+            onValueChange={(value) => setContactGroups(value)}
             items={getContact(ContactGroupList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -394,7 +410,8 @@ const AddContact =(props) =>  {
           </View>
             <View style={{}}>
             <RNPickerSelect
-             
+           
+            
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -406,8 +423,10 @@ const AddContact =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-                value={assignTo}
-            onValueChange={(value) => console.log(value)}
+              
+            onValueChange={(value) => setSelectedIndustries(value)}
+            
+            
             items={getIndustries(IndustriList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -549,6 +568,10 @@ const AddContact =(props) =>  {
             <View style={{}}>
             <RNPickerSelect
              //value={country}
+             placeholder={{
+              label: selectedCountry,
+              value: null,
+          }}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -578,7 +601,10 @@ const AddContact =(props) =>  {
           </View>
             <View style={{}}>
             <RNPickerSelect
-             value={state}
+                placeholder={{
+                  label: selectedState,
+                  value: null,
+              }}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -590,7 +616,8 @@ const AddContact =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => console.log(value)}
+                value={selectedState}
+            onValueChange={(value) =>setState(value)}
             items={getStates()}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -680,12 +707,12 @@ const AddContact =(props) =>  {
        
       </KeyboardAvoidingView>
       </ScrollView>
-         <TouchableOpacity onPress={()=>AddContact()} >
+         <TouchableOpacity onPress={()=>EditContact()} >
          <View style={{backgroundColor:'#f39a3e',height:40,justifyContent:'center',alignItems:'center',flexDirection:'row',opacity: 0.8,
          
        }}>
          <View>
-         <Text style={{color:'#fff',fontWeight:'bold',fontSize:16}}>Save</Text>
+         <Text style={{color:'#fff',fontWeight:'bold',fontSize:16}}>Update Contacts</Text>
          </View>
        <View style={{paddingLeft:10}}>
     
@@ -789,5 +816,5 @@ const styles = StyleSheet.create({
       paddingRight: 30, // to ensure the text is never behind the icon
     },
   });
-  export default AddContact;
+  export default EditContacts;
 

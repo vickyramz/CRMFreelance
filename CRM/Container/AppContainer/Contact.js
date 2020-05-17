@@ -11,6 +11,7 @@ import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
 import Filter from '../Components/Filter'
+import ContactDetails from './ContactDetails';
 let InitialData=[]
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;
@@ -31,14 +32,38 @@ const RBSheets= useRef()
   const ContactOperation = useSelector(state => state.ContactReducer);
   const loginOperation = useSelector(state => state.userReducer);
   const AddResponse = useSelector(state => state.AddLeadReducer);
+  const ContactReducer= useSelector(state=>state.ContactGroupReducer)
   useEffect(()=>{
-    getContactData()
+    getContactData();
+    ContactGroup();
   },[AddResponse])
+  const ContactGroup=()=>{
+    let token=loginOperation.loginResponse.token;
+    let url = '/settings/contacts/group'
+    dispatch(BindActions.ContactGroupApi(token,url))
+    }
   if (ContactOperation.IsContactListResponsePending) {
     ContactOperation.IsContactListResponsePending=false
       setLoading(true)
       setAlerts(false);
   }
+  //Contact Group
+  console.log('ContactReducer',ContactReducer)
+  if(ContactReducer.IsContactGroupListResponsePending){
+    ContactReducer.IsContactGroupListResponsePending=false
+    setLoading(true)
+  }
+  if(ContactReducer.IsContactGroupListResponseSuccess){
+    ContactReducer.IsContactGroupListResponseSuccess=false
+    setLoading(false)
+  }
+  if(ContactReducer.IsContactGroupListResponseError){
+    ContactReducer.IsContactGroupListResponseError=false
+    setLoading(false)
+   setAlerts(true)
+   setError(ContactReducer.ContactGrouperror)
+  }
+
 
    if (ContactOperation.IsContactListResponseSuccess) {
     console.log('LeadOperation',ContactOperation)
@@ -87,13 +112,16 @@ const RBSheets= useRef()
  const keyExtractor =(item)=> {
     return item.id;
   }
+  const ContactDetails=(item)=>{
+    props.navigation.navigate('ContactDetails',{item:item})
+  }
  const renderItem =({item})=> {
 
     return (
       //onPress={(item)=>setState({CountryId:item.countryCode})
-      <TouchableOpacity style={{flexDirection:'row',padding:5}}>
-        <View style={{width:30,height:30,borderRadius:15,backgroundColor:'#cdcdcd',justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'blue',fontSize:12,fontWeight:'bold'}}>{item.name.charAt(0)}</Text>
+      <TouchableOpacity onPress={()=>ContactDetails(item)} style={{flexDirection:'row',padding:5}}>
+        <View style={{width:30,height:30,borderRadius:15,backgroundColor:'#F5F5F5',justifyContent:'center',alignItems:'center'}}>
+        <Text style={{color:'#00A3E0',fontSize:12,fontWeight:'bold'}}>{item.name.charAt(0)}</Text>
         </View>
          <View style={styles.itemContainer}>
         <Text style={styles.itemTitle}>{item.name}</Text>
