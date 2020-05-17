@@ -9,6 +9,7 @@ import LeadConvertReducer from'./LeadCoverterReducer'
 import FollowsReducer from './FollowReducer'
 import IndustriesReducer from './IndustriesReducer'
 import EditReducer from './EditReducer'
+import ReopenReducer from './ReopenReducer'
 export default {
     userReducer,
     LeadReducer,
@@ -19,5 +20,6 @@ export default {
     LeadConvertReducer,
     FollowsReducer,
     IndustriesReducer,
-    EditReducer
+    EditReducer,
+    ReopenReducer
 }

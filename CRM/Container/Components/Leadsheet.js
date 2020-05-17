@@ -27,9 +27,11 @@ const  onSelectedItemsChange = selectedItems => {
   const [error, setError] = useState('');
   const loginOperation = useSelector(state => state.userReducer);
   const LeadConverterOperation=useSelector(state=>state.LeadConvertReducer)
+  const ReopenReducer=useSelector(state=>state.ReopenReducer)
   const dispatch = useDispatch();
  
   function LeadConvert(e){
+    console.log('props.leadId',props.leadId)
     let url=`/leads/status/${props.leadId}` 
     let params={
       status:e    
@@ -39,6 +41,32 @@ const  onSelectedItemsChange = selectedItems => {
     console.log('url format',params)
     dispatch(BindActions.LeadConvert(params,token,url))
   }
+
+  function ReOpen(e){
+    console.log('props.leadId',props.leadId)
+    let url=`/leads/status/multiple` 
+    let params={
+      status:e ,
+      leadIds:[props.leadId]   
+    }
+    let token=loginOperation.loginResponse.token;
+
+    console.log('url format',params)
+    dispatch(BindActions.LeadConvert(params,token,url))
+  }
+
+  function Delete(e){
+    console.log('props.leadId',props.leadId)
+    let url=`/leads/multiple` 
+    let params={
+      leadIds:props.leadId   
+    }
+    let token=loginOperation.loginResponse.token;
+
+    console.log('url format',params)
+    dispatch(BindActions.ReopenConvert(params,token,url))
+  }
+
   console.log('LeadConverterOperation',LeadConverterOperation)
   if (LeadConverterOperation.LeadConverterPending) {
     LeadConverterOperation.LeadConverterPending=false
@@ -61,6 +89,28 @@ const  onSelectedItemsChange = selectedItems => {
     setLoading(false)
     setAlerts(true);
     setError(LeadConverterOperation.LeadConvertererror.message) 
+  
+  }
+  
+// convert reopen
+  console.log('ReopenReducer',ReopenReducer)
+  if (ReopenReducer.ReopenPending) {
+    ReopenReducer.ReopenPending=false
+      setLoading(true)
+      setAlerts(false);
+  }
+   if (ReopenReducer.ReopenSuccess) {
+    ReopenReducer.ReopenSuccess=false
+    setLoading(false)
+    setAlerts(false);   
+    props.onShut()
+    props.Successs(ReopenReducer.ReopenResponse.message)
+  }
+  if (ReopenReducer.IsReopenError) {
+    ReopenReducer.IsReopenError=false
+    setLoading(false)
+    setAlerts(true);
+   // setError(ReopenReducer.Reopenerror.message) 
   
   }
   if (loader) {
@@ -105,8 +155,13 @@ const  onSelectedItemsChange = selectedItems => {
         </View>:null}
    
         {props.tabText==='dropped'? <View style={{marginLeft:20}}>
+        <TouchableOpacity style={{padding:10}} onPress={()=>Delete('enquiry')}>
         <Text style={{ fontSize: 16, color: 'red',fontWeight:'bold'  }}>Delete</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={{padding:10}} onPress={()=>ReOpen('enquiry')}>
         <Text style={{ fontSize: 16, color: '#000', fontWeight:'bold' ,marginTop:20}}>Reopen</Text>
+        </TouchableOpacity>
+        
         </View>:null}
       </View>
 

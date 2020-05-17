@@ -21,4 +21,5 @@ export default class GetAPI {
           .then(json => {console.log('mpd json', json); return json;})
           .catch(err => {console.log('mpd error ',err); return err;});
       }
+    
    }

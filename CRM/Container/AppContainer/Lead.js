@@ -13,7 +13,7 @@ import MaterialTabs from 'react-native-material-tabs';
 import AddEnquiry from '../Components/AddEnquiry'
 import Leadsheet from '../Components/Leadsheet'
 import SearchBar from 'react-native-searchbar';
-
+let InitialLead=[];
  const  Lead  = (props) => {
   const RBSheetRef = useRef();
   const RBSheetsRef = useRef();
@@ -99,6 +99,7 @@ import SearchBar from 'react-native-searchbar';
   LeadOperation.leadSuccess=false
   setLoading(false)
   setAlerts(false);
+  InitialLead=LeadOperation.LeadResponse.records;
   setLeadList(LeadOperation.LeadResponse.records)
 }
 if (LeadOperation.IsleadError) {
@@ -130,8 +131,24 @@ if (billOperation.IsBillError) {
 const snackBarActions = () => {
   setAlerts(false);
 };
-const _handleResults =(text)=>{
-  //const result = words.filter(word => word.contact_person == text);
+const _handleResults =(e)=>{
+  console.log('e',e)
+
+    let texts = e.toLowerCase()
+    
+    let filteredName = LeadList.filter((item) => {
+      return item.contact_first_name.toLowerCase().match(texts)
+    })
+    if (!texts || texts === '') {
+      setLeadList(InitialLead)
+    } else if (!Array.isArray(filteredName) && !filteredName.length) {
+      // set no data flag to true so as to render flatlist conditionally
+      setLeadList(InitialLead)
+    } else if (Array.isArray(filteredName)) {
+      setLeadList(filteredName)
+    }
+  
+
 }
 const selectedLead=(item)=>{
   console.log('item.lead_id',item.lead_id)
@@ -471,7 +488,7 @@ const getItems = ({item}) => {
             <SearchBar
   ref={searchBar}
   data={LeadList}
-  handleResults={_handleResults}
+  handleChangeText={_handleResults}
   showOnLoad={false}
 />
 <SnackBar
