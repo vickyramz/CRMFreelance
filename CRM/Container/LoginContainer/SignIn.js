@@ -94,12 +94,12 @@ function  SignIn (props) {
       keyboardVerticalOffset={Platform.OS === "ios" ? 64 : 50}>
       
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.4 }}>
-          <ImageBackground source={require('../Assets/signinbg.jpg')}
+       
+          <ImageBackground style={{ flex: 0.2 }} source={require('../Assets/signinbg.jpg')}
             style={{ width: '100%', flex: 1 }}>
           </ImageBackground>
-        </View>
-        <View style={{ flex: 0.6 }}>
+       
+        <View style={{ flex: 0.8 }}>
           <View style={{ marginHorizontal: 20, marginTop: -30 }}>
             <Image style={{ width: 150, height: 150, resizeMode: 'contain' }} source={require('../Assets/goi-logo.png')}>
             </Image>
@@ -141,6 +141,7 @@ function  SignIn (props) {
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "#000",backgroundColor:'#f3f3f3'
         }}
         onChangeText={(text) =>HandleChange(text,'password')}
+        secureTextEntry={true}
         value={password}
       />
          
@@ -155,12 +156,12 @@ function  SignIn (props) {
          <Text style={{ fontSize: 16, color: '#fff', fontWeight:'bold' }}>Sign In</Text>
          </View>
          </TouchableOpacity>
-         <TouchableOpacity >
+         {/* <TouchableOpacity >
          <View style={{marginHorizontal:60,marginTop:20,flexDirection:'row',alignItems:'center'}}>
          <Text style={{ fontSize: 14, color: '#5c6c80' }}>Dont' have an Account?</Text>
          <Text style={{ fontSize: 14, color: '#2046f6' }}>Sign Up here</Text>
          </View>
-         </TouchableOpacity>
+         </TouchableOpacity> */}
           </View>
         </View>
      <SnackBar
