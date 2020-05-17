@@ -10,6 +10,7 @@ import FollowsReducer from './FollowReducer'
 import IndustriesReducer from './IndustriesReducer'
 import EditReducer from './EditReducer'
 import ReopenReducer from './ReopenReducer'
+import MeetingReducer from './MeetingReducer'
 export default {
     userReducer,
     LeadReducer,
@@ -21,5 +22,6 @@ export default {
     FollowsReducer,
     IndustriesReducer,
     EditReducer,
-    ReopenReducer
+    ReopenReducer,
+    MeetingReducer
 }

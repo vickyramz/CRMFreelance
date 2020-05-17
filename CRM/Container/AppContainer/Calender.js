@@ -1,10 +1,15 @@
 import React, { useState ,useRef,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text,Dimensions,StyleSheet,SafeAreaView, Image,TouchableOpacity } from 'react-native';
+import { View, Text,Dimensions,StyleSheet,SafeAreaView, Image,TouchableOpacity ,ActivityIndicator} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
+import SnackBar from 'react-native-snackbar-component';
 const WIDTH = Dimensions.get('window').width;
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
+import moment from 'moment';
+import * as BindActions from '../Redux/Actions';
 const ITEM_HEIGHT = 50;
+let date='2020-05-11'
+let obj=[];
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RBSheet from "react-native-raw-bottom-sheet";
@@ -15,6 +20,75 @@ const workout = {key:'workout', color: 'green'};
 const Calender=(props)=> {
   function keyExtractor (item) {
     return item.id;
+  }
+  const dispatch = useDispatch();
+  const [loader, setLoading] = useState(false);
+  const [ShowAlert, setAlerts] = useState(false);
+  const[items,setItems]=useState({});
+  const[MeetingList,setMeetingsList]=useState([])
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const MeetingReducer=useSelector(state=>state.MeetingReducer)
+  const loginOperation = useSelector(state => state.userReducer);
+  useEffect(()=>{
+    getMeetings()
+  },[])
+  function getDates(startDate, stopDate) {
+    var dateArray = [];
+    var currentDate = moment(startDate);
+    var stopDate = moment(stopDate);
+    while (currentDate <= stopDate) {
+        dateArray.push( moment(currentDate).format('YYYY-MM-DD') )
+        currentDate = moment(currentDate).add(1, 'days');
+    }
+    return dateArray;
+}
+const getMeetings=()=>{
+    let token=loginOperation.loginResponse.token;
+    let url = '/reports/schedule'
+    dispatch(BindActions.MeetingApi(token,url))
+  }
+  console.log('MeetingReducer.MeetingsResponse',MeetingReducer)
+  if(MeetingReducer.MeetingsPending){
+    MeetingReducer.MeetingsPending=false
+    setLoading(true)
+  }
+  if(MeetingReducer.MeetingsSuccess){
+    MeetingReducer.MeetingsSuccess=false
+    setLoading(false)
+    let data=[]
+    MeetingReducer.MeetingsResponse.map((item,index)=>{
+      var unixInt = parseInt(item.schedule_from_date * 1, 10); 
+      var Fromdate  = moment.utc(unixInt).local().format('YYYY-MM-DD')
+
+      var unixInt = parseInt(item.schedule_to_date * 1, 10); 
+      var toDate  = moment.utc(unixInt).local().format('YYYY-MM-DD')
+       data=data.concat(getDates(Fromdate,toDate))
+       console.log('times',getDates(Fromdate,toDate))
+      
+   
+       //obj.push(date)
+    })
+    let itemss={}
+    data.map((item,value)=>{
+     itemss[item]={startingDay: true, color: '#00A3E0',textColor:'#fff'};
+   })
+   setItems(itemss)
+    // MeetingReducer.MeetingsResponse.map((item,index)=>{
+    //   var unixInt = parseInt(item.schedule_to_date * 1, 10); 
+    //   var date  = moment.utc(unixInt).local().format('YYYY-MM-DD')
+    //    console.log('times',getDates())
+    //    obj.push(date)
+    // })
+  
+ 
+   
+  }
+  if(MeetingReducer.MeetingsError){
+    MeetingReducer.MeetingsError=false
+    setLoading(false)
+   // let contryDetails=Object.keys(CountryReducer.IsCountryListResponseSuccess)
+   setAlerts(true)
+   //setError(MeetingReducer.Meetingserror)
   }
   const RBSheets=useRef()
   const searchBar =useRef()
@@ -30,6 +104,14 @@ const Calender=(props)=> {
   }
   const _handleResults =(text)=>{
     //const result = words.filter(word => word.contact_person == text);
+  }
+
+  if (loader) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
     return (
       <SafeAreaView style={{ flex: 1 }}>
@@ -72,12 +154,7 @@ const Calender=(props)=> {
               </TouchableOpacity>
            
             <Calendar
- markedDates={{
-  '2020-03-20': {textColor: 'green'},
-  '2020-03-21': {startingDay: true, color: 'green'},
-  '2020-03-22': {selected: true, endingDay: true, color: 'orange', textColor: 'gray'},
-  '2020-03-23': {disabled: true, startingDay: true, color: 'green', endingDay: true}
-}}
+ markedDates={items}
 // Date marking style [simple/period/multi-dot/custom]. Default = 'simple'
 markingType={'period'}
 />
@@ -101,7 +178,22 @@ markingType={'period'}
   handleResults={_handleResults}
   showOnLoad={false}
 />
-         
+{/* <SnackBar
+            autoHidingTime={2000}
+          visible={ShowAlert}
+          textMessage={error}
+          actionHandler={() => snackBarActions()}
+          actionText=""
+        /> */}
+   {/* <SnackBar
+            autoHidingTime={2000}
+         backgroundColor='green'
+          visible={ShowAlertSuccess}
+          textMessage={success}
+          
+          actionHandler={() => snackBarActions()}
+          actionText=""
+        /> */}
       </SafeAreaView>
 
     ); 
