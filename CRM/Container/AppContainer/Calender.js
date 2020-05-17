@@ -27,7 +27,9 @@ const Calender=(props)=> {
   const[items,setItems]=useState({});
   const[MeetingList,setMeetingsList]=useState([])
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
-  const MeetingReducer=useSelector(state=>state.MeetingReducer)
+  const MeetingReducer=useSelector(state=>state.MeetingReducer);
+  const [scheduleEvents,setscheduleEvents]=useState()
+  const[meetingsDetails,setDetails]=useState([])
   const loginOperation = useSelector(state => state.userReducer);
   useEffect(()=>{
     getMeetings()
@@ -72,6 +74,7 @@ const getMeetings=()=>{
     data.map((item,value)=>{
      itemss[item]={startingDay: true, color: '#00A3E0',textColor:'#fff'};
    })
+   setDetails(MeetingReducer.MeetingsResponse);
    setItems(itemss)
     // MeetingReducer.MeetingsResponse.map((item,index)=>{
     //   var unixInt = parseInt(item.schedule_to_date * 1, 10); 
@@ -97,6 +100,21 @@ const getMeetings=()=>{
   }
   const close=()=>{
     RBSheets.current.close();
+  }
+  const seletedDate=(day)=>{
+console.log(day)
+let data={}
+console.log('data',getTimesTamp(day.timestamp.toString()))
+  data=meetingsDetails.find(elements=>getTimesTamp(elements.schedule_from_date)===getTimesTamp(day.timestamp.toString()) || getTimesTamp(elements.schedule_to_date)===getTimesTamp(day.timestamp.toString()))
+ console.log('data',data)
+ setscheduleEvents(data && data.schedule_title?data.schedule_title:'')
+
+
+  }
+  const getTimesTamp=(d)=>{
+    var unixInt = parseInt(d * 1, 10); 
+    var toDate  = moment.utc(unixInt).local().format('YYYY-MM-DD')
+    return toDate
   }
   const [LeadList,setLeadList]=useState([]) 
   const goback=()=>{
@@ -155,9 +173,14 @@ const getMeetings=()=>{
            
             <Calendar
  markedDates={items}
+ onDayPress={(day) => seletedDate(day)}
 // Date marking style [simple/period/multi-dot/custom]. Default = 'simple'
 markingType={'period'}
 />
+<View style={{padding:20,height:80,backgroundColor:'#f8f8f8',justifyContent:'space-between',flexDirection:'row'}}>
+  <Text style={{fontSize:16}}>Title</Text>
+  <Text style={{fontSize:16}}>{scheduleEvents}</Text>
+</View>
 <RBSheet
           ref={RBSheets}
           height={600}

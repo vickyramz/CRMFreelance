@@ -1,10 +1,11 @@
 //This is an example code to set Backgroud image///
-import React from 'react';
-//import react in our code. 
-import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity} from 'react-native';
+import React, { useState ,useRef,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity,ScrollView} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
+
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
@@ -38,30 +39,27 @@ items = [{
   id: 'suudydjsjd',
   name: 'Abuja',
 }];
-export default class AddSchedule extends React.Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        }
-      }
+const AddSchedule =(props)=> {
+
       
-  constructor(props){
-    super(props);
-    this.arrayholder = [];
-    this.state={EmailAddress:'',Password:'',selectedItems : [],
-    dataSource:[],}
-  }
-  onSelectedItemsChange = selectedItems => {
-    this.setState({ selectedItems });
+
+ const onSelectedItemsChange = selectedItems => {
+    setState({ selectedItems });
   };
-  navigate=()=>{
-    this.props.onShut()
-    const {props}= this.props
-    props.navigation.navigate('SearchUser')
+  const navigate=()=>{
+    props.onShut()
+    props.props.navigation.navigate('SearchUser')
   }
-  render() {
-    const { selectedItems } = this.state;
+
+  const [Organizer,setOrganizer]=useState();
+  const [Title,setTitle]=useState()
+  const [Des,setDes]=useState()
+  const [startDate,setstart]=useState()
+  const [startTime,setstartTime]=useState('');
+  const [EndTime,setEndTime]=useState('')
+  const [EndDate,setEnd]=useState()
     return (
+      <ScrollView style={{ flex: 1}}>
       <View style={{ flex: 1 ,padding:20}}>
         <View >
          <View style={{flexDirection:'row'}}>
@@ -75,8 +73,8 @@ export default class AddSchedule extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setTitle(text)}
+        value={Title}
       />
          
           </View>
@@ -95,8 +93,8 @@ export default class AddSchedule extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setOrganizer(text)}
+        value={Organizer}
       />
          
           </View>
@@ -113,6 +111,8 @@ export default class AddSchedule extends React.Component {
       underlineColorAndroid="transparent"
       placeholder="Description"
       placeholderTextColor="grey"
+      onChangeText={(text) => setDes(text)}
+      value={Des}
       numberOfLines={10}
       multiline={true}
     />
@@ -126,12 +126,12 @@ export default class AddSchedule extends React.Component {
           </View>
           <DatePicker
         style={{width: 350}}
-        date={this.state.date}
+        date={startDate}
         mode="date"
         placeholder="start date"
         format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
+        minDate="1995-05-01"
+        maxDate="2030-06-01"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -147,7 +147,38 @@ export default class AddSchedule extends React.Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) =>setstart(date)}
+      />
+        
+         
+      </View>
+      <View style={{marginTop:10}}>
+         <View style={{flexDirection:'row'}}>
+            <Text style={{ fontSize: 16, color: '#000',  }}>start Time</Text>
+          </View>
+          <DatePicker
+        style={{width: 350}}
+        date={startTime}
+        mode="time"
+        placeholder="start Time"
+        format="HH:mm:ss"
+       
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36,
+            backgroundColor:'#f3f3f3'
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={(date) =>setstartTime(date)}
       />
         
          
@@ -158,12 +189,44 @@ export default class AddSchedule extends React.Component {
           </View>
           <DatePicker
         style={{width: 350}}
-        date={this.state.date}
+        date={EndDate}
         mode="date"
         placeholder="End date"
         format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
+        minDate={startDate}
+        maxDate="2030-06-01"
+        confirmBtnText="Confirm" 
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0
+          },
+          dateInput: {
+            marginLeft: 36,
+            backgroundColor:'#f3f3f3'
+          }
+          // ... You can check the source to find the other keys.
+        }}
+        onDateChange={(date) => setEnd(date)}
+      />
+        
+         
+      </View>
+      <View style={{marginTop:10}}>
+         <View style={{flexDirection:'row'}}>
+            <Text style={{ fontSize: 16, color: '#000',  }}>End Time</Text>
+          </View>
+          <DatePicker
+        style={{width: 350}}
+        date={EndTime}
+        mode="time"
+        placeholder="End Time"
+        format="HH:mm:ss "
+        minDate={EndTime}
+        maxDate="2030-06-01"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -179,7 +242,7 @@ export default class AddSchedule extends React.Component {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {this.setState({date: date})}}
+        onDateChange={(date) => setEndTime(date)}
       />
         
          
@@ -191,7 +254,7 @@ export default class AddSchedule extends React.Component {
           </View>
        
         <View>
-          <TouchableOpacity onPress={()=>this.navigate()}>
+          <TouchableOpacity onPress={()=>navigate()}>
           <View style={{}}>
             <TextInput
             editable={false}
@@ -200,8 +263,8 @@ export default class AddSchedule extends React.Component {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => this.setState({text})}
-        value={this.state.text}
+        onChangeText={(text) => setState({text})}
+       
       />
          
           </View>
@@ -211,10 +274,10 @@ export default class AddSchedule extends React.Component {
        
       </View>
       </View>
-
+      </ScrollView>
     );
   }
-}
+
 const styles = StyleSheet.create({
     textAreaContainer: {
         borderColor:'grey',
@@ -227,4 +290,5 @@ const styles = StyleSheet.create({
         justifyContent: "flex-start"
       }
   });
+  export default AddSchedule;
 
