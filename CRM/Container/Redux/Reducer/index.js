@@ -11,6 +11,8 @@ import IndustriesReducer from './IndustriesReducer'
 import EditReducer from './EditReducer'
 import ReopenReducer from './ReopenReducer'
 import MeetingReducer from './MeetingReducer'
+import AddMeetingsReducer from './AddMeetingsReducer'
+import SavedDataReducer from './SavedDataReducer'
 export default {
     userReducer,
     LeadReducer,
@@ -23,5 +25,7 @@ export default {
     IndustriesReducer,
     EditReducer,
     ReopenReducer,
-    MeetingReducer
+    MeetingReducer,
+    AddMeetingsReducer,
+    SavedDataReducer
 }

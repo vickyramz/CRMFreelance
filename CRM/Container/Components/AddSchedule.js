@@ -1,11 +1,11 @@
 //This is an example code to set Backgroud image///
 import React, { useState ,useRef,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity,ScrollView} from 'react-native';
+import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity,ScrollView,Animated} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
-
+import * as BindActions from '../Redux/Actions';
 const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
@@ -50,14 +50,47 @@ const AddSchedule =(props)=> {
     props.onShut()
     props.props.navigation.navigate('SearchUser')
   }
+  const loginOperation = useSelector(state => state.userReducer);
+  const SavedDataReducer = useSelector(state => state.SavedDataReducer);
 
-  const [Organizer,setOrganizer]=useState();
+  const [Organizer,setOrganizer]=useState(SavedDataReducer.SelecteData?SavedDataReducer.SelecteData[0].name:"")
   const [Title,setTitle]=useState()
   const [Des,setDes]=useState()
   const [startDate,setstart]=useState()
   const [startTime,setstartTime]=useState('');
   const [EndTime,setEndTime]=useState('')
   const [EndDate,setEnd]=useState()
+  const[attendee,setAttendee]=useState(SavedDataReducer.SelecteData?SavedDataReducer.SelecteData[0].name:"")
+  let _visibility=new Animated.Value(1);
+  const dispatch = useDispatch();
+  function AddMeetings(){
+    var timestampFrom = Date.parse(startDate.split('-').reverse().join('-'));
+    var timestampto = Date.parse(EndDate.split('-').reverse().join('-'));
+    let params={
+      
+        attendees: [23],
+      from_date: timestampFrom,
+      schedule_description: Des,
+      schedule_from_date: startDate,
+      schedule_from_time: startTime,
+      schedule_title: Title,
+      schedule_to_date: EndDate,
+      schedule_to_time: EndTime,
+      status: "",
+      to_date: timestampto
+      
+    }
+    console.log('meeting input',params)
+    //dispatch(BindActions.AddMeetings(params,token,'/reports/schedule'));
+  }
+  const animation=()=>{
+   
+    Animated.timing(_visibility, {
+        toValue:dataSource.length>0?1:0,
+        duration: 200,
+        useNativeDriver:true
+      }).start();
+  }
     return (
       <ScrollView style={{ flex: 1}}>
       <View style={{ flex: 1 ,padding:20}}>
@@ -263,8 +296,8 @@ const AddSchedule =(props)=> {
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => setState({text})}
-       
+        onChangeText={(text) => setAttendee(text)}
+       value={attendee}
       />
          
           </View>
@@ -273,6 +306,20 @@ const AddSchedule =(props)=> {
         </View>
        
       </View>
+      <TouchableOpacity onPress={()=>props.navigation.goBack(null)}>
+   <Animated.View style={{backgroundColor:'#FA7B5F',height:40,justifyContent:'center',alignItems:'center',
+      transform: [
+        {
+          translateY: _visibility.interpolate({
+            inputRange: [0, 1],
+            outputRange: [100, 0],
+          }),
+        },
+      ],}}>
+      <Text style={{color:'#fff',fontWeight:'bold',fontSize:18}}>Save</Text>
+
+      </Animated.View>
+   </TouchableOpacity>
       </View>
       </ScrollView>
     );

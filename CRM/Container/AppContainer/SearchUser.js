@@ -1,88 +1,57 @@
-import React, { Component } from 'react';
+import React, { useState ,useRef,useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { View,StyleSheet ,FlatList,TouchableOpacity,Text,Image,TextInput,Animated} from 'react-native';
- let items = [{
-    id: '92iijs7yta',
-    name: 'Ondo',
-  }, {
-    id: 'a0s0a8ssbsd',
-    name: 'Ogun',
-  }, {
-    id: '16hbajsabsd',
-    name: 'Calabar',
-  }, {
-    id: 'nahs75a5sg',
-    name: 'Lagos',
-  }, {
-    id: '667atsas',
-    name: 'Maiduguri',
-  }, {
-    id: 'hsyasajs',
-    name: 'Anambra',
-  }, {
-    id: 'djsjudksjd',
-    name: 'Benue',
-  }, {
-    id: 'sdhyaysdj',
-    name: 'Kaduna',
-  }, {
-    id: 'suudydjsjd',
-    name: 'Abuja',
-  }];
-export default class SearchUser extends Component {
-    static navigationOptions = () => {
-        return {
-          header: null,
-        
-        }
-      }
-      constructor(props){
-          super(props)
-          this._visibility=new Animated.Value(0)
-          this.state = {
-            selectedItems :[],
-            dataSource:items
-          };
-      }
- 
+import * as BindActions from '../Redux/Actions';
+ let items = [];
+const SearchUser =()=> {
+  const loginOperation = useSelector(state => state.userReducer);
+const [dataSource,setdataSource]=useState([])
+const[id,setId]=useState('')
+let _visibility=new Animated.Value(1);
+const dispatch = useDispatch();
+ useEffect(()=>{
+  items=[]
+  items.push({
+    id:loginOperation.loginResponse.user.user_id,
+    name:loginOperation.loginResponse.user.fname+" "+loginOperation.loginResponse.user.lname
+  })
+   items = items.map(item => {
+       item.isSelect = false;
+       item.selectedClass = styles.list;
+       
+       return item;
+     });
+     setdataSource(items)
+ },[])
   
- componentDidMount(){
-    items = items.map(item => {
-        item.isSelect = false;
-        item.selectedClass = styles.list;
-        
-        return item;
-      });
-
-      this.setState({  dataSource:items})
- }
- selectItem = data => {
-    this.animation()
+ const selectItem = data => {
+    animation()
     data.item.isSelect = !data.item.isSelect;
     data.item.selectedClass = data.item.isSelect ? styles.selected : styles.list;
   
-    const index = this.state.dataSource.findIndex(
+    const index =dataSource.findIndex(
       item => data.item.id === item.id
     );
-    this.state.dataSource[index] = data.item;
-    this.setState({
-      dataSource: this.state.dataSource,
-    });   
+    dataSource[index] = data.item;
+    setdataSource(dataSource)
+    setId("id")
+    dispatch(BindActions.savedata(dataSource));
   };
 
-  animation=()=>{
-    console.log('this.state.dataSource.length',this.state.dataSource.length)
-    Animated.timing(this._visibility, {
-        toValue:this.state.dataSource.length>0?1:0,
+ const animation=()=>{
+   
+    Animated.timing(_visibility, {
+        toValue:dataSource.length>0?1:1,
         duration: 200,
         useNativeDriver:true
       }).start();
   }
-  renderItem = (data) =>{
+ const renderItem = (data) =>{
     console.log('data',data)
     return(
         <TouchableOpacity
         style={[styles.list, data.item.selectedClass]}      
-        onPress={() => this.selectItem(data)}
+        onPress={() => selectItem(data)}
       >
       <Text style={styles.lightText}>  {data.item.name.charAt(0).toUpperCase() + data.item.name.slice(1)}  </Text>
     </TouchableOpacity>
@@ -92,9 +61,9 @@ export default class SearchUser extends Component {
   
  
 
-  FlatListItemSeparator = () => <View style={styles.line} />;
-  render() {
-    const { selectedItems } = this.state;
+ const FlatListItemSeparator = () => <View style={styles.line} />;
+
+  
     return (
       <View style={{ flex: 1 }}>
               <View style={{ flex: 0.2 }}>
@@ -119,23 +88,23 @@ export default class SearchUser extends Component {
             </View>
             <View style={{flex:0.8}}> 
             <FlatList
-     data={this.state.dataSource}
-    ItemSeparatorComponent={this.FlatListItemSeparator}
-    renderItem={item => this.renderItem(item)}
+     data={dataSource}
+    ItemSeparatorComponent={FlatListItemSeparator}
+    renderItem={item => renderItem(item)}
     keyExtractor={item => item.id.toString()}
-    extraData={this.state}
+   
    /></View>
-   <TouchableOpacity onPress={()=>this.props.navigation.goBack(null)}>
+   <TouchableOpacity onPress={()=>props.navigation.goBack(null)}>
    <Animated.View style={{backgroundColor:'#FA7B5F',height:40,justifyContent:'center',alignItems:'center',
       transform: [
         {
-          translateY: this._visibility.interpolate({
+          translateY: _visibility.interpolate({
             inputRange: [0, 1],
             outputRange: [100, 0],
           }),
         },
       ],}}>
-      <Text style={{color:'#fff',fontWeight:'bold',fontSize:18}}>Save</Text>
+      <Text style={{color:'#fff',fontWeight:'bold',fontSize:18}}>Back</Text>
 
       </Animated.View>
    </TouchableOpacity>
@@ -144,7 +113,7 @@ export default class SearchUser extends Component {
       </View>
     );
   }
-}
+
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -227,3 +196,4 @@ const styles = StyleSheet.create({
     number: {fontSize: 14,color: "#000"},
     selected: {backgroundColor: "#FA7B5F"},
     });
+    export default SearchUser;
