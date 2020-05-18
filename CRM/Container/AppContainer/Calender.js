@@ -27,13 +27,15 @@ const Calender=(props)=> {
   const[items,setItems]=useState({});
   const[MeetingList,setMeetingsList]=useState([])
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const [success,AddResponses]=useState()
   const MeetingReducer=useSelector(state=>state.MeetingReducer);
   const [scheduleEvents,setscheduleEvents]=useState()
   const[meetingsDetails,setDetails]=useState([])
   const loginOperation = useSelector(state => state.userReducer);
+  const AddMeetingsReducer = useSelector(state=>state.AddMeetingsReducer);
   useEffect(()=>{
     getMeetings()
-  },[])
+  },[AddMeetingsReducer])
   function getDates(startDate, stopDate) {
     var dateArray = [];
     var currentDate = moment(startDate);
@@ -43,6 +45,11 @@ const Calender=(props)=> {
         currentDate = moment(currentDate).add(1, 'days');
     }
     return dateArray;
+}
+const Success=(text)=>{
+  setAlertsSuccess(true);
+  AddResponses(text)
+  
 }
 const getMeetings=()=>{
     let token=loginOperation.loginResponse.token;
@@ -191,7 +198,7 @@ markingType={'period'}
             }
           }}
         >
-          <AddSchedule onShut={()=>close()} props={props} />
+          <AddSchedule Successs={(text)=>Success(text)}  onShut={()=>close()} props={props} />
         </RBSheet>
                 
             </View>
@@ -208,7 +215,7 @@ markingType={'period'}
           actionHandler={() => snackBarActions()}
           actionText=""
         /> */}
-   {/* <SnackBar
+   <SnackBar
             autoHidingTime={2000}
          backgroundColor='green'
           visible={ShowAlertSuccess}
@@ -216,7 +223,7 @@ markingType={'period'}
           
           actionHandler={() => snackBarActions()}
           actionText=""
-        /> */}
+        />
       </SafeAreaView>
 
     ); 

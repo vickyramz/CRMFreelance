@@ -1,7 +1,7 @@
 //This is an example code to set Backgroud image///
 import React, { useState ,useRef,useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity,ScrollView,Animated} from 'react-native';
+import { View, Text,Dimensions,TextInput, StyleSheet ,TouchableOpacity,ScrollView,Animated,ActivityIndicator} from 'react-native';
 import {Calendar, CalendarList, Agenda} from 'react-native-calendars';
 const WIDTH = Dimensions.get('window').width;
 import DatePicker from 'react-native-datepicker'
@@ -10,35 +10,6 @@ const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 const workout = {key:'workout', color: 'green'};
-const 
-items = [{
-  id: '92iijs7yta',
-  name: 'Ondo',
-}, {
-  id: 'a0s0a8ssbsd',
-  name: 'Ogun',
-}, {
-  id: '16hbajsabsd',
-  name: 'Calabar',
-}, {
-  id: 'nahs75a5sg',
-  name: 'Lagos',
-}, {
-  id: '667atsas',
-  name: 'Maiduguri',
-}, {
-  id: 'hsyasajs',
-  name: 'Anambra',
-}, {
-  id: 'djsjudksjd',
-  name: 'Benue',
-}, {
-  id: 'sdhyaysdj',
-  name: 'Kaduna',
-}, {
-  id: 'suudydjsjd',
-  name: 'Abuja',
-}];
 const AddSchedule =(props)=> {
 
       
@@ -52,36 +23,79 @@ const AddSchedule =(props)=> {
   }
   const loginOperation = useSelector(state => state.userReducer);
   const SavedDataReducer = useSelector(state => state.SavedDataReducer);
+  const AddMeetingsReducer = useSelector(state=>state.AddMeetingsReducer);
 
-  const [Organizer,setOrganizer]=useState(SavedDataReducer.SelecteData?SavedDataReducer.SelecteData[0].name:"")
+  const [Organizer,setOrganizer]=useState(SavedDataReducer &&  SavedDataReducer.SelecteData && SavedDataReducer.SelecteData.length>0?SavedDataReducer.SelecteData[0].name:"")
   const [Title,setTitle]=useState()
   const [Des,setDes]=useState()
   const [startDate,setstart]=useState()
   const [startTime,setstartTime]=useState('');
   const [EndTime,setEndTime]=useState('')
   const [EndDate,setEnd]=useState()
-  const[attendee,setAttendee]=useState(SavedDataReducer.SelecteData?SavedDataReducer.SelecteData[0].name:"")
+  const [loader, setLoading] = useState(false);
+  const [ShowAlert, setAlerts] = useState(false);
+  const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const [error, setError] = useState('');
+  const[attendee,setAttendee]=useState(SavedDataReducer && SavedDataReducer.SelecteData && SavedDataReducer.SelecteData.length>0?SavedDataReducer.SelecteData[0].name:"")
   let _visibility=new Animated.Value(1);
   const dispatch = useDispatch();
   function AddMeetings(){
-    var timestampFrom = Date.parse(startDate.split('-').reverse().join('-'));
-    var timestampto = Date.parse(EndDate.split('-').reverse().join('-'));
-    let params={
-      
-        attendees: [23],
-      from_date: timestampFrom,
-      schedule_description: Des,
-      schedule_from_date: startDate,
-      schedule_from_time: startTime,
-      schedule_title: Title,
-      schedule_to_date: EndDate,
-      schedule_to_time: EndTime,
-      status: "",
-      to_date: timestampto
-      
+    console.log('startDate',startDate)
+    if(startDate===undefined){
+      alert('please select start date')
     }
-    console.log('meeting input',params)
-    //dispatch(BindActions.AddMeetings(params,token,'/reports/schedule'));
+    else if(EndDate===undefined){
+      alert('plase select end date')
+    }
+    else if(Title===undefined){
+      alert('plase select Title')
+    }
+    else {
+      var dtstr = startDate;
+      var dtstrEndDate = EndDate;
+      var timestampFrom= new Date(dtstr.split("-").reverse().join("-")).getTime();
+       var timestampto = Date.parse(dtstrEndDate.split('-').reverse().join('-'));
+       let params={
+         
+           attendees: [23],
+         from_date: timestampFrom,
+         schedule_description: Des,
+         schedule_from_date: startDate,
+         schedule_from_time: startTime,
+         schedule_title: Title,
+         schedule_to_date: EndDate,
+         schedule_to_time: EndTime,
+         status: "",
+         to_date: timestampto
+         
+       }
+       let token=loginOperation.loginResponse.token;
+       console.log('meeting input',params)
+       dispatch(BindActions.AddMeetings(params,token,'/reports/schedule'));
+    }
+
+  }
+  if (AddMeetingsReducer.AddMeetingsPending) {
+    AddMeetingsReducer.AddMeetingsPending=false
+      setLoading(true)
+      setAlerts(false);
+  }
+  console.log('AddResponse',AddMeetingsReducer)
+   if (AddMeetingsReducer.AddMeetingsSuccess) {
+   
+    AddMeetingsReducer.AddMeetingsSuccess=false
+    setLoading(false)
+    setAlerts(false);
+    props.onShut()
+    props.Successs(AddMeetingsReducer.AddMeetingsResponse.message)
+   
+  }
+  if (AddMeetingsReducer.IsAddMeetingsError) {
+    AddMeetingsReducer.IsAddMeetingsError=false
+    setLoading(false)
+    setAlerts(true);
+    setError(AddMeetingsReducer.AddMeetingserror.message)
+  
   }
   const animation=()=>{
    
@@ -90,6 +104,13 @@ const AddSchedule =(props)=> {
         duration: 200,
         useNativeDriver:true
       }).start();
+  }
+  if (loader) {
+    return (
+      <View style={styles.loader}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
   }
     return (
       <ScrollView style={{ flex: 1}}>
@@ -121,7 +142,7 @@ const AddSchedule =(props)=> {
           </View>
             <View style={{}}>
             <TextInput
-            placeholder='subhashree(Me)'
+            placeholder='organizer'
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
@@ -162,9 +183,9 @@ const AddSchedule =(props)=> {
         date={startDate}
         mode="date"
         placeholder="start date"
-        format="YYYY-MM-DD"
-        minDate="1995-05-01"
-        maxDate="2030-06-01"
+        format="DD-MM-YYYY"
+        minDate="01-05-1995"
+        maxDate="01-06-2050"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{
@@ -225,9 +246,9 @@ const AddSchedule =(props)=> {
         date={EndDate}
         mode="date"
         placeholder="End date"
-        format="YYYY-MM-DD"
+        format="DD-MM-YYYY"
         minDate={startDate}
-        maxDate="2030-06-01"
+        maxDate="01-06-2050"
         confirmBtnText="Confirm" 
         cancelBtnText="Cancel"
         customStyles={{
@@ -291,7 +312,7 @@ const AddSchedule =(props)=> {
           <View style={{}}>
             <TextInput
             editable={false}
-            placeholder='subhashree(Me)'
+            placeholder='choose attendees'
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
@@ -306,7 +327,7 @@ const AddSchedule =(props)=> {
         </View>
        
       </View>
-      <TouchableOpacity onPress={()=>props.navigation.goBack(null)}>
+      <TouchableOpacity onPress={()=>AddMeetings()}>
    <Animated.View style={{backgroundColor:'#FA7B5F',height:40,justifyContent:'center',alignItems:'center',
       transform: [
         {

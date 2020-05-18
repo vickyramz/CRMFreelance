@@ -6,14 +6,14 @@ const initialState = {
 };
 export default function AddMeetingsReducer(state = initialState, action) {
     switch (action.type) {
-        case types.ADD_PENDING:
+        case types.ADD_MEETINGS_PENDING:
             return {
                 ...state,
                 AddMeetingsPending: true,               
                 IsAddMeetingsError: false,
                  AddMeetingsSuccess: false
             };
-        case types.ADD_FAILURE:
+        case types.ADD_MEETINGS_FAILURE:
             return {
                 ...state,
                 AddMeetingsPending:false, 
@@ -21,7 +21,7 @@ export default function AddMeetingsReducer(state = initialState, action) {
             IsAddMeetingsError: true,
             AddMeetingsSuccess: false
             };
-        case types.ADD_SUCCESS:
+        case types.ADD_MEETINGS_SUCCESS:
             return {
                 ...state,
                 AddMeetingsPending: false, 

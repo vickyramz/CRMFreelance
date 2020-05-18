@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { View,StyleSheet ,FlatList,TouchableOpacity,Text,Image,TextInput,Animated} from 'react-native';
 import * as BindActions from '../Redux/Actions';
  let items = [];
-const SearchUser =()=> {
+const SearchUser =(props)=> {
   const loginOperation = useSelector(state => state.userReducer);
 const [dataSource,setdataSource]=useState([])
 const[id,setId]=useState('')
