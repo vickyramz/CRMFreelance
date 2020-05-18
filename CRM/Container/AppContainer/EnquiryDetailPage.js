@@ -1,7 +1,7 @@
 //This is an example code to set Backgroud image///
 import React, { useState, useEffect ,useRef} from 'react';
 //import react in our code. 
-import { View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
+import { View, Text,Dimensions,TouchableOpacity,ScrollView, SafeAreaView, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
@@ -11,7 +11,6 @@ import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
 import Filter from '../Components/Filter'
-import { ScrollView } from 'react-native-gesture-handler';
 import EditContacts from './EditContacts';
 let InitialData=[]
 const WIDTH = Dimensions.get('window').width;
