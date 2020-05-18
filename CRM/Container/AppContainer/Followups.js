@@ -13,6 +13,7 @@ import MaterialTabs from 'react-native-material-tabs';
 import AddEnquiry from '../Components/AddEnquiry'
 import Leadsheet from '../Components/Leadsheet'
 import SearchBar from 'react-native-searchbar';
+import AddFollowUp from '../Components/AddFollowUp';
 
  const  Followups  = (props) => {
   const RBSheetRef = useRef();
@@ -22,7 +23,7 @@ import SearchBar from 'react-native-searchbar';
  const [LeadList,setLeadList]=useState([]) 
  const [BillList,setBillList]=useState({});
  const [TabText,setTabText]=useState('status')
- 
+
  const closes=()=>{
    console.log('onShut')
    RBSheetsRef.current.close();
@@ -243,6 +244,19 @@ const getItems = ({item}) => {
               </Right>
         </Header>
       <SafeAreaView>
+      <View >
+        <TouchableOpacity onPress={()=>RBSheetsRef.current.open()}>
+              <View style={{alignSelf:'flex-end',width:120,height:40,backgroundColor:'#f39a3e',justifyContent:'center',alignItems:'center',flexDirection:'row',borderRadius:6}}>
+              <View style={{justifyContent:'center',alignItems:'center'}}>
+                        <Image 
+            source={require('../Assets/more.png')}
+            style={{width:10,height:10,resizeMode:'contain',tintColor:'#fff'}}
+          />
+                        </View>
+<Text style={{color:'#fff',fontWeight:'bold',fontSize:14,paddingLeft:10}}>Follow Up</Text>
+              </View>
+              </TouchableOpacity>
+        </View>
         <View >
  
         </View>
@@ -345,6 +359,19 @@ const getItems = ({item}) => {
   handleResults={_handleResults}
   showOnLoad={false}
 />
+<RBSheet
+          ref={RBSheetsRef}
+          height={600}
+          duration={250}
+          customStyles={{
+            container: {
+            borderTopLeftRadius:25,
+            borderTopRightRadius:25
+            }
+          }}
+        >
+          <AddFollowUp Success={(text)=>Success(text)} LeadList={LeadList} onShut={()=>closes()} props={props} />
+        </RBSheet> 
 <SnackBar
           visible={ShowAlert}
           textMessage={error}
