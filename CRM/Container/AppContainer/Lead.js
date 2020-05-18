@@ -164,6 +164,10 @@ const goback=()=>{
   AddResponses(text)
   
 }
+function details(item){
+   console.log('item',item)
+   props.navigation.navigate('EnquiryDetailPage',{item:item})
+}
 const getBillItems=(item)=>{
   let token=loginOperation.loginResponse.token;
   let params={
@@ -174,6 +178,7 @@ const getBillItems=(item)=>{
 const getItems = ({item}) => {
     //getBillItems(item);
     return (
+      <TouchableOpacity onPress={()=>details(item)}>
         <View style={{backgroundColor:'#fff',height:180,padding:20,justifyContent:'space-between',borderRadius:15,
         shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -249,7 +254,7 @@ const getItems = ({item}) => {
         
           
           </View>
-        </View>
+        </View></TouchableOpacity>
     );
 }
 

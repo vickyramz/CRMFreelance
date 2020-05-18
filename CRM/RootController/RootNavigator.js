@@ -20,6 +20,7 @@ import {createStackNavigator} from 'react-navigation-stack'
 import signUp from '../Container/LoginContainer/signUp'
 import ContactDetails from '../Container/AppContainer/ContactDetails'
 import EditContacts from '../Container/AppContainer/EditContacts'
+import EnquiryDetailPage from '../Container/AppContainer/EnquiryDetailPage'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
 const TransitionConfiguration = () => {
   return {
@@ -115,6 +116,7 @@ const FollowStack = createStackNavigator(
 const LeadStack = createStackNavigator(
   {
     Lead: Lead,
+    EnquiryDetailPage:EnquiryDetailPage
   },
   {
     headerMode: 'none',
