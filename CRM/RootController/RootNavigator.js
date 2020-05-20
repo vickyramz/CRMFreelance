@@ -19,6 +19,7 @@ import Lead from '../Container/AppContainer/Lead'
 import {createStackNavigator} from 'react-navigation-stack'
 import signUp from '../Container/LoginContainer/signUp'
 import ContactDetails from '../Container/AppContainer/ContactDetails'
+import LandingScreen from '../Container/LoginContainer/AuthenicatingScreen'
 import EditContacts from '../Container/AppContainer/EditContacts'
 import EnquiryDetailPage from '../Container/AppContainer/EnquiryDetailPage'
 import { Image, View, Text, Alert,Dimensions,Easing,Animated } from 'react-native'
@@ -221,10 +222,11 @@ const AppStack=createStackNavigator({
 const Containers = createSwitchNavigator({
     Auth:AuthStack,
     App:AppStack,
+    LandingScreen:LandingScreen
  // Signup: { screen: Signup },
 },
 {
-  initialRouteName: 'Auth',
+  initialRouteName: 'LandingScreen',
   
 },
 

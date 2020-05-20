@@ -1,5 +1,5 @@
 //This is an example code to set Backgroud image///
-import React, { useState, useEffect ,useRef} from 'react';
+import React, { useState, useEffect ,useRef,useReducer} from 'react';
 //import react in our code. 
 import { View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
@@ -11,6 +11,7 @@ import AlphaScrollFlatList from 'alpha-scroll-flat-list';
 import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
 import Filter from '../Components/Filter'
+import loginReducer from '../Redux/Reducer/loginReducer'
 import ContactDetails from './ContactDetails';
 let InitialData=[]
 const WIDTH = Dimensions.get('window').width;
@@ -24,6 +25,7 @@ const RBSheets= useRef()
   }
   const dispatch = useDispatch();
   const [loader, setLoading] = useState(false);
+  const [LogoutResponse,dispatchlogout]=useReducer(loginReducer.userLoginReducer,{})
   const [success,AddResponses]=useState()
   const [ShowAlert, setAlerts] = useState(false);
   const [error, setError] = useState('');
@@ -142,7 +144,10 @@ const RBSheets= useRef()
     RBSheets.current.close();
   }
   const Logout=()=>{
-    props.navigation.navigate('Auth')
+    dispatch(BindActions.logout())
+      props.navigation.navigate('Auth')
+    
+   
   }
   const onChangeText=(e)=>{
     let text = e.toLowerCase()

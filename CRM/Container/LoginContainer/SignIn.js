@@ -6,15 +6,14 @@ import * as BindActions from '../Redux/Actions';
 //import react in our code. 
 import { View, SafeAreaView,Text,TouchableOpacity,TextInput,KeyboardAvoidingView, ImageBackground,ActivityIndicator, StyleSheet, Image, ShadowPropTypesIOS } from 'react-native';
 //import all the components we are going to use. 
-import SplashScreen from 'react-native-splash-screen'
+
 
 function  SignIn (props) {
   useEffect(() => {
-  SplashScreen.hide()
   }, [])
   const [inputs,setInputs]=useState({
-    userName:'',
-    password:''
+    userName:'gallie@banblog.com',
+    password:'Welcome123@#'
   })
   const dispatch = useDispatch();
   const [IsEmailEmpty,setEmailVisible]=useState(false)

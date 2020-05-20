@@ -28,6 +28,15 @@ export default function userLoginReducer(state = initialState, action) {
                 loginResponse: action.user,
                 loginError: false
             };
+            case "Logout":
+                console.log('hhhhhhhhhhhhhhhhhh')
+                return {
+                    ...state,
+                    loginPending: false, 
+                    logout: true,
+                    loginResponse:{},
+                    loginError: false
+                };
        
         default:
             return state;

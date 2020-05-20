@@ -15,10 +15,10 @@ const persistConfig = {
  };
 
  const rootReducer = (state, action) => {
-  // if (action.type === types.LOGOUT_SUCCESS) {
+  if (action.type === types.LOGOUT_SUCCESS) {
    
-  //     state = {}
-  // }
+      state = {}
+  }
   return appReducer(state, action);
 };
 
