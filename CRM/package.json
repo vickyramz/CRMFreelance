@@ -25,6 +25,7 @@
     "react-native-draggable-flatlist": "^1.1.9",
     "react-native-draggable-list": "^1.0.0",
     "react-native-elements": "^1.2.7",
+    "react-native-error-boundary": "^1.1.0",
     "react-native-expanding-circle-transition": "^1.2.4",
     "react-native-gesture-handler": "^1.4.1",
     "react-native-google-signin": "^2.1.1",

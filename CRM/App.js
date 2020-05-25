@@ -11,14 +11,22 @@ import React, {Fragment} from 'react';
  import {Provider} from 'react-redux'
  import { PersistGate } from 'redux-persist/lib/integration/react';
  import {store,persistor} from "./Container/store";
-function App () {
-  
+ import ErrorBoundary from 'react-native-error-boundary'
+function App (props) {
+  const CustomFallback = (propss) => (
+    <View>
+      <Text>Something happened!</Text>
+      <Text>{propss.error.toString()}</Text>
+      <Button  title={'Try again'} />
+    </View>
+  )
     return (
       <Provider store={store}>
          <PersistGate loading={null} persistor={persistor}>
+         <ErrorBoundary FallbackComponent={CustomFallback}>
          <RootNavigator/>
-         </PersistGate>
-         
+         </ErrorBoundary>
+         </PersistGate>      
       </Provider>
      
     );

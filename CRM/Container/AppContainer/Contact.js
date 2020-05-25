@@ -173,7 +173,7 @@ const RBSheets= useRef()
                <TouchableOpacity onPress={()=>openFilter()}>
                <Image 
             source={require('../Assets/filter.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#00A3E0'}}
           />
                </TouchableOpacity>
             
@@ -185,7 +185,7 @@ const RBSheets= useRef()
            <TouchableOpacity onPress={()=>Logout()}>
            <Image 
             source={require('../Assets/logout.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#00A3E0'}}
           />
           </TouchableOpacity>
            </Right>

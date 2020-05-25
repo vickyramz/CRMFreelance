@@ -225,7 +225,7 @@ const EditContacts =(props) =>  {
   address_line_2:AddressLine2,
   city :city,
   state :selectedState,
-  country :country,
+  country :selectedCountry,
   pincode :postalCode,
   notes:'',
   designation: "",
@@ -247,7 +247,7 @@ const EditContacts =(props) =>  {
     setLoading(false)
     setAlertsSuccess(true);
     EditReducers(EditReducer.EditResponse.message)
-    setTimeout(()=>props.navigation.goBack(),2000)
+    setTimeout(()=>props.navigation.pop(2),2000)
   }
   if (EditReducer.IsEditError) {
     EditReducer.IsEditError=false
@@ -583,7 +583,7 @@ const EditContacts =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => CountrySelection(value)}
+            onValueChange={(value) => setSelectedCountry(value)}
             items={getCountry(contryDetails)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;

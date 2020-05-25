@@ -12,6 +12,7 @@ const ITEM_HEIGHT = 50;
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RNPickerSelect from 'react-native-picker-select';
+import { create } from 'react-test-renderer';
 const workout = {key:'workout', color: 'green'};
 const 
 items = [{
@@ -47,6 +48,9 @@ const Filter =(props)=> {
   const [loader, setLoading] = useState(false);
   const [ShowAlert, setAlerts] = useState(false);
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
+  const [Phone,setPhone]=useState('')
+  const [Email,setEmail]=useState('')
+  const [Create,setCreate]=useState('')
   const ContactReducer= useSelector(state=>state.ContactGroupReducer)
   const [ContactGroupList,setContactGroup]=useState(ContactReducer.ContactGroupListResponse)
 const  onSelectedItemsChange = selectedItems => {
@@ -131,11 +135,12 @@ const  onSelectedItemsChange = selectedItems => {
             <TextInput
             placeholder='Phone Number'
             keyboardType={'numeric'}
+            value={Phone}
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => setState({text})}
+        onChangeText={(text) => setPhone(text)}
        
       />
          
@@ -150,12 +155,13 @@ const  onSelectedItemsChange = selectedItems => {
           <View style={styles.textAreaContainer} >
           <TextInput
             placeholder='Email'
+            value={Email}
            
         style=
         {{
           height: 40, borderColor: 'gray', borderWidth: 0.1, color : "blue",backgroundColor:'#f3f3f3'
         }}
-        onChangeText={(text) => setState({text})}
+        onChangeText={(text) => setEmail(text)}
        
       />
   </View>
@@ -168,13 +174,13 @@ const  onSelectedItemsChange = selectedItems => {
           </View>
           <DatePicker
         style={{width: 350}}
-      
+        date={Create}
         mode="date"
-        placeholder="start date"
-        format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
-        confirmBtnText="Confirm"
+        placeholder="create date"
+        format="DD-MM-YYYY"
+        minDate="01-06-1995"
+        maxDate="01-06-2050"
+        confirmBtnText="Confirm" 
         cancelBtnText="Cancel"
         customStyles={{
           dateIcon: {
@@ -189,9 +195,8 @@ const  onSelectedItemsChange = selectedItems => {
           }
           // ... You can check the source to find the other keys.
         }}
-        onDateChange={(date) => {setState({date: date})}}
+        onDateChange={(date) => setCreate(date)}
       />
-        
          
       </View>
       <TouchableOpacity onPress={()=>props.onShut()}>
