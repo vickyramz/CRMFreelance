@@ -44,6 +44,8 @@ const AddEnquiry =(props) =>  {
   const[AlternatePhone,setalternatePhone]=useState()
   const[email,setMail]=useState()
   const[Alternateemail,setAlternateMail]=useState()
+  const[selectedCountry,setSelectedCountry]=useState()
+  const[selectedState,setStates]=useState()
   const[country,setCountry]=useState([])
   const[city,setCity]=useState()
   const[contactId,setContactid]=useState();
@@ -74,14 +76,32 @@ const AddEnquiry =(props) =>  {
     setAlternateMail(arrayObject.alternate_email)
     setAddressLine1(arrayObject.address_line_1)
     setAddressLine2(arrayObject.address_line_2)
-   // setCountry(arrayObject.country)
+    setSelectedCountry(arrayObject.country)
     setCity(arrayObject.city)
+    setStates(arrayObject.state)
     setPostalCode(arrayObject.pincode)
     setAssignTo(arrayObject.assigned_to)
     setState(arrayObject.state)
-
+    //CountrySelection(arrayObject.country)
     }
-
+  
+  }
+  const CountrySelectionInitial =(item)=>{
+    console.log('Item',countryList[item])
+    if(countryList!=undefined){
+      StateList=Object.keys(countryList[item])
+      setSelectedCountry(item)
+      SetStates(StateList)
+    }
+  }
+  const CountrySelection =(item)=>{
+    console.log('Item',countryList[item])
+    if(countryList!=undefined){
+      setState('')
+      StateList=Object.keys(countryList[item])
+      setSelectedCountry(item)
+      SetStates(StateList)
+    }
   }
   console.log('CountryReduce',CountryReducer)
   if(CountryReducer.IsCountryListResponsePending){
@@ -94,7 +114,7 @@ const AddEnquiry =(props) =>  {
      contryDetails=Object.keys(CountryReducer.CountryListResponse)
      countryList=CountryReducer.CountryListResponse
     console.log('CountryReducer.CountryListResponse',contryDetails)
-    setCountry(old=>[...old,...contryDetails])
+    setCountry(contryDetails)
   }
   if(CountryReducer.IsCountryListResponseError){
     CountryReducer.IsCountryListResponseError=false
@@ -127,11 +147,7 @@ const AddEnquiry =(props) =>  {
     
    
   }
-  const CountrySelection =(item)=>{
-        StateList=Object.keys(countryList[item])
-        SetStates(StateList)
 
-  }
   function CountryData(){
     let token=loginOperation.loginResponse.token;
     let url = '/settings/cities_list'
@@ -464,6 +480,10 @@ const AddEnquiry =(props) =>  {
             <View style={{}}>
             <RNPickerSelect
              //value={country}
+          //    placeholder={{
+          //     label: selectedCountry,
+          //     value: null,
+          // }}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -493,7 +513,10 @@ const AddEnquiry =(props) =>  {
           </View>
             <View style={{}}>
             <RNPickerSelect
-             value={state}
+            //   placeholder={{
+            //     label: selectedState,
+            //     value: null,
+            // }}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {

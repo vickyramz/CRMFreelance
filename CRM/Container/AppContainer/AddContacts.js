@@ -54,9 +54,11 @@ const AddContact =(props) =>  {
   const[email,setMail]=useState()
   const[Alternateemail,setAlternateMail]=useState()
   const[country,setCountry]=useState([])
+  const[contact_group_id,setGroupId]=useState('')
   const[city,setCity]=useState()
+  const[selectedCountry,setSelectedCountry]=useState('')
   const[contactId,setContactid]=useState();
-  const[state,setState]=useState()
+  const[state,setState]=useState('')
   const [success,AddResponses]=useState()
   const [postalCode,setPostalCode]=useState()
   const [Followdate,setFollowDate]=useState()
@@ -173,8 +175,11 @@ const AddContact =(props) =>  {
    
   }
   const CountrySelection =(item)=>{
+    console.log('Item',item)
         StateList=Object.keys(countryList[item])
+        setSelectedCountry(item)
         SetStates(StateList)
+      
 
   }
   function CountryData(){
@@ -183,13 +188,11 @@ const AddContact =(props) =>  {
     dispatch(BindActions.GetCountryList(token,url))
   }
   function AddContact(){
- 
+   console.log('selected country',selectedCountry)
    if(firstName==null || firstName===''){
       alert('please enter First Name')
     }
-   else if(lastName==null || lastName===''){
-      alert('please enter lastName Name')
-    }
+  
     else if(companyName==null || companyName===''){
       alert('please enter companyName Name')
     }
@@ -206,7 +209,7 @@ const AddContact =(props) =>  {
         contact_last_name:lastName,
         company_name:companyName,
         attachments: [],
-   
+        contact_group_id:contact_group_id,
       email :email,
   alternate_email:Alternateemail,
   phone:Phone,
@@ -215,7 +218,7 @@ const AddContact =(props) =>  {
   address_line_2:AddressLine2,
   city :city,
   state :state,
-  country :country,
+  country :selectedCountry,
   pincode :postalCode,
   notes:'',
   designation: "",
@@ -295,7 +298,7 @@ const AddContact =(props) =>  {
 <View style={{marginTop:10}}>
         <View style={{flexDirection:'row'}}>
             <Text style={{ fontSize: 16, color: '#000',  }}>Contact Group</Text>
-            <Text style={{ fontSize: 20, color: 'red',marginTop:-5  }}>*</Text>
+          
           </View>
             <View style={{}}>
             <RNPickerSelect
@@ -311,8 +314,8 @@ const AddContact =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-                value={assignTo}
-            onValueChange={(value) => console.log(value)}
+               
+            onValueChange={(value) =>setGroupId(value.item)}
             items={getContact(ContactGroupList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -590,7 +593,7 @@ const AddContact =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => setState(value.label)}
             items={getStates()}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;

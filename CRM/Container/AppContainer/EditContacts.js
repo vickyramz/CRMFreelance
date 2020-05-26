@@ -42,6 +42,7 @@ const EditContacts =(props) =>  {
    CountryData();
    getIndus();
   
+  
  },[])
   const dispatch = useDispatch();
   const item=props.navigation.state.params.item
@@ -90,8 +91,10 @@ const EditContacts =(props) =>  {
     setLoading(false)
      contryDetails=Object.keys(CountryReducer.CountryListResponse)
      countryList=CountryReducer.CountryListResponse
+    // CountrySelection(item.country?item.country:'')
     console.log('CountryReducer.CountryListResponse',contryDetails)
     setCountry(contryDetails)
+   
   }
   if(CountryReducer.IsCountryListResponseError){
     CountryReducer.IsCountryListResponseError=false
@@ -150,7 +153,7 @@ const EditContacts =(props) =>  {
    
   }
   const getContact=(data)=>{
-    console.log('data',data)
+   // console.log('data',data)
     let arrayData=[]
     if(data.length>0){
       data.map((item,index)=>{
@@ -169,7 +172,7 @@ const EditContacts =(props) =>  {
     dispatch(BindActions.IndustriesList(token,url))
     }
   const getStates=()=>{
-    console.log('data',)
+    console.log('sattes',StateList)
     let arrayData=[]
     if(StateList.length>0){
       StateList.map((item,index)=>{
@@ -182,15 +185,29 @@ const EditContacts =(props) =>  {
     
    
   }
+  const CountrySelectionInitial =(item)=>{
+    console.log('Item',countryList[item])
+    if(countryList!=undefined){
+      StateList=Object.keys(countryList[item])
+      setSelectedCountry(item)
+      SetStates(StateList)
+    }
+  }
   const CountrySelection =(item)=>{
-        StateList=Object.keys(countryList[item])
-        SetStates(StateList)
-
+    console.log('Item',countryList[item])
+    if(countryList!=undefined){
+      setState('')
+      StateList=Object.keys(countryList[item])
+      setSelectedCountry(item)
+      SetStates(StateList)
+    }
   }
   function CountryData(){
     let token=loginOperation.loginResponse.token;
     let url = '/settings/cities_list'
-    dispatch(BindActions.GetCountryList(token,url))
+    dispatch(BindActions.GetCountryList(token,url)).then(value=>{
+      CountrySelectionInitial(item.country?item.country:'');
+    })
   }
   function EditContact(){
  
@@ -276,6 +293,9 @@ const EditContacts =(props) =>  {
         <ActivityIndicator size="large" color="#0000ff" />
       </View>
     );
+  }
+  if(selectedState!=undefined || selectedState!=''){
+
   }
     return (
       <SafeAreaView style={{flex:1}}>
@@ -583,7 +603,7 @@ const EditContacts =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => setSelectedCountry(value)}
+            onValueChange={(value) =>CountrySelection(value)}
             items={getCountry(contryDetails)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -616,7 +636,7 @@ const EditContacts =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-                value={selectedState}
+            value={selectedState}
             onValueChange={(value) =>setState(value)}
             items={getStates()}
             Icon={() => {
