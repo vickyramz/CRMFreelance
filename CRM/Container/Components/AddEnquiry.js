@@ -69,25 +69,25 @@ const AddEnquiry =(props) =>  {
   const getOtherData = (data) =>{
   
     if(data!=null){
-    let arrayObject=  props.LeadList.find(x => x.contact_id === data);
+    let arrayObject=  ContactOperation.ContactListResponse.records.find(x => x.contact_id === data);
     console.log('data',arrayObject)
     setContactid(data)
-    setFirstName(arrayObject.contact_first_name?arrayObject.contact_first_name:'')
-    setlastName(arrayObject.contact_last_name?arrayObject.contact_last_name:'')
-    setcompanyName(arrayObject.company_name?arrayObject.company_name:'')
-    setPhone(arrayObject.phone?arrayObject.phone:'')
-    setalternatePhone(arrayObject.alternate_phone?arrayObject.alternate_phone:'')
-    setMail(arrayObject.email?arrayObject.email:'')
-    setAlternateMail(arrayObject.alternate_email?arrayObject.alternate_email:'')
-    setAddressLine1(arrayObject.address_line_1?arrayObject.address_line_1:'')
-    setAddressLine2(arrayObject.address_line_2?arrayObject.address_line_2:'')
-    setSelectedCountry(arrayObject.country?arrayObject.country:'')
-    setCity(arrayObject.city?arrayObject.city:"")
-    setStates(arrayObject.state?arrayObject.state:'')
-    setPostalCode(arrayObject.pincode?arrayObject.pincode:'')
-    setAssignTo(arrayObject.assigned_to?arrayObject.assigned_to:'')
-    setState(arrayObject.state?arrayObject.state:'')
-    //CountrySelection(arrayObject.country)
+    setFirstName(arrayObject && arrayObject.contact_first_name?arrayObject.contact_first_name:'')
+    setlastName(arrayObject && arrayObject.contact_last_name?arrayObject.contact_last_name:'')
+    setcompanyName(arrayObject && arrayObject.company_name?arrayObject.company_name:'')
+    setPhone(arrayObject && arrayObject.phone?arrayObject.phone:'')
+    setalternatePhone(arrayObject && arrayObject.alternate_phone?arrayObject.alternate_phone:'')
+    setMail(arrayObject && arrayObject.email?arrayObject.email:'')
+    setAlternateMail(arrayObject && arrayObject.alternate_email?arrayObject.alternate_email:'')
+    setAddressLine1(arrayObject && arrayObject.address_line_1?arrayObject.address_line_1:'')
+    setAddressLine2(arrayObject && arrayObject.address_line_2?arrayObject.address_line_2:'')
+    setSelectedCountry(arrayObject && arrayObject.country?arrayObject.country:'')
+    setCity(arrayObject && arrayObject.city?arrayObject.city:"")
+    setStates(arrayObject && arrayObject.state?arrayObject.state:'')
+    setPostalCode(arrayObject && arrayObject.pincode?arrayObject.pincode:'')
+    setAssignTo(arrayObject && arrayObject.assigned_to?arrayObject.assigned_to:'')
+    setState(arrayObject && arrayObject.state?arrayObject.state:'')
+   // CountrySelection(arrayObject && arrayObject.country?arrayObject.country:'')
     }
   
   }
