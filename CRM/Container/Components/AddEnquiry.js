@@ -17,7 +17,8 @@ const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
 import RNPickerSelect from 'react-native-picker-select';
 const workout = {key:'workout', color: 'green'};
-
+let LeadId='';
+let assignId='';
 const AddEnquiry =(props) =>  {
   const placeholder = {
     label: 'Select Contact',
@@ -157,6 +158,14 @@ const AddEnquiry =(props) =>  {
     })
     return arrayData;
   }
+  function selectedAsignId(id){
+    console.log('-------',id)
+ assignId=id && id.user_id?id.user_id:''
+  }
+  function selectedLeadId(id){
+   // console.log(id)
+    LeadId= id && id.lead_source_id?id.lead_source_id:''
+  }
   const getStates=()=>{
     console.log('data',)
     let arrayData=[]
@@ -193,7 +202,7 @@ const AddEnquiry =(props) =>  {
     else{
       let params={
         contact_id:contactId,
-        lead_source_id :'',
+        lead_source_id :LeadId,
       contact_person :contactPerson,
       email :email,
   alternate_email:Alternateemail,
@@ -206,7 +215,7 @@ const AddEnquiry =(props) =>  {
   country :country,
   pincode :postalCode,
   notes:'',
-  assigned_to:assignTo,
+  assigned_to:assignId,
       }
       console.log('params',JSON.stringify(params))
       dispatch(BindActions.AddLead(params,token,'/leads'));
@@ -224,7 +233,7 @@ const AddEnquiry =(props) =>  {
     setLoading(false)
     setAlerts(false);
     props.onShut()
-    props.Success(AddResponse.AddResponse.message)
+    props.Success('Enquiry Added')
     AddResponses(AddResponse.AddResponse.message)
   }
   if (AddResponse.IsAddError) {
@@ -622,7 +631,7 @@ const AddEnquiry =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-            onValueChange={(value) => console.log(value)}
+            onValueChange={(value) => selectedLeadId(value)}
             items={getLeadSource(LeadSource)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
@@ -652,8 +661,8 @@ const AddEnquiry =(props) =>  {
                   fontSize: 12,
                   fontWeight: 'bold',
                 },}}
-                value={assignTo}
-            onValueChange={(value) => console.log(value)}
+              
+            onValueChange={(value) => selectedAsignId(value)}
             items={getAssignTo(AssignToList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;

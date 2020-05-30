@@ -78,7 +78,7 @@ const EditContacts =(props) =>  {
   let contactObject=ContactGroupList.find(element=>element.contact_group_id===item.contact_group_id)
   console.log('contactObject--------------',contactObject && contactObject.group_name ?contactObject.group_name:'')
   const [ContactGroup,setContactGroups]=useState(contactObject && contactObject.group_name ?contactObject.group_name:'')
-  console.log('ContactGroup-------',ContactGroup)
+  console.log('ContactGroup-------',ContactGroupList)
   let token=loginOperation.loginResponse.token;
 
   console.log('CountryReduce',CountryReducer)
@@ -299,18 +299,18 @@ const EditContacts =(props) =>  {
   }
     return (
       <SafeAreaView style={{flex:1}}>
-           <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+           <Header style={{ backgroundColor: '#00A3E0' ,alignItems: 'center', justifyContent: 'center'}}>
            <Left style={{ flexDirection: 'row' }} >
            <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:18}} >Edit Contacts</Text>
+                <Text style={{fontWeight:'bold',fontSize:16,color:'#fff'}} >Edit Contacts</Text>
             </Body>
             <Right style={{ flexDirection: 'row' }}>
             

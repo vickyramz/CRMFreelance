@@ -272,18 +272,18 @@ const AddContact =(props) =>  {
   }
     return (
       <SafeAreaView style={{flex:1}}>
-           <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+           <Header style={{ backgroundColor: '#00A3E0' ,alignItems: 'center', justifyContent: 'center'}}>
            <Left style={{ flexDirection: 'row' }} >
            <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:18}} >Add Contacts</Text>
+                <Text style={{fontWeight:'bold',fontSize:18,color:'#fff'}} >Add Contacts</Text>
             </Body>
             <Right style={{ flexDirection: 'row' }}>
             

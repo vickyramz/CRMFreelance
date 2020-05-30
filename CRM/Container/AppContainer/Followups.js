@@ -219,18 +219,18 @@ const getItems = ({item}) => {
 
     return (
       <Container style={{backgroundColor: '#fff',flex:1}}>
-          <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+          <Header style={{ backgroundColor: '#00A3E0' ,alignItems: 'center', justifyContent: 'center'}}>
            <Left style={{ flexDirection: 'row' }} >
            <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:18}} >Followups</Text>
+                <Text style={{fontWeight:'bold',fontSize:18,color:'#fff'}} >Followups</Text>
             </Body>
             <Right style={{ flexDirection: 'row' }}>
             <TouchableOpacity onPress={()=>searchBar.current.show()}>
@@ -269,12 +269,12 @@ const getItems = ({item}) => {
            
           }}
           activeTextStyle={{
-            color: '#00A3E0',
+            color: '#fff',
             fontWeight: '500',
             fontSize: 10,
            
           }}
-          activeTabStyle={{backgroundColor: '#fff'}}
+          activeTabStyle={{backgroundColor: '#00A3E0'}}
           tabStyle={{backgroundColor: '#fff'}}
           heading={`Status `}>
           <View style={{flex:1}}>
@@ -297,12 +297,12 @@ const getItems = ({item}) => {
            
           }}
           activeTextStyle={{
-            color: '#00A3E0',
+            color: '#fff',
             fontWeight: '500',
             fontSize: 10,
            
           }}
-          activeTabStyle={{backgroundColor: '#fff'}}
+          activeTabStyle={{backgroundColor: '#00A3E0'}}
           tabStyle={{backgroundColor: '#fff'}}
           heading={`Bills `}>
           <View style={{flex:1}}>
@@ -324,12 +324,12 @@ const getItems = ({item}) => {
            
           }}
           activeTextStyle={{
-            color: '#00A3E0',
+            color: '#fff',
             fontWeight: '500',
             fontSize: 10,
            
           }}
-          activeTabStyle={{backgroundColor: '#fff'}}
+          activeTabStyle={{backgroundColor: '#00A3E0'}}
           tabStyle={{backgroundColor: '#fff'}}
           heading={`Receipts `}>
           <View style={{flex:1}}>
@@ -408,7 +408,7 @@ ImageStyle: {
     padding: 10,
     margin: 5,
     height: 10,
-    tintColor:'#858585',
+    tintColor:'#fff',
     width: 10,
     resizeMode: 'stretch',
     alignItems: 'center',

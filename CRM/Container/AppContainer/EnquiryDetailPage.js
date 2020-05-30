@@ -75,19 +75,19 @@ const EditContacts=()=>{
 }
     return (
       <SafeAreaView style={{flex:1}}>
-        <Header style={{ backgroundColor: '#f8f8f8', alignItems: 'center', justifyContent: 'center' }}>
+        <Header style={{ backgroundColor: '#00A3E0', alignItems: 'center', justifyContent: 'center' }}>
              <Left style={{ flexDirection: 'row' }}>
              <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
             
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:16}} >Details</Text>
+                <Text style={{fontWeight:'bold',fontSize:14,color:'#fff'}} >Details</Text>
             </Body>
            <Right>
         
@@ -97,78 +97,78 @@ const EditContacts=()=>{
          
           <View style={{flex:0.4,backgroundColor:'#F5F5F5',justifyContent:'center',alignItems:'center'}}>
       
-        <View style={{width:120,height:120,borderRadius:60,backgroundColor:'#cdcdcd',justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'#00A3E0',fontSize:29,fontWeight:'bold'}}>{item.contact_first_name?item.contact_first_name.charAt(0):''}</Text>
+        <View style={{width:120,height:120,borderRadius:60,backgroundColor:'#00A3E0',justifyContent:'center',alignItems:'center'}}>
+        <Text style={{color:'#fff',fontSize:29,fontWeight:'bold'}}>{item.contact_first_name?item.contact_first_name.charAt(0):''}</Text>
         </View>
       
    
           </View>
           <ScrollView style={{flex:0.6,backgroundColor:'#F5F5F5'}}>
-          <View style={{flex:1,borderWidth:10,borderTopLeftRadius:50,borderTopRightRadius:50,borderColor:'#F5F5F5',backgroundColor:'#fff',padding:10}}>
+          <View style={{flex:1,borderWidth:0,borderTopLeftRadius:50,borderTopRightRadius:50,borderColor:'#F5F5F5',backgroundColor:'#00A3E0',padding:10}}>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>First Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.contact_first_name}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>First Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.contact_first_name}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Middle Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.contact_middle_name}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Middle Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.contact_middle_name}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Last Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.contact_last_name}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Last Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.contact_last_name}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Company Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.company_name}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Company Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.company_name}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Designation</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.designation}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Designation</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.designation}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Email</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.email}</Text>
-              </View>
-
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Alternate Email</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.alternate_email}</Text>
-              </View>
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Phone</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.phone}</Text>
-              </View>
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Alternate Phone</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.alternate_phone}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Email</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.email}</Text>
               </View>
 
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Address Line 1</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.address_line_1}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Alternate Email</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.alternate_email}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Address Line 2</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.address_line_2}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Phone</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.phone}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>City</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.city?item.city:''}</Text>
-              </View>
-
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>State</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.state?item.state:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Alternate Phone</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.alternate_phone}</Text>
               </View>
 
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Country</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.country?item.country:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Address Line 1</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.address_line_1}</Text>
+              </View>
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Address Line 2</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.address_line_2}</Text>
+              </View>
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>City</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.city?item.city:''}</Text>
               </View>
 
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Pincode</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{item.pincode?item.pincode:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>State</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.state?item.state:''}</Text>
+              </View>
+
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Country</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.country?item.country:''}</Text>
+              </View>
+
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Pincode</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{item.pincode?item.pincode:''}</Text>
               </View>
           </View>
           </ScrollView>
@@ -222,7 +222,7 @@ SectionStyle: {
     alignItems: 'center',
     backgroundColor: '#f3f3f3',
     borderWidth: 0.1,
-    borderColor: 'gray',
+    borderColor: '#fff',
     borderRadius:30,
     height: 40,
     

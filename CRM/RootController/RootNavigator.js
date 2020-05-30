@@ -136,6 +136,7 @@ const LeadStack = createStackNavigator(
 );
 const BottomTab = createBottomTabNavigator(
   {
+ 
     Contacts: {
       screen: Contacts,
       navigationOptions: {
@@ -145,9 +146,7 @@ const BottomTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/contact-black.png')}></Image>
         ),
-        activeColor: '#f39a3e',  
-        inactiveColor: '#000',  
-        barStyle: { backgroundColor: '#fff' },  
+       
       }
     },
     Enquires: {
@@ -159,9 +158,7 @@ const BottomTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/ic_supervisor_account_color.png')}></Image>
         ),
-        activeColor: '#f39a3e',  
-        inactiveColor: '#000',  
-        barStyle: { backgroundColor: '#fff' },  
+     
       }
     },
     Followups: {
@@ -173,9 +170,7 @@ const BottomTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/follow-icon-black.png')}></Image>
         ),
-        activeColor: '#f39a3e',  
-        inactiveColor: '#000',  
-        barStyle: { backgroundColor: '#fff' },  
+     
       }
     },
     Schedule: {
@@ -187,12 +182,25 @@ const BottomTab = createBottomTabNavigator(
         tabBarIcon: ({ tintColor, focused }) => (
           <Image style={{width:20,height:20,tintColor:tintColor,resizeMode:'contain'}} source={require('../Container/Assets/calendar.png')}></Image>
         ),
-        activeColor: '#f39a3e',  
-        inactiveColor: '#000',  
-        barStyle: { backgroundColor: '#E8B212' },  
+        
       }
     },
+    
   },
+{
+  tabBarOptions: {
+    activeTintColor: '#000',
+    inactiveTintColor:'#fff', 
+
+    labelStyle: {
+      fontSize: 12,
+    },
+    style: {
+      backgroundColor: '#00A3E0',
+      opacity:0.9
+    },
+  }
+}
   // {
   //   initialRouteName: 'Home',
   //   activeColor: '#fff',

@@ -140,18 +140,18 @@ console.log('data',getTimesTamp(day.timestamp.toString()))
   }
     return (
       <SafeAreaView style={{ flex: 1 }}>
-               <Header style={{ backgroundColor: '#f8f8f8' ,alignItems: 'center', justifyContent: 'center'}}>
+               <Header style={{ backgroundColor: '#00A3E0' ,alignItems: 'center', justifyContent: 'center'}}>
            <Left style={{ flexDirection: 'row' }} >
            <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:18}} >Schedule</Text>
+                <Text style={{fontWeight:'bold',fontSize:18,color:'#fff'}} >Schedule</Text>
             </Body>
             <Right style={{ flexDirection: 'row' }}>
             <TouchableOpacity onPress={()=>searchBar.current.show()}>
@@ -242,7 +242,7 @@ ImageStyle: {
     padding: 10,
     margin: 5,
     height: 10,
-    tintColor:'#858585',
+    tintColor:'#fff',
     width: 10,
     resizeMode: 'stretch',
     alignItems: 'center',

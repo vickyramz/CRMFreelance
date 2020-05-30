@@ -82,102 +82,103 @@ const EditContacts=()=>{
 }
     return (
       <SafeAreaView style={{flex:1}}>
-        <Header style={{ backgroundColor: '#f8f8f8', alignItems: 'center', justifyContent: 'center' }}>
+        <Header style={{ backgroundColor: '#00A3E0', alignItems: 'center', justifyContent: 'center' }}>
              <Left style={{ flexDirection: 'row' }}>
              <TouchableOpacity onPress={()=>goback()}>
              <Image 
             
             source={require('../Assets/back.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'gray'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
             
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:16}} >Contacts Details</Text>
+                <Text style={{fontWeight:'bold',fontSize:14,color:'#fff'}} >Contacts Details</Text>
             </Body>
            <Right>
            <TouchableOpacity onPress={()=>EditContacts()}>
-           <Text style={{fontWeight:'bold',fontSize:16,color:'#00A3E0'}} >Edit Contact</Text>
+           <Text style={{fontWeight:'bold',fontSize:14,color:'#fff'}} >Edit Contact</Text>
           </TouchableOpacity>
            </Right>
         </Header>
       <View style={{ flex: 1 }}>
          
-          <View style={{flex:0.4,backgroundColor:'#F5F5F5',justifyContent:'center',alignItems:'center'}}>
+          <View style={{flex:0.4,backgroundColor:'#eaf0f7',justifyContent:'center',alignItems:'center'}}>
       
-        <View style={{width:120,height:120,borderRadius:60,backgroundColor:'#cdcdcd',justifyContent:'center',alignItems:'center'}}>
-        <Text style={{color:'#00A3E0',fontSize:29,fontWeight:'bold'}}>{contactObject.contact_first_name?contactObject.contact_first_name.charAt(0):''}</Text>
+        <View style={{width:140,height:140,borderRadius:70,backgroundColor:'#00A3E0',justifyContent:'center',alignItems:'center'}}>
+        <Text style={{color:'#fff',fontSize:29,fontWeight:'bold'}}>{contactObject.contact_first_name?contactObject.contact_first_name.charAt(0):''}</Text>
         </View>
       
    
           </View>
-          <ScrollView style={{flex:0.6,backgroundColor:'#F5F5F5'}}>
-          <View style={{flex:1,borderWidth:10,borderTopLeftRadius:50,borderTopRightRadius:50,borderColor:'#F5F5F5',backgroundColor:'#fff',padding:10}}>
+          <ScrollView style={{flex:0.6,backgroundColor:'#eaf0f7'}}>
+          <View style={{flex:1,borderWidth:0,borderTopLeftRadius:50,borderTopRightRadius:50,borderColor:'#F5F5F5',backgroundColor:'#00A3E0',padding:10,elevation
+        :4,}}>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>First Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.contact_first_name?contactObject.contact_first_name:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>First Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.contact_first_name?contactObject.contact_first_name:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Middle Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.contact_middle_name?contactObject.contact_middle_name:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Middle Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.contact_middle_name?contactObject.contact_middle_name:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Last Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.contact_last_name?contactObject.contact_last_name:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Last Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.contact_last_name?contactObject.contact_last_name:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Company Name</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.company_name?contactObject.company_name:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Company Name</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.company_name?contactObject.company_name:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Designation</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.designation?contactObject.designation:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Designation</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.designation?contactObject.designation:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Email</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.email?contactObject.email:''}</Text>
-              </View>
-
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Alternate Email</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.alternate_email?contactObject.alternate_email:''}</Text>
-              </View>
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Phone</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.phone?contactObject.phone:''}</Text>
-              </View>
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Alternate Phone</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.alternate_phone?contactObject.alternate_phone:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Email</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.email?contactObject.email:''}</Text>
               </View>
 
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Address Line 1</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.address_line_1?contactObject.address_line_1:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Alternate Email</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.alternate_email?contactObject.alternate_email:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Address Line 2</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.address_line_2?contactObject.address_line_2:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Phone</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.phone?contactObject.phone:''}</Text>
               </View>
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>City</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.city?contactObject.city:''}</Text>
-              </View>
-
-              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>State</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.state?contactObject.state:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Alternate Phone</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.alternate_phone?contactObject.alternate_phone:''}</Text>
               </View>
 
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Country</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.country?contactObject.country:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Address Line 1</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.address_line_1?contactObject.address_line_1:''}</Text>
+              </View>
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Address Line 2</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.address_line_2?contactObject.address_line_2:''}</Text>
+              </View>
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>City</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.city?contactObject.city:''}</Text>
               </View>
 
               <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>Pincode</Text>
-              <Text style={{color:'gray',fontSize:16,fontWeight:'bold'}}>{contactObject.pincode?contactObject.pincode:''}</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>State</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.state?contactObject.state:''}</Text>
+              </View>
+
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Country</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.country?contactObject.country:''}</Text>
+              </View>
+
+              <View style={{padding:10,flexDirection:'row',justifyContent:'space-between'}}>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>Pincode</Text>
+              <Text style={{color:'#fff',fontSize:14,fontWeight:'bold'}}>{contactObject.pincode?contactObject.pincode:''}</Text>
               </View>
           </View>
           </ScrollView>

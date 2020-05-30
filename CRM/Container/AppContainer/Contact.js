@@ -146,8 +146,6 @@ const RBSheets= useRef()
   const Logout=()=>{
     dispatch(BindActions.logout())
       props.navigation.navigate('Auth')
-    
-   
   }
   const onChangeText=(e)=>{
     let text = e.toLowerCase()
@@ -168,24 +166,24 @@ const RBSheets= useRef()
 
     return (
       <SafeAreaView style={{flex:1}}>
-        <Header style={{ backgroundColor: '#f8f8f8', alignItems: 'center', justifyContent: 'center' }}>
+        <Header style={{ backgroundColor: '#00A3E0', alignItems: 'center', justifyContent: 'center' }}>
              <Left style={{ flexDirection: 'row' }}>
                <TouchableOpacity onPress={()=>openFilter()}>
                <Image 
             source={require('../Assets/filter.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'#00A3E0'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
                </TouchableOpacity>
             
               </Left>
              <Body >
-                <Text style={{fontWeight:'bold',fontSize:18}} >Contacts</Text>
+                <Text style={{fontWeight:'bold',fontSize:16,color:'#fff'}} >Contacts</Text>
             </Body>
            <Right>
            <TouchableOpacity onPress={()=>Logout()}>
            <Image 
             source={require('../Assets/logout.png')}
-            style={{width:20,height:20,resizeMode:'contain',tintColor:'#00A3E0'}}
+            style={{width:20,height:20,resizeMode:'contain',tintColor:'#fff'}}
           />
           </TouchableOpacity>
            </Right>
@@ -291,7 +289,7 @@ SectionStyle: {
     margin: 10,
   },
   itemTitle: {   
-    color: '#4e649f',
+    color: '#000',
     padding: 5,marginLeft:20
   },
   itemContainer: {
