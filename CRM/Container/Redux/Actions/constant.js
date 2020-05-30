@@ -8,6 +8,16 @@ export const LEADS_SUCCESS ='lead_success'
 export const LEADS_FAILURE ='lead_failure'
 export const LEADS_PENDING ='lead_pending'
 
+
+//Leads source Api
+export const LEADS_SOURCE_SUCCESS ='LEADS_SOURCE_SUCCESS'
+export const LEADS_SOURCE_FAILURE ='LEADS_SOURCE_FAILURE'
+export const LEADS_SOURCE_PENDING ='lead_LEADS_SOURCE_PENDINGpending'
+
+//Assign To Api
+export const ASSIGN_TO_SUCCESS ='ASSIGN_TO_SUCCESS'
+export const ASSIGN_TO_FAILURE ='ASSIGN_TO_FAILURE'
+export const ASSIGN_TO_PENDING ='ASSIGN_TO_PENDING'
 //Bills Api
 export const BILLS_SUCCESS ='bills_success'
 export const BILLS_FAILURE ='bills_failure'

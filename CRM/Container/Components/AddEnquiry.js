@@ -26,7 +26,10 @@ const AddEnquiry =(props) =>  {
   };
   const loginOperation = useSelector(state => state.userReducer);
   const AddResponse = useSelector(state => state.AddLeadReducer);
-  const CountryReducer= useSelector(state=>state.CountryReducer)
+  const CountryReducer= useSelector(state=>state.CountryReducer);
+  const ContactOperation = useSelector(state => state.ContactReducer);
+  const LeadsourceReducer=useSelector(state=>state.LeadsourceReducer)
+  const AssignTo=useSelector(state=>state.AssignTo)
   const navigate=()=>{
      props.onShut()
     props.props.navigation.navigate('SearchUser')
@@ -45,6 +48,8 @@ const AddEnquiry =(props) =>  {
   const[email,setMail]=useState()
   const[Alternateemail,setAlternateMail]=useState()
   const[selectedCountry,setSelectedCountry]=useState()
+  const[AssignToList,setAssignToList]=useState(AssignTo.AssignToResponse &&AssignTo.AssignToResponse.length>0 ? AssignTo.AssignToResponse:[])
+  const[LeadSource,setLeadSource]=useState(LeadsourceReducer.LeadSourceResponse && LeadsourceReducer.LeadSourceResponse.length>0 ? LeadsourceReducer.LeadSourceResponse:[])
   const[selectedState,setStates]=useState()
   const[country,setCountry]=useState([])
   const[city,setCity]=useState()
@@ -67,21 +72,21 @@ const AddEnquiry =(props) =>  {
     let arrayObject=  props.LeadList.find(x => x.contact_id === data);
     console.log('data',arrayObject)
     setContactid(data)
-    setFirstName(arrayObject.contact_first_name)
-    setlastName(arrayObject.contact_last_name)
-    setcompanyName(arrayObject.company_name)
-    setPhone(arrayObject.phone)
-    setalternatePhone(arrayObject.alternate_phone)
-    setMail(arrayObject.email)
-    setAlternateMail(arrayObject.alternate_email)
-    setAddressLine1(arrayObject.address_line_1)
-    setAddressLine2(arrayObject.address_line_2)
-    setSelectedCountry(arrayObject.country)
-    setCity(arrayObject.city)
-    setStates(arrayObject.state)
-    setPostalCode(arrayObject.pincode)
-    setAssignTo(arrayObject.assigned_to)
-    setState(arrayObject.state)
+    setFirstName(arrayObject.contact_first_name?arrayObject.contact_first_name:'')
+    setlastName(arrayObject.contact_last_name?arrayObject.contact_last_name:'')
+    setcompanyName(arrayObject.company_name?arrayObject.company_name:'')
+    setPhone(arrayObject.phone?arrayObject.phone:'')
+    setalternatePhone(arrayObject.alternate_phone?arrayObject.alternate_phone:'')
+    setMail(arrayObject.email?arrayObject.email:'')
+    setAlternateMail(arrayObject.alternate_email?arrayObject.alternate_email:'')
+    setAddressLine1(arrayObject.address_line_1?arrayObject.address_line_1:'')
+    setAddressLine2(arrayObject.address_line_2?arrayObject.address_line_2:'')
+    setSelectedCountry(arrayObject.country?arrayObject.country:'')
+    setCity(arrayObject.city?arrayObject.city:"")
+    setStates(arrayObject.state?arrayObject.state:'')
+    setPostalCode(arrayObject.pincode?arrayObject.pincode:'')
+    setAssignTo(arrayObject.assigned_to?arrayObject.assigned_to:'')
+    setState(arrayObject.state?arrayObject.state:'')
     //CountrySelection(arrayObject.country)
     }
   
@@ -129,6 +134,24 @@ const AddEnquiry =(props) =>  {
     let arrayData=[]
     data.map((item,index)=>{
       let arrayObject={label:item,value:item}
+      arrayData.push(arrayObject);
+    })
+    return arrayData;
+  }
+  const getLeadSource=(data)=>{
+    console.log('data',data)
+    let arrayData=[]
+    data.map((item,index)=>{
+      let arrayObject={label:item.source_title,value:item.lead_source_id}
+      arrayData.push(arrayObject);
+    })
+    return arrayData;
+  }
+  const getAssignTo=(data)=>{
+    console.log('data',data)
+    let arrayData=[]
+    data.map((item,index)=>{
+      let arrayObject={label:item.fname+" "+item.lname,value:item.user_id}
       arrayData.push(arrayObject);
     })
     return arrayData;
@@ -212,7 +235,7 @@ const AddEnquiry =(props) =>  {
   }
   const getData = () =>{
     let pickerrray=[]
-      props.LeadList.map((item,index)=>{
+    ContactOperation.ContactListResponse.records.map((item,index)=>{
             let pickObject={
               label:item.contact_first_name+" "+item.contact_last_name,
               value:item.contact_id
@@ -599,15 +622,7 @@ const AddEnquiry =(props) =>  {
                   fontWeight: 'bold',
                 },}}
             onValueChange={(value) => console.log(value)}
-            items={[
-               
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            items={getLeadSource(LeadSource)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}
@@ -638,15 +653,7 @@ const AddEnquiry =(props) =>  {
                 },}}
                 value={assignTo}
             onValueChange={(value) => console.log(value)}
-            items={[
-               
-                { label: 'New 2020', value: 'New 2020' },
-                { label: 'A8', value: 'A8' },
-                { label: 'A9', value: 'A0' },
-                { label: 'A10', value: 'A10' },
-                { label: 'Edwin group', value: 'Edwin group' },
-
-            ]}
+            items={getAssignTo(AssignToList)}
             Icon={() => {
               return <Chevron size={1.5} color="gray" />;
             }}

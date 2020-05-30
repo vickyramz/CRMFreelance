@@ -63,10 +63,13 @@ let InitialLead=[];
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
   const LeadOperation = useSelector(state => state.LeadReducer);
   const LeadConverterOperation=useSelector(state=>state.LeadConvertReducer)
+  const LeadsourceReducer=useSelector(state=>state.LeadsourceReducer)
+  const AssignTo=useSelector(state=>state.AssignTo)
   const loginOperation = useSelector(state => state.userReducer);
   const billOperation = useSelector(state => state.BillReducer);
   useEffect(()=>{
     getLeadsData()
+    getLeadsDataSource()
   },[TabText,AddResponse,LeadConverterOperation])
  function getLeadsData(){
    let params={
@@ -85,9 +88,22 @@ let InitialLead=[];
    let token=loginOperation.loginResponse.token;
    console.log('token',token)
    dispatch(BindActions.LeadApi(params,token,"/leads/list/"+`${TabText}`)).then(response=>{
-    getBillItems(1);
+    //getBillItems(1);
+    getLeadsDataSource()
    })
  }
+ function getLeadsDataSource(){
+  let token=loginOperation.loginResponse.token;
+  console.log('token',token)
+  dispatch(BindActions.LeadSource('',token,"/settings/customization/lead_sources")).then(res=>{
+    getAssignTo();
+  })
+}
+function getAssignTo(){
+  let token=loginOperation.loginResponse.token;
+  console.log('token',token)
+  dispatch(BindActions.AssignTo('',token,"/settings/user/names"))
+}
  if (LeadOperation.leadPending) {
   LeadOperation.leadPending=false
     setLoading(true)
@@ -109,6 +125,27 @@ if (LeadOperation.IsleadError) {
   setError(LeadOperation.leaderror.message)
 
 }
+//---------------------
+console.log('LeadsourceReducer',LeadsourceReducer)
+if (LeadsourceReducer.LeadSourcePending) {
+  LeadsourceReducer.LeadSourcePending=false
+    setLoading(true)
+    setAlerts(false);
+}
+
+ if (LeadsourceReducer.LeadSourceSuccess) {
+  console.log('LeadOperation',LeadOperation)
+  LeadsourceReducer.LeadSourceSuccess=false
+  setLoading(false)
+ 
+}
+if (LeadsourceReducer.IsLeadSourceError) {
+  LeadsourceReducer.IsLeadSourceError=false
+  setLoading(false)
+  setAlerts(true);
+  setError(LeadsourceReducer.LeadSourceerror.message)
+
+}
 if (billOperation.BillPending) {
   billOperation.BillPending=false
     setLoading(true)
@@ -126,6 +163,28 @@ if (billOperation.IsBillError) {
   setLoading(false)
   setAlerts(true);
   setError(billOperation.Billerror.message) 
+
+}
+
+//--------assign To
+console.log('LeadsourceReducer',AssignTo)
+if (AssignTo.AssignToPending) {
+  AssignTo.AssignToPending=false
+    setLoading(true)
+    setAlerts(false);
+}
+
+ if (AssignTo.AssignToSuccess) {
+  
+  AssignTo.AssignToSuccess=false
+  setLoading(false)
+ 
+}
+if (AssignTo.IsAssignToError) {
+  AssignTo.IsAssignToError=false
+  setLoading(false)
+  setAlerts(true);
+  setError(AssignTo.AssignToerror.message)
 
 }
 const snackBarActions = () => {

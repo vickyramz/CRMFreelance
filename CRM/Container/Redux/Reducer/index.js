@@ -13,9 +13,13 @@ import ReopenReducer from './ReopenReducer'
 import MeetingReducer from './MeetingReducer'
 import AddMeetingsReducer from './AddMeetingsReducer'
 import SavedDataReducer from './SavedDataReducer'
+import LeadsourceReducer from './LeadsourceReducer'
+import AssignTo from './AssignTo'
 export default {
     userReducer,
     LeadReducer,
+    LeadsourceReducer,
+    AssignTo,
     BillReducer,
     AddLeadReducer,
     CountryReducer,
