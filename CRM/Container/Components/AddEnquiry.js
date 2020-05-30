@@ -55,6 +55,7 @@ const AddEnquiry =(props) =>  {
   const[city,setCity]=useState()
   const[contactId,setContactid]=useState();
   const[state,setState]=useState()
+  
   const [success,AddResponses]=useState()
   const [postalCode,setPostalCode]=useState()
   const [Followdate,setFollowDate]=useState()
@@ -70,7 +71,7 @@ const AddEnquiry =(props) =>  {
   
     if(data!=null){
     let arrayObject=  ContactOperation.ContactListResponse.records.find(x => x.contact_id === data);
-    console.log('data',arrayObject)
+    console.log('arrayObject',arrayObject)
     setContactid(data)
     setFirstName(arrayObject && arrayObject.contact_first_name?arrayObject.contact_first_name:'')
     setlastName(arrayObject && arrayObject.contact_last_name?arrayObject.contact_last_name:'')
@@ -503,10 +504,10 @@ const AddEnquiry =(props) =>  {
             <View style={{}}>
             <RNPickerSelect
              //value={country}
-          //    placeholder={{
-          //     label: selectedCountry,
-          //     value: null,
-          // }}
+             placeholder={{
+              label: selectedCountry?selectedCountry:'',
+              value: null,
+          }}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
@@ -536,10 +537,10 @@ const AddEnquiry =(props) =>  {
           </View>
             <View style={{}}>
             <RNPickerSelect
-            //   placeholder={{
-            //     label: selectedState,
-            //     value: null,
-            // }}
+              placeholder={{
+                 label: state?state:'',
+                value: null,
+            }}
             style={{ ...pickerSelectStyles,
               
               iconContainer: {
