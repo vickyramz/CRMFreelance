@@ -54,7 +54,8 @@ let InitialLead=[];
   }
  
   const dispatch = useDispatch();
-  const [loader, setLoading] = useState(false);
+  const [loader, setLoading] = useState(true);
+  const [page,setPage]=useState(1)
   const [id,setId]=useState('');
   const [success,AddResponses]=useState()
   const [ShowAlert, setAlerts] = useState(false);
@@ -69,12 +70,12 @@ let InitialLead=[];
   const billOperation = useSelector(state => state.BillReducer);
   useEffect(()=>{
     getLeadsData()
-    getLeadsDataSource()
+   getLeadsDataSource()
   },[TabText,AddResponse,LeadConverterOperation])
  function getLeadsData(){
    let params={
-    page:1,
-    count:10000,
+    page:page,
+    count:5,
     contactId:'',
     assignee:'',
     stage:'',
@@ -87,10 +88,7 @@ let InitialLead=[];
    }
    let token=loginOperation.loginResponse.token;
    console.log('token',token)
-   dispatch(BindActions.LeadApi(params,token,"/leads/list/"+`${TabText}`)).then(response=>{
-    //getBillItems(1);
-    getLeadsDataSource()
-   })
+   dispatch(BindActions.LeadApi(params,token,"/leads/list/"+`${TabText}`))
  }
  function getLeadsDataSource(){
   let token=loginOperation.loginResponse.token;
@@ -106,7 +104,7 @@ function getAssignTo(){
 }
  if (LeadOperation.leadPending) {
   LeadOperation.leadPending=false
-    setLoading(true)
+   // setLoading(true)
     setAlerts(false);
 }
 
@@ -116,7 +114,7 @@ function getAssignTo(){
   setLoading(false)
   setAlerts(false);
   InitialLead=LeadOperation.LeadResponse.records;
-  setLeadList(LeadOperation.LeadResponse.records)
+  setLeadList([...LeadList,...LeadOperation.LeadResponse.records])
 }
 if (LeadOperation.IsleadError) {
   LeadOperation.IsleadError=false
@@ -218,7 +216,7 @@ const selectedLead=(item)=>{
 const goback=()=>{
   props.navigation.goBack(null);
 }
- const Success=(text)=>{
+ const Success=(text)=>{ 
   setAlertsSuccess(true);
   AddResponses(text)
   
@@ -233,6 +231,21 @@ const getBillItems=(item)=>{
     ids:81
   }
   dispatch(BindActions.BillApi(params,token,"/leads/list/bills"));
+}
+function loadMoreData(){
+  setPage(page+1)
+  getLeadsData()
+  
+}
+function renderFooter() {
+  return (
+  //Footer View with Load More button
+    <View style={styles.footer}>
+    
+    <ActivityIndicator color="#000" size='large' style={{ marginLeft: 8 }} />
+    
+    </View>
+  );
 }
 const getItems = ({item}) => {
     //getBillItems(item);
@@ -316,7 +329,14 @@ const getItems = ({item}) => {
         </View></TouchableOpacity>
     );
 }
-
+  
+if(loader){
+  return(
+    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+       <ActivityIndicator color="#000" style={{ marginLeft: 8 }} />
+    </View>
+  )
+}
     return (
       <Container style={{backgroundColor: '#fff',flex:1}}>
           <Header style={{ backgroundColor: '#00A3E0' ,alignItems: 'center', justifyContent: 'center'}}>
@@ -375,13 +395,15 @@ const getItems = ({item}) => {
           tabStyle={{backgroundColor: '#fff'}}
           heading={`All `}>
           <View style={{flex:1}}>
-            {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
+            {LeadList.length>0?
                  <View>
                   <FlatList
                   style={{ flexGrow: 1, paddingBottom: 20}}   
                   data={LeadList}              
                   renderItem={(item, index) =>getItems(item, index)}
-                  
+                  onEndReached={loadMoreData}
+            onEndReachedThreshold ={0.2}
+            ListFooterComponent={renderFooter}
                 /></View>:null}
        
           </View>
@@ -622,6 +644,12 @@ SectionStyle: {
     flex: 1,
     flexDirection: 'column',
     height: ITEM_HEIGHT
+  },
+  footer: {
+    padding: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
   },
   TextStyle: {
     color: '#0250a3',
