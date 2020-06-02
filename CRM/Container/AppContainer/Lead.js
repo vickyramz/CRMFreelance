@@ -36,18 +36,28 @@ let InitialLead=[];
      status='all'
    }
    if(tab===1){
+     setPage(1)
+    setLeadList([])
      status='enquiry'
    }
    if(tab===2){
+    setPage(1)
+    setLeadList([])
     status='lead'
   }
   if(tab===3){
+    setPage(1)
+    setLeadList([])
     status='prospect'
   }
   if(tab===4){
+    setPage(1)
+    setLeadList([])
     status='deal'
   }
   if(tab===5){
+    setPage(1)
+    setLeadList([])
     status='dropped'
   }
    setTabText(status)
@@ -330,13 +340,7 @@ const getItems = ({item}) => {
     );
 }
   
-if(loader){
-  return(
-    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-       <ActivityIndicator color="#000" style={{ marginLeft: 8 }} />
-    </View>
-  )
-}
+
     return (
       <Container style={{backgroundColor: '#fff',flex:1}}>
           <Header style={{ backgroundColor: '#00A3E0' ,alignItems: 'center', justifyContent: 'center'}}>
@@ -395,7 +399,7 @@ if(loader){
           tabStyle={{backgroundColor: '#fff'}}
           heading={`All `}>
           <View style={{flex:1}}>
-            {LeadList.length>0?
+          {loader?<ActivityIndicator style={{justifyContent:'center',alignItems:'center'}} size="large" color="#0000ff" />:LeadList.length>0?
                  <View>
                   <FlatList
                   style={{ flexGrow: 1, paddingBottom: 20}}   
@@ -430,7 +434,9 @@ if(loader){
                   style={{ flexGrow: 1, paddingBottom: 20}}   
                   data={LeadList}              
                   renderItem={(item, index) =>getItems(item, index)}
-                  
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold ={0.2}
+                  ListFooterComponent={renderFooter}
                 /></View>:null}
           </View>
         </Tab>
@@ -456,7 +462,9 @@ if(loader){
                   style={{ flexGrow: 1, paddingBottom: 20}}   
                   data={LeadList}              
                   renderItem={(item, index) =>getItems(item, index)}
-                  
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold ={0.2}
+                  ListFooterComponent={renderFooter}
                 /></View>:null}
           </View>
         </Tab>
@@ -482,7 +490,9 @@ if(loader){
                   style={{ flexGrow: 1, paddingBottom: 20}}   
                   data={LeadList}              
                   renderItem={(item, index) =>getItems(item, index)}
-                  
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold ={0.2}
+                  ListFooterComponent={renderFooter}
                 /></View>:null}
           </View>
         </Tab>
@@ -508,7 +518,9 @@ if(loader){
                   style={{ flexGrow: 1, paddingBottom: 20}}   
                   data={LeadList}              
                   renderItem={(item, index) =>getItems(item, index)}
-                  
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold ={0.2}
+                  ListFooterComponent={renderFooter}
                 /></View>:null}
           </View>
         </Tab>
@@ -534,7 +546,9 @@ if(loader){
                   style={{ flexGrow: 1, paddingBottom: 20}}   
                   data={LeadList}              
                   renderItem={(item, index) =>getItems(item, index)}
-                  
+                  onEndReached={loadMoreData}
+                  onEndReachedThreshold ={0.2}
+                  ListFooterComponent={renderFooter}
                 /></View>:null}
           </View>
         </Tab>
