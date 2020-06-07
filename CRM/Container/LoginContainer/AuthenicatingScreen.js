@@ -16,6 +16,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 //var HEIGHT = Dimensions.get('window').height; //full height
 import SplashScreen from 'react-native-splash-screen'
+import AnimatedLoader from "react-native-animated-loader";
 const AuthenicatingScreen =(props)=>  {
   SplashScreen.hide();
        const loginOperation = useSelector(state => state.userReducer);
@@ -35,9 +36,13 @@ const AuthenicatingScreen =(props)=>  {
       <View style={styles.container}>
       
     
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
+      <AnimatedLoader
+        visible={true}
+        overlayColor="rgba(255,255,255,0.75)"
+        source={require("../Assets/9192-loader.json")}
+        animationStyle={styles.lottie}
+        speed={1}/>
+      
       
     
 

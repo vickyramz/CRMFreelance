@@ -12,6 +12,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
 import Filter from '../Components/Filter'
 import EditContacts from './EditContacts';
+import AnimatedLoader from "react-native-animated-loader";
 let InitialData=[]
 const WIDTH = Dimensions.get('window').width;
 const ITEM_HEIGHT = 50;

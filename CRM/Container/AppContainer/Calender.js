@@ -7,6 +7,7 @@ const WIDTH = Dimensions.get('window').width;
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import moment from 'moment';
 import * as BindActions from '../Redux/Actions';
+import AnimatedLoader from "react-native-animated-loader";
 const ITEM_HEIGHT = 50;
 let date='2020-05-11'
 let obj=[];
@@ -133,9 +134,12 @@ console.log('data',getTimesTamp(day.timestamp.toString()))
 
   if (loader) {
     return (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <AnimatedLoader
+      visible={true}
+      overlayColor="rgba(255,255,255,0.75)"
+      source={require("../Assets/9192-loader.json")}
+      animationStyle={styles.lottie}
+      speed={1}/>
     );
   }
     return (

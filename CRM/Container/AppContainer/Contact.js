@@ -1,7 +1,7 @@
 //This is an example code to set Backgroud image///
 import React, { useState, useEffect ,useRef,useReducer} from 'react';
 //import react in our code. 
-import { View, Text,Dimensions,TouchableOpacity,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
+import { View, Text,Dimensions,TouchableOpacity,ActivityIndicator,TextInput, SafeAreaView, StyleSheet, Image } from 'react-native';
 //import all the components we are going to use. 
 import SplashScreen from 'react-native-splash-screen'
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
@@ -12,6 +12,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 import * as BindActions from '../Redux/Actions';
 import Filter from '../Components/Filter'
 import loginReducer from '../Redux/Reducer/loginReducer'
+import AnimatedLoader from "react-native-animated-loader";
 import ContactDetails from './ContactDetails';
 let InitialData=[]
 const WIDTH = Dimensions.get('window').width;
@@ -24,20 +25,23 @@ const RBSheets= useRef()
     props.navigation.navigate('AddContacts')
   }
   const dispatch = useDispatch();
-  const [loader, setLoading] = useState(false);
+  const [loader, setLoading] = useState(true);
   const [LogoutResponse,dispatchlogout]=useReducer(loginReducer.userLoginReducer,{})
   const [success,AddResponses]=useState()
   const [ShowAlert, setAlerts] = useState(false);
   const [error, setError] = useState('');
+  const [page,setPage]=useState(1)
   const [ContactList,setContactList]=useState([]);
   const [ShowAlertSuccess, setAlertsSuccess] = useState(false);
   const ContactOperation = useSelector(state => state.ContactReducer);
   const loginOperation = useSelector(state => state.userReducer);
-  const AddResponse = useSelector(state => state.AddLeadReducer);
+  const AddResponse = useSelector(state => state.AddContactReducer);
   const ContactReducer= useSelector(state=>state.ContactGroupReducer)
   const EditReducer= useSelector(state=>state.EditReducer)
 
   useEffect(()=>{
+    setPage(1)
+    setContactList([]);
     getContactData();
     ContactGroup();
   },[AddResponse,EditReducer])
@@ -48,14 +52,14 @@ const RBSheets= useRef()
     }
   if (ContactOperation.IsContactListResponsePending) {
     ContactOperation.IsContactListResponsePending=false
-      setLoading(true)
+      //setLoading(true)
       setAlerts(false);
   }
   //Contact Group
   console.log('ContactReducer',ContactReducer)
   if(ContactReducer.IsContactGroupListResponsePending){
     ContactReducer.IsContactGroupListResponsePending=false
-    setLoading(true)
+   // setLoading(true)
   }
   if(ContactReducer.IsContactGroupListResponseSuccess){
     ContactReducer.IsContactGroupListResponseSuccess=false
@@ -86,7 +90,7 @@ const RBSheets= useRef()
       
     })
     InitialData=contactArray;
-    setContactList(contactArray)
+    setContactList([...ContactList,...contactArray])
   }
   if (ContactOperation.IsContactListResponseError) {
     ContactOperation.IsContactListResponseError=false
@@ -95,10 +99,26 @@ const RBSheets= useRef()
     setError(ContactOperation.Contacterror.message)
   
   }
+  function loadMoreData(){
+    setPage(page+1)
+    getContactData()
+    
+  }
+  function renderFooter() {
+    return (
+    //Footer View with Load More button
+      <View style={styles.footer}>
+      
+      <ActivityIndicator color="#000" size='large' style={{ marginLeft: 8 }} />
+      
+      </View>
+    );
+  }
   function getContactData(){
+    console.log('Again coming with reload')
     let params={
-     page:1,
-     count:10000,
+     page:page,
+     count:10,
      contactId:'',
      assignee:'',
      stage:'',
@@ -230,6 +250,9 @@ const RBSheets= useRef()
          renderItem={(item)=>renderItem(item)}
          scrollKey={'name'}
          reverse={false}
+         onEndReached={loadMoreData}
+         onEndReachedThreshold ={0.2}
+         ListFooterComponent={renderFooter}
          itemHeight={ITEM_HEIGHT}
        /></View> :null}
                
@@ -246,6 +269,12 @@ const RBSheets= useRef()
         >
           <Filter onShut={()=>close()} props={props} />
         </RBSheet>
+        <AnimatedLoader
+        visible={loader}
+        overlayColor="rgba(255,255,255,0.75)"
+        source={require("../Assets/9192-loader.json")}
+        animationStyle={styles.lottie}
+        speed={1}/>
      <SnackBar
             autoHidingTime={2000}
           visible={ShowAlert}

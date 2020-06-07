@@ -10,6 +10,7 @@ import DatePicker from 'react-native-datepicker'
 import { Chevron, Heart, Triangle } from 'react-native-shapes'
 let contryDetails=[]
 let IndustriesDetails=[]
+import AnimatedLoader from "react-native-animated-loader";
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
@@ -28,7 +29,7 @@ const AddContact =(props) =>  {
     color: '#000',
   };
   const loginOperation = useSelector(state => state.userReducer);
-  const AddResponse = useSelector(state => state.AddLeadReducer);
+  const AddResponse = useSelector(state => state.AddContactReducer);
   const CountryReducer= useSelector(state=>state.CountryReducer)
   const ContactReducer= useSelector(state=>state.ContactGroupReducer)
   const IndustriesReducer= useSelector(state=>state.IndustriesReducer)
@@ -265,9 +266,12 @@ const AddContact =(props) =>  {
   }
   if (loader) {
     return (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <AnimatedLoader
+      visible={true}
+      overlayColor="rgba(255,255,255,0.75)"
+      source={require("../Assets/9192-loader.json")}
+      animationStyle={styles.lottie}
+      speed={1}/>
     );
   }
     return (

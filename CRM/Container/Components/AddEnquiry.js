@@ -12,6 +12,7 @@ let contryDetails=[]
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
 let countryList={};
+import AnimatedLoader from "react-native-animated-loader";
 let StateList=[]
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
 const massage = {key:'massage', color: 'blue', selectedDotColor: 'blue'};
@@ -211,6 +212,7 @@ const AddEnquiry =(props) =>  {
   address_line_1 :AddressLine1,
   address_line_2:AddressLine2,
   city :city,
+  followup_date:Followdate,
   state :state,
   country :country,
   pincode :postalCode,
@@ -256,9 +258,13 @@ const AddEnquiry =(props) =>  {
   }
   if (loader) {
     return (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <AnimatedLoader
+      visible={true}
+      overlayColor="rgba(255,255,255,0.75)"
+      source={require("../Assets/9192-loader.json")}
+      animationStyle={styles.lottie}
+      speed={1}/>
+    
     );
   }
     return (
@@ -683,8 +689,8 @@ const AddEnquiry =(props) =>  {
         mode="date"
         placeholder="Choose date"
         format="YYYY-MM-DD"
-        minDate="2016-05-01"
-        maxDate="2016-06-01"
+        minDate="1995-05-01"
+        maxDate="2100-06-01"
         confirmBtnText="Confirm"
         cancelBtnText="Cancel"
         customStyles={{

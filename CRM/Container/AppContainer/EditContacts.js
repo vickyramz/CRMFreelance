@@ -13,6 +13,7 @@ let IndustriesDetails=[]
 import { Header,Left, Right, Body, Thumbnail } from 'native-base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 const ITEM_HEIGHT = 50;
+import AnimatedLoader from "react-native-animated-loader";
 let countryList={};
 let StateList=[]
 const vacation = {key:'vacation', color: 'red', selectedDotColor: 'blue'};
@@ -289,9 +290,12 @@ const EditContacts =(props) =>  {
   }
   if (loader) {
     return (
-      <View style={styles.loader}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <AnimatedLoader
+      visible={loader}
+      overlayColor="rgba(255,255,255,0.75)"
+      source={require("../Assets/9192-loader.json")}
+      animationStyle={styles.lottie}
+      speed={1}/>
     );
   }
   if(selectedState!=undefined || selectedState!=''){

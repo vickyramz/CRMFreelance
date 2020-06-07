@@ -1,6 +1,6 @@
 import * as types from './constant';
 import authApi from '../../API/PostApi';
-export function AddLead(userParams,token,url) {
+export function AddContact(userParams,token,url) {
     return function (dispatch) {
         console.log('token',token)
         dispatch(requestadd());
@@ -17,7 +17,7 @@ export function AddLead(userParams,token,url) {
             dispatch(failureadd(error));
         });
     };
-    function requestadd() { return { type: types.ADD_PENDING } }
-    function successadd(user) { return { type: types.ADD_SUCCESS, user } }
-    function failureadd(error) { return { type: types.ADD_FAILURE, error } }
+    function requestadd() { return { type: types.ADD_CONTACT_PENDING } }
+    function successadd(user) { return { type: types.ADD_CONTACT_SUCCESS, user } }
+    function failureadd(error) { return { type: types.ADD_CONTACT_FAILURE, error } }
 }

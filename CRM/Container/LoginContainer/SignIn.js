@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import SnackBar from 'react-native-snackbar-component';
 import * as BindActions from '../Redux/Actions';
 //import react in our code. 
-import { View, SafeAreaView,Text,TouchableOpacity,TextInput,KeyboardAvoidingView, ImageBackground,ActivityIndicator, StyleSheet, Image, ShadowPropTypesIOS } from 'react-native';
+import { View, SafeAreaView,Text,TouchableOpacity,TextInput,KeyboardAvoidingView, ImageBackground, StyleSheet, Image, ShadowPropTypesIOS } from 'react-native';
 //import all the components we are going to use. 
-
+import AnimatedLoader from "react-native-animated-loader";
 
 function  SignIn (props) {
   useEffect(() => {
@@ -80,9 +80,12 @@ function  SignIn (props) {
     };
     if (loader) {
       return (
-        <View style={styles.loader}>
-          <ActivityIndicator size="large" color="#0000ff" />
-        </View>
+        <AnimatedLoader
+        visible={true}
+        overlayColor="rgba(255,255,255,0.75)"
+        source={require("../Assets/9192-loader.json")}
+        animationStyle={styles.lottie}
+        speed={1}/>
       );
     }
     return (
@@ -208,5 +211,9 @@ function  SignIn (props) {
       alignSelf: 'flex-end',
       top: 23,
     },
+    lottie: {
+      width: 100,
+      height: 100
+    }
   });
 export default SignIn;
