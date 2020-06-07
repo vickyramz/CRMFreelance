@@ -34,9 +34,9 @@ export const COUNTRY_FAILURE ='country_add_failure'
 export const COUNTRY_PENDING ='country_add_pending'
 
 // contact Api
-export const CONTACT_SUCCESS ='contact_add_success'
-export const CONTACT_FAILURE ='contact_add_failure'
-export const CONTACT_PENDING ='contact_add_pending'
+export const CONTACT_SUCCESS ='f_contact_add_success'
+export const CONTACT_FAILURE ='f_contact_add_failure'
+export const CONTACT_PENDING ='f_contact_add_pending'
 
 // contact Api
 export const CONTACT_GROUP_SUCCESS ='contact_g_add_success'
